@@ -100,16 +100,14 @@
                           <select name="branch" class="form-control" style="width: 330px;">
                             <option selected disabled value="" >เลือกสาขา</option>
                             <option value="99" > Admin</option>
-                            <option value="01" > สาขาปัตตานี</option>
-                            <option value="03" > สาขายะลา</option>
-                            <option value="04" > สาขานราธิวาส</option>
-                            <option value="05" > สาขาสายบุรี</option>
-                            <option value="06" > สาขาโกลก</option>
-                            <option value="07" > สาขาเบตง</option>
-                            <option value="10" > สาขารถบ้าน</option>
-                            {{-- <option value="11" > สาขารถยืดขายผ่อน</option> --}}
-                            <option value="21" > แผนกกฏหมาย</option>
-                            <option value="31" > แผนกเร่งรัด</option>
+                            @php
+                                $branch =  DB::table('Data_Branchs')->where('Zone_Branch',1)->get();
+                                foreach($branch as $rs){
+                            @endphp
+                            <option value="{{$rs->Name_Branch}}" >{{$rs->Name_Branch}}</option>
+                            @php
+                                }
+                            @endphp
                           </select>
                         </div>
 

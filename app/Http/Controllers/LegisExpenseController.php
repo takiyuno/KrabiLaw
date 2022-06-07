@@ -249,7 +249,7 @@ class LegisExpenseController extends Controller
                 ->select('id','Contract_legis')
                 ->get();
 
-            $dataExhibit = Legisexhibit::select('id','Contract_legis')
+            $dataExhibit = Legisexhibit::select('Legisexhibit_id','Contract_legis')
                 ->get();
 
         }

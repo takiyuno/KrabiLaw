@@ -71,7 +71,7 @@
                                 $branch =  DB::table('Data_Branchs')->where('Zone_Branch',1)->get();
                                 foreach($branch as $rs){
                             @endphp
-                            <option value="{{($user->branch == $rs->id_Contract) ? 'selected' : '' }}" >{{$rs->Name_Branch}}</option>
+                            <option value="{{$rs->id_Contract}}" {{($user->branch == $rs->id_Contract) ? 'selected' : '' }}>{{$rs->Name_Branch}}</option>
                             @php
                                 }
                             @endphp

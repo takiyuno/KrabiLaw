@@ -414,14 +414,12 @@
                                 <div class="col-sm-8">
                                   <select name="lawcourt" class="form-control form-control-sm SizeText">
                                     <option value="" selected>--- ศาล ---</option>
-                                    <option value="ศาลปัตตานี" {{ ($data->legiscourt->law_court === 'ศาลปัตตานี') ? 'selected' : '' }}>01. ศาลปัตตานี</option>
-                                    <option value="ศาลยะลา" {{ ($data->legiscourt->law_court === 'ศาลยะลา') ? 'selected' : '' }}>02 .ศาลยะลา</option>
-                                    <option value="ศาลนราธิวาส" {{ ($data->legiscourt->law_court === 'ศาลนราธิวาส') ? 'selected' : '' }}>03. ศาลนราธิวาส</option>
-                                    <option value="ศาลเบตง" {{ ($data->legiscourt->law_court === 'ศาลเบตง') ? 'selected' : '' }}>04. ศาลเบตง</option>
-                                    <option value="ศาลนาทวี" {{ ($data->legiscourt->law_court === 'ศาลนาทวี') ? 'selected' : '' }}>05. ศาลนาทวี</option>
-                                    <option value="ศาลสว่างแดนดิน" {{ ($data->legiscourt->law_court === 'ศาลสว่างแดนดิน') ? 'selected' : '' }}>06. ศาลสว่างแดนดิน</option>
-                                    <option value="ศาลไชยา" {{ ($data->legiscourt->law_court === 'ศาลไชยา') ? 'selected' : '' }}>07. ศาลไชยา</option>
-                                    <option value="ศาลสมุทรสงคราม" {{ ($data->legiscourt->law_court === 'ศาลสมุทรสงคราม') ? 'selected' : '' }}>08. ศาลสมุทรสงคราม</option>
+                                    <option value="ศาลกระบี่" {{ ($data->legiscourt->law_court === 'ศาลกระบี่') ? 'selected' : '' }}>01. ศาลกระบี่</option>
+                                    <option value="ศาลตรัง" {{ ($data->legiscourt->law_court === 'ศาลตรัง') ? 'selected' : '' }}>02 .ศาลตรัง</option>
+                                    <option value="ศาลพังงา" {{ ($data->legiscourt->law_court === 'ศาลพังงา') ? 'selected' : '' }}>03. ศาลพังงา</option>
+                                    <option value="ศาลภูเก็ต" {{ ($data->legiscourt->law_court === 'ศาลภูเก็ต') ? 'selected' : '' }}>04. ศาลภูเก็ต</option>
+                                    <option value="ศาลนครศรีธรรมราช" {{ ($data->legiscourt->law_court === 'ศาลนครศรีธรรมราช') ? 'selected' : '' }}>05. ศาลนครศรีธรรมราช</option>
+                                   
                                   </select>
                                 </div>
 

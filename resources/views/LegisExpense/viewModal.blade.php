@@ -117,8 +117,8 @@
                 <div class="col-sm-8">
                   <select name="LawyerName" class="form-control form-control-sm SizeText" required>
                     <option value="">--- เลือกผู้รับเงิน ---</option>
-                    <option value="ซารีพะ ยูโซะ">1. ซารีพะ ยูโซะ</option>
-                    <option value="อารีฟ หัสบู">2. อารีฟ หัสบู</option>
+                    <option value="ทนายสมคิด แก้วสว่าง">1. ทนายสมคิด แก้วสว่าง</option>
+                    <!-- <option value="อารีฟ หัสบู">2. อารีฟ หัสบู</option> -->
                   </select>
                 </div>
               </div>

@@ -343,14 +343,14 @@ class LegislationController extends Controller
             $SetRealty = 'ไม่มีทรัพย์';
           }
         }
-        elseif ($DB_type == 2) {   //ลูกหนี้เช่าซื้อเก่า
+        elseif ($DB_type == 2) {   //ลูกหนี้งาน A
           $data = DB::connection('ibmi2')
               ->table('ASFHP.ARMAST')
               ->leftjoin('ASFHP.INVTRAN','ASFHP.ARMAST.CONTNO','=','ASFHP.INVTRAN.CONTNO')
               ->leftjoin('ASFHP.VIEW_CUSTMAIL','ASFHP.ARMAST.CUSCOD','=','ASFHP.VIEW_CUSTMAIL.CUSCOD')
               ->where('ASFHP.ARMAST.CONTNO','=', $Contract)
               ->first();
-
+          
           // query ทรัพย์
           $dataAro = DB::connection('ibmi')
               ->table('ASFHP.ARMAST')
@@ -364,7 +364,7 @@ class LegislationController extends Controller
             $SetRealty = 'ไม่มีทรัพย์';
           }
         }
-        elseif ($DB_type == 3 or $DB_type == 6) {   //ลูกหนี้เงินกู้/ขายฝาก
+        elseif ($DB_type == 3 ) {   //ลูกหนี้เงินกู้/ขายฝาก
           $data = DB::connection('ibmi2')
               ->table('PSFHP.ARMAST')
               ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')

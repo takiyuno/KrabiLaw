@@ -86,13 +86,13 @@
 <script type="text/javascript">
   $(".button").click(function(ev){
       var DB_type = $('#DB_type').val();
-      if(DB_type == 1 || DB_type == 2 || DB_type == 4 || DB_type == 5){
-        var Contno = $('#Contno').val();  //format (99-9999/9999)
+      if(DB_type == 1 ){
+        var Contno = $('#Contno').val();  //format (101-99999)
       }
       else if(DB_type == 3){              //format (P99-99999999)
         var Contno = $('#Contno2').val();
       }
-      else if(DB_type == 6){              //format ()
+      else if(DB_type == 2){              //format ()
         var Contno = $('#Contno3').val();
       }
       var _token = $('input[name="_token"]').val();

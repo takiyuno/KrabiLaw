@@ -16,6 +16,8 @@ https://github.com/ITchookiat/ProjectLabLaw.git
        
  - ดาวโหลดโปแกรม microsoft odbc driver
      1.ตั้งค่า Protocal ในส่วนของ SQL Server Config ให้เป็น Enable ให้หมด
+
+     asdsasad
     
 
         

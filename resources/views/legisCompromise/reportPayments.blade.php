@@ -191,7 +191,7 @@
     <br>
     <br>
 
-    <table border="0">
+   {{--<table border="0">
       <tbody>
         <tr style="line-height: 180%;">
           <th width="350px" align="left">
@@ -213,7 +213,7 @@
           </th>
         </tr>
       </tbody>
-    </table>
+    </table>--}}
   </body>
 </html>
 

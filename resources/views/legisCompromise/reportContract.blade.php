@@ -30,24 +30,24 @@
         </tr>
         <tr>
           <th width="305px">
-            @if ($data->TypeCon_legis == 'F01')
-              ที่อยู่ บริษัท ชูเกียรติลิสซิ่ง จำกัด
+            @if ($data->TypeCon_legis == '101')
+            ที่อยู่ บริษัท ชูเกียรติลิสซิ่ง กระบี่ จำกัด
             @else
-              ที่อยู่ บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด (สาขาปัตตานี)
+              ที่อยู่ บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด 
             @endif
           </th>
         </tr>
         <tr >
           <th width="305px">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17/8 หมู่ 4 ต.รูสะมีแล อ.เมือง จ.ปัตตานี 94000
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 266 ม.2 ต.กระบี่น้อย อ.เมือง จ.กระบี่ 81000 
           </th>
         </tr>
         <tr>
           <th width="305px">
-            @if ($data->type_Con == 'F01')
-              เบอร์โทร. โทร. 073-450700 แฟกซ์. 073-450700-4
+          @if (@$ItemPay->PaymentTolegislation->TypeCon_legis == '101')
+            เบอร์โทร 075-650919 แฟกซ์ 075-650683
             @else
-              เบอร์โทร. โทร. 073-450702-4
+            เบอร์โทร 075-650919 แฟกซ์ 075-650683
             @endif
           </th>
         </tr>
@@ -279,28 +279,25 @@
           <th></th>
         </tr>
         <tr>
-          <th width="350px">
-            @if ($data->TypeCon_legis == 'F01')
-              ที่อยู่ บริษัท ชูเกียรติลิสซิ่ง จำกัด
+          <th width="305px">
+            @if ($data->TypeCon_legis == '101')
+            ที่อยู่ บริษัท ชูเกียรติลิสซิ่ง กระบี่ จำกัด
             @else
-              ที่อยู่ บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด (สาขาปัตตานี)
+              ที่อยู่ บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด 
             @endif
-          </th>
-          <th width="200px" align="right">
-            โปรดเรียกเก็บค่าธรรมเนียมจากผู้ชำระ &nbsp;
           </th>
         </tr>
         <tr >
           <th width="305px">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17/8 หมู่ 4 ต.รูสะมีแล อ.เมือง จ.ปัตตานี 94000
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 266 ม.2 ต.กระบี่น้อย อ.เมือง จ.กระบี่ 81000 
           </th>
         </tr>
         <tr>
           <th width="305px">
-            @if ($data->TypeCon_legis == 'F01')
-              เบอร์โทร. โทร. 073-450700 แฟกซ์. 073-450700-4
+          @if (@$ItemPay->PaymentTolegislation->TypeCon_legis == '101')
+            เบอร์โทร 075-650919 แฟกซ์ 075-650683
             @else
-              เบอร์โทร. โทร. 073-450702-4
+            เบอร์โทร 075-650919 แฟกซ์ 075-650683
             @endif
           </th>
         </tr>
@@ -364,10 +361,19 @@
             <img class="center" width="22" height="22" src="{{ asset('dist\img\payments\checkbox.png') }}">
           </th>
           <th width="25px" rowspan="2">
-            <img class="center" src="{{ asset('dist\img\payments\ktb.png') }}" alt="ธกส">
+            @if($data->TypeCon_legis == '101')
+            <img class="center" src="{{ asset('dist\img\payments\kma.png') }}" alt="กรุงศรี">
+            @else
+            <img class="center" src="{{ asset('dist\img\payments\kb.png') }}" alt="กสิกร">
+            @endif
           </th>
           <th width="250px">
-            ธนาคารกรุงไทย
+           @if($data->TypeCon_legis == '101')
+            ธนาคารกรุงศีอยุธยา ชื่อบัญชี (บริษัท ชูเกียรติลิสซิ่ง กระบี่ จำกัด)
+            @else
+            ธนาคารกสิกรไทย ชื่อบัญชี (บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด )
+            @endif
+            
           </th>
           <th width="100px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid;"></th>
           <th width="145px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-style: solid">
@@ -376,11 +382,11 @@
         </tr>
         <tr>
           <th width="250px">
-            @if ($data->TypeCon_legis == 'F01')
-              COM CODE : 6311
+            @if($data->TypeCon_legis == '101')
+              เลขที่บัญชี 800-9-051005
             @else
-              COM CODE : 6874
-            @endif
+            เลขที่บัญชี 009-2-82479-7
+            @endif 
           </th>
           <th width="60px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid;">
             ชื่อลูกค้า
@@ -392,17 +398,13 @@
         <tr>
           <th width="5px" rowspan="2"></th>
           <th width="25px" rowspan="2">
-            <img class="center" width="22" height="22" src="{{ asset('dist\img\payments\checkbox.png') }}">
+            
           </th>
           <th width="25px" rowspan="2">
           </th>
           <th width="250px">
-            ออนไลน์ :ธนาคารอื่นๆ ที่ให้บริการ Biller ID : 
-            @if ($data->TypeCon_legis == 'F01')
-              0945530000098
-            @else
-              0815559000291
-            @endif
+          (กรุณา โอนเข้าบัญชีตามที่บริษัทระบุไว้เท่านั้น )
+           
           </th>
           <th width="60px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid;">
             เลขอ้างอิงที่ 1
@@ -413,7 +415,7 @@
         </tr>
         <tr>
           <th width="250px">
-            <img class="center" width="115" height="13" src="{{ asset('dist\img\payments\allbank.png') }}">
+           
           </th>
           <th width="60px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid;">
             เลขอ้างอิงที่ 2
@@ -424,7 +426,7 @@
         </tr>
         <tr>
           <th width="305px" align="center">
-            (ค่าธรรมเนียมไม่เกิน 5 บาท/รายการในช่องทางอิเล็กทรอนิคส์)
+            
           </th>
           <th width="60px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid;">
             จำนวนเงิน
@@ -481,7 +483,7 @@
     <br>
     <br>
 
-    <table border="0">
+    {{--<table border="0">
       <tbody>
         <tr style="line-height: 280%;">
           <th width="350px" align="center">
@@ -498,6 +500,6 @@
           </th>
         </tr>
       </tbody>
-    </table>
+    </table>--}}
   </body>
 </html>

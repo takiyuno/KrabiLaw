@@ -499,27 +499,27 @@ class LegisComproController extends Controller
         $data = Legislation::find($id);
 
         $ref_price = '0';
-        if ($data->TypeCon_legis == 'F01') {
-          $tax_id = '|0945530000098';
-          $contract = preg_replace("/[^a-z\d]/i", '', substr(@$data->Contract_legis,0));
-          $Bar = $tax_id."00".chr(13).$contract.chr(13).'006'.chr(13).$ref_price;
-        }else{
-          $tax_id = '|0815559000291';
-          $contract = preg_replace("/[^a-z\d]/i", '', substr(@$data->Contract_legis,1));
-          $Bar = $tax_id."01".chr(13).$contract.chr(13).'006'.chr(13).$ref_price;
-        }
-        $StrConn = $contract;
+        // if ($data->TypeCon_legis == '101') {
+        //   $tax_id = '|0945530000098';
+        //   $contract = preg_replace("/[^a-z\d]/i", '', substr(@$data->Contract_legis,0));
+        //   $Bar = $tax_id."00".chr(13).$contract.chr(13).'006'.chr(13).$ref_price;
+        // }else{
+        //   $tax_id = '|0815559000291';
+        //   $contract = preg_replace("/[^a-z\d]/i", '', substr(@$data->Contract_legis,1));
+        //   $Bar = $tax_id."01".chr(13).$contract.chr(13).'006'.chr(13).$ref_price;
+        // }
+        // $StrConn = $contract;
         
-        $NamepathBr = 'Br_'.$StrConn;
-        $Bc_JPGgenerator = new Picqer\Barcode\BarcodeGeneratorPNG();
-        file_put_contents(public_path().'/cache_barcode/'.$NamepathBr.'.png', $Bc_JPGgenerator->getBarcode($Bar, $Bc_JPGgenerator::TYPE_CODE_128));
+        // $NamepathBr = 'Br_'.$StrConn;
+        // $Bc_JPGgenerator = new Picqer\Barcode\BarcodeGeneratorPNG();
+        // file_put_contents(public_path().'/cache_barcode/'.$NamepathBr.'.png', $Bc_JPGgenerator->getBarcode($Bar, $Bc_JPGgenerator::TYPE_CODE_128));
 
-        $NamepathQr = 'Qr_'.$StrConn;
-        $BQ_generator = new Picqer\Barcode\BarcodeGeneratorPNG();
-        file_put_contents(public_path().'/cache_barcode/'.$NamepathQr.'.svg', QrCode::size(100)->generate($Bar));
+        // $NamepathQr = 'Qr_'.$StrConn;
+        // $BQ_generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+        // file_put_contents(public_path().'/cache_barcode/'.$NamepathQr.'.svg', QrCode::size(100)->generate($Bar));
 
         $type = $request->type;
-        $view = \View::make('legisCompromise.reportContract' ,compact('data','type','Bar','contract','NamepathBr','NamepathQr'));
+        $view = \View::make('legisCompromise.reportContract' ,compact('data','type','Bar','contract'));
         $html = $view->render();
   
         $pdf = new PDF();

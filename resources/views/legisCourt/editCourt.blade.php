@@ -417,7 +417,7 @@
                                     <option value="ศาลแขวงกระบี่" {{ ($data->legiscourt->law_court === 'ศาลแขวงกระบี่') ? 'selected' : '' }}>01. ศาลแขวงกระบี่</option>
                                     <option value="ศาลแขวงตรัง" {{ ($data->legiscourt->law_court === 'ศาลแขวงตรัง') ? 'selected' : '' }}>02 .ศาลแขวงตรัง</option>
                                     <option value="ศาลแขวงพังงา" {{ ($data->legiscourt->law_court === 'ศาลแขวงพังงา') ? 'selected' : '' }}>03. ศาลแขวงพังงา</option>
-                                    <option value="ศาลแขวงภูเก็ต" {{ ($data->legiscourt->law_court === 'ศาลภูเก็ต') ? 'selected' : '' }}>04. ศาลภูเก็ต</option>
+                                    <option value="ศาลแขวงภูเก็ต" {{ ($data->legiscourt->law_court === 'ศาลแขวงภูเก็ต') ? 'selected' : '' }}>04. ศาลแขวงภูเก็ต</option>
                                     <option value="ศาลแขวงนครศรีธรรมราช" {{ ($data->legiscourt->law_court === 'ศาลแขวงนครศรีธรรมราช') ? 'selected' : '' }}>05. ศาลแขวงนครศรีธรรมราช</option>
                                     <option value="ศาลแขวงสุราษฎร์ธานี" {{ ($data->legiscourt->law_court === 'ศาลแขวงสุราษฎร์ธานี') ? 'selected' : '' }}>06. ศาลแขวงสุราษฎร์ธานี</option>
                                   </select>

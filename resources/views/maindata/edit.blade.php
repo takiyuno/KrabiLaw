@@ -67,18 +67,14 @@
                             <select name="branch" class="form-control" style="width: 400px;" required>
                               <option value="" selected>--------- สาขา ----------</option>
                               <option value="99" {{ ($user->branch === '99') ? 'selected' : '' }}>Admin</option>
-                              <option value="01" {{ ($user->branch === '01') ? 'selected' : '' }}>สาขา ปัตตานี</option>
-                              <option value="03" {{ ($user->branch === '03') ? 'selected' : '' }}>สาขา ยะลา</option>
-                              <option value="04" {{ ($user->branch === '04') ? 'selected' : '' }}>สาขา นราธิวาส</option>
-                              <option value="05" {{ ($user->branch === '05') ? 'selected' : '' }}>สาขา สายบุรี</option>
-                              <option value="06" {{ ($user->branch === '06') ? 'selected' : '' }}>สาขา โกลก</option>
-                              <option value="07" {{ ($user->branch === '07') ? 'selected' : '' }}>สาขา เบตง</option>
-                              <option value="08" {{ ($user->branch === '08') ? 'selected' : '' }}>สาขา โคกโพธิ์</option>
-                              <option value="09" {{ ($user->branch === '09') ? 'selected' : '' }}>สาขา ตันหยงมัส</option>
-                              <option value="12" {{ ($user->branch === '12') ? 'selected' : '' }}>สาขา รือเสาะ</option>
-                              <option value="13" {{ ($user->branch === '13') ? 'selected' : '' }}>สาขา บันนังสตา</option>
-                              <option value="14" {{ ($user->branch === '14') ? 'selected' : '' }}>สาขา ยะหา</option>
-                              <option value="10" {{ ($user->branch === '10') ? 'selected' : '' }}>สาขา รถบ้าน</option>
+                              @php
+                                $branch =  DB::table('Data_Branchs')->where('Zone_Branch',1)->get();
+                                foreach($branch as $rs){
+                            @endphp
+                            <option value="{{($user->branch === $rs->Name_Branch) ? 'selected' : '' }}" >{{$rs->Name_Branch}}</option>
+                            @php
+                                }
+                            @endphp
                             </select>
                           </div>
                         </div>

@@ -476,7 +476,7 @@ class LegisComproController extends Controller
             return $query->where('Flag_Payment', 'Y');
           }])
           ->first();
-
+        
         $type = $request->type;
         return view('legisCompromise.viewModal',compact('data','id','type'));
       }
@@ -673,6 +673,7 @@ class LegisComproController extends Controller
           'Flag_Payment' =>  'Y',
           'Jobnumber_Payment' => @$JobCode,
           'Period_Payment' => @$NumPeriod,
+          'Date_Payment'=>$request->DatePayment,
           ]);
         $LegisPay->save();
 

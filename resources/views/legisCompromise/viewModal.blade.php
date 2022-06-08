@@ -52,7 +52,7 @@
                   <div class="form-group row mb-0">
                     <label class="col-sm-4 col-form-label text-right SizeText">วันที่ประนอม :</label>
                     <div class="col-sm-8">
-                      <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" readonly/>
+                      <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" />
                     </div>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
                     <div class="form-group row mb-0">
                       <label class="col-sm-4 col-form-label text-right SizeText">วันที่ประนอม :</label>
                       <div class="col-sm-8">
-                        <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" readonly/>
+                        <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" />
                       </div>
                     </div>
                   </div>
@@ -382,7 +382,8 @@
       $('#Cul-Payments').on('input', function() {
         var TypePayment = $('#TypePayment').val();
         var DatePayment = $('#DatePayment').val();  //วันปัจจุบัน
-        var DateDuePay = $('#DateDuePay').val();    //วันชำระล่าสุด
+        var DateDuePay = $('#DateDuePay').val(); 
+        //alert(DatePayment);   //วันชำระล่าสุด
         var GetCash = $('#Cash').val();          
         var Cash = GetCash.replace(",","");         //ยอดเงิน
         var defCash = $('#defCash').val();          //ยอดค่างวด

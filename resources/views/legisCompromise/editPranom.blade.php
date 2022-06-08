@@ -233,7 +233,7 @@
                           <div class="form-group row mb-0">
                             <label class="col-sm-4 col-form-label text-right SizeText text-red">วันที่ชำระล่าสุด :</label>
                             <div class="col-sm-8">
-                              <input type="date" value="{{ ($data->legispayments != NULL) ?(substr($data->legispayments->created_at,0,10)): '' }}" class="form-control form-control-sm SizeText Boxcolor" placeholder="วว/ดด/ปปปป"/>
+                              <input type="date" value="{{ ($data->legispayments != NULL) ?(substr($data->legispayments->Date_Payyment,0,10)): '' }}" class="form-control form-control-sm SizeText Boxcolor" placeholder="วว/ดด/ปปปป"/>
                             </div>
                           </div>
                         </div>
@@ -291,7 +291,7 @@
                           @foreach($dataPay as $key => $row)
                             <tr>
                               <td class="text-center"> {{$key+1}} </td>
-                              <td class="text-center"> {{ date('d-m-Y', strtotime(substr($row->created_at,0,10))) }} </td>
+                              <td class="text-center"> {{ date('d-m-Y', strtotime($row->Date_Payment)) }} </td>
                               <td class="text-center" title="{{$row->Jobnumber_Payment}}"> {{$row->Type_Payment}} </td>
                               <td class="text-right"> 
                                 {{ number_format($row->Gold_Payment, 2) }} 
@@ -708,7 +708,7 @@
                           <div class="form-group row mb-0">
                             <label class="col-sm-4 col-form-label text-right SizeText text-red">วันที่ชำระล่าสุด :</label>
                             <div class="col-sm-8">
-                              <input type="date" value="{{ ($data->legispayments != NULL) ?(substr($data->legispayments->created_at,0,10)): '' }}" class="form-control form-control-sm SizeText Boxcolor" placeholder="วว/ดด/ปปปป"/>
+                              <input type="date" value="{{ ($data->legispayments != NULL) ?(substr($data->legispayments->Date_Payment,0,10)): '' }}" class="form-control form-control-sm SizeText Boxcolor" placeholder="วว/ดด/ปปปป"/>
                             </div>
                           </div>
                         </div>
@@ -782,7 +782,7 @@
                           @foreach($dataPay as $key => $row)
                             <tr>
                               <td class="text-center"> {{$key+1}} </td>
-                              <td class="text-center"> {{ date('d-m-Y', strtotime(substr($row->created_at,0,10))) }} </td>
+                              <td class="text-center"> {{ date('d-m-Y', strtotime($row->Date_Payment)) }} </td>
                               <td class="text-center" title="{{$row->Jobnumber_Payment}}"> {{$row->Type_Payment}} </td>
                               <td class="text-right"> 
                                 {{ number_format($row->Gold_Payment, 2) }} 

@@ -286,7 +286,7 @@
               <div class="form-group row mb-0">
                 <label class="col-sm-4 col-form-label text-right">วันที่รับชำระ : </label>
                 <div class="col-sm-8">
-                  <input type="date" id="DatePayment" name="DatePayment" class="form-control form-control-sm SizeText" value="{{date('Y-m-d') }}" readonly/>
+                  <input type="date" id="DatePayment" name="DatePayment" class="form-control form-control-sm SizeText" value="{{date('Y-m-d') }}" />
                 </div>
               </div>
             </div>

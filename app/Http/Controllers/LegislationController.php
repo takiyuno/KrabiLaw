@@ -352,7 +352,7 @@ class LegislationController extends Controller
               ->first();
           
           // query ทรัพย์
-          $dataAro = DB::connection('ibmi')
+          $dataAro = DB::connection('ibmi2')
               ->table('ASFHP.ARMAST')
               ->join('ASFHP.AROTHGAR','ASFHP.ARMAST.CONTNO','=','ASFHP.AROTHGAR.CONTNO')
               ->where('ASFHP.ARMAST.CONTNO','=', $Contract)

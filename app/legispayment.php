@@ -9,7 +9,7 @@ class legispayment extends Model
   protected $table = 'legispayments';
   protected $fillable = ['legislation_id','legisCompro_id',
                          'DateDue_Payment','Gold_Payment','Discount_Payment','Type_Payment','Adduser_Payment','Note_Payment',
-                         'Flag_Payment','Jobnumber_Payment','Period_Payment'];
+                         'Flag_Payment','Jobnumber_Payment','Period_Payment','Date_Payment'];
 
 
   public function PaymentTolegislation()

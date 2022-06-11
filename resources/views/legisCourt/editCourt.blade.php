@@ -420,12 +420,12 @@
                                     <option value="ศาลแขวงภูเก็ต" {{ ($data->legiscourt->law_court === 'ศาลแขวงภูเก็ต') ? 'selected' : '' }}>04. ศาลแขวงภูเก็ต</option>
                                     <option value="ศาลแขวงนครศรีธรรมราช" {{ ($data->legiscourt->law_court === 'ศาลแขวงนครศรีธรรมราช') ? 'selected' : '' }}>05. ศาลแขวงนครศรีธรรมราช</option>
                                     <option value="ศาลแขวงสุราษฎร์ธานี" {{ ($data->legiscourt->law_court === 'ศาลแขวงสุราษฎร์ธานี') ? 'selected' : '' }}>06. ศาลแขวงสุราษฎร์ธานี</option>
-                                    <option value="ศาลจังหวัดกระบี่" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดกระบี่') ? 'selected' : '' }}>01. ศาลจังหวัดกระบี่</option>
-                                    <option value="ศาลจังหวัดตรัง" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดตรัง') ? 'selected' : '' }}>02 .ศาลจังหวัดตรัง</option>
-                                    <option value="ศาลจังหวัดพังงา" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดพังงา') ? 'selected' : '' }}>03. ศาลจังหวัดพังงา</option>
-                                    <option value="ศาลจังหวัดภูเก็ต" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดภูเก็ต') ? 'selected' : '' }}>04. ศาลจังหวัดภูเก็ต</option>
-                                    <option value="ศาลจังหวัดนครศรีธรรมราช" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดนครศรีธรรมราช') ? 'selected' : '' }}>05. ศาลจังหวัดนครศรีธรรมราช</option>
-                                    <option value="ศาลจังหวัดสุราษฎร์ธานี" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดสุราษฎร์ธานี') ? 'selected' : '' }}>06. ศาลจังหวัดสุราษฎร์ธานี</option>
+                                    <option value="ศาลจังหวัดกระบี่" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดกระบี่') ? 'selected' : '' }}>07. ศาลจังหวัดกระบี่</option>
+                                    <option value="ศาลจังหวัดตรัง" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดตรัง') ? 'selected' : '' }}>08 .ศาลจังหวัดตรัง</option>
+                                    <option value="ศาลจังหวัดพังงา" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดพังงา') ? 'selected' : '' }}>09. ศาลจังหวัดพังงา</option>
+                                    <option value="ศาลจังหวัดภูเก็ต" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดภูเก็ต') ? 'selected' : '' }}>10. ศาลจังหวัดภูเก็ต</option>
+                                    <option value="ศาลจังหวัดนครศรีธรรมราช" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดนครศรีธรรมราช') ? 'selected' : '' }}>11. ศาลจังหวัดนครศรีธรรมราช</option>
+                                    <option value="ศาลจังหวัดสุราษฎร์ธานี" {{ ($data->legiscourt->law_court === 'ศาลจังหวัดสุราษฎร์ธานี') ? 'selected' : '' }}>12. ศาลจังหวัดสุราษฎร์ธานี</option>
                                   </select>
                                 </div>
 

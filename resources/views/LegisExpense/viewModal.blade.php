@@ -409,8 +409,8 @@
                   <div class="col-sm-8">
                     <select name="LawyerName" class="form-control form-control-sm SizeText" required>
                       <option value="">--- เลือกผู้รับเงิน ---</option>
-                      <option value="ซารีพะ ยูโซะ" {{ ($data->LawyerName_expense === 'ซารีพะ ยูโซะ') ? 'selected' : '' }}>1. ซารีพะ ยูโซะ</option>
-                      <option value="อารีฟ หัสบู" {{ ($data->LawyerName_expense === 'อารีฟ หัสบู') ? 'selected' : '' }}>2. อารีฟ หัสบู</option>
+                      <option value="ทนายสมคิด แก้วสว่าง" {{ ($data->LawyerName_expense === 'ทนายสมคิด แก้วสว่าง') ? 'selected' : '' }}>1. ทนายสมคิด แก้วสว่าง</option>
+                      <!-- <option value="อารีฟ หัสบู" {{ ($data->LawyerName_expense === 'อารีฟ หัสบู') ? 'selected' : '' }}>2. อารีฟ หัสบู</option> -->
                     </select>
                   </div>
                 </div>

@@ -436,7 +436,7 @@
 
                                 <label class="col-sm-4 col-form-label text-right SizeText">ค่าทนาย :</label>
                                 <div class="col-sm-8">
-                                  <input type="text" id="pricelawyercourt" name="pricelawyercourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->pricelawyer_court != '') ? number_format($data->legiscourt->pricelawyer_court, 2) : '' }}" readonly/>
+                                  <input type="text" id="pricelawyercourt" name="pricelawyercourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->pricelawyer_court != '') ? number_format($data->legiscourt->pricelawyer_court, 2) : '' }}" />
                                 </div>
                               </div>
                             </div>
@@ -979,13 +979,13 @@
 
         var Sumcap = (Setcap * 0.1);
 
-        if(!isNaN(Setcap)){
-            document.form1.capitalcourt.value = addCommas(Setcap);
-            document.form1.pricelawyercourt.value = addCommas(Sumcap.toFixed(2));
-        }
-        if(!isNaN(Setind)){
-            document.form1.indictmentcourt.value = addCommas(Setind);
-        }
+        // if(!isNaN(Setcap)){
+        //     document.form1.capitalcourt.value = addCommas(Setcap);
+        //     document.form1.pricelawyercourt.value = addCommas(Sumcap.toFixed(2));
+        // }
+        // if(!isNaN(Setind)){
+        //     document.form1.indictmentcourt.value = addCommas(Setind);
+        // }
     }
   </script>
 @endsection

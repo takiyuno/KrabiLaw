@@ -107,7 +107,7 @@
                     <div class="form-group row mb-0">
                       <label class="col-sm-4 col-form-label text-right SizeText">วันที่ประนอม :</label>
                       <div class="col-sm-8">
-                        <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" />
+                        <input type="date" name="Dateinsert" value="{{ @$data->legisCompromise->Date_Promise }}" class="form-control form-control-sm Boxcolor SizeText" />
                       </div>
                     </div>
                   </div>
@@ -286,7 +286,7 @@
               <div class="form-group row mb-0">
                 <label class="col-sm-4 col-form-label text-right">วันที่รับชำระ : </label>
                 <div class="col-sm-8">
-                  <input type="date" id="DatePayment" name="DatePayment" class="form-control form-control-sm SizeText" value="{{date('Y-m-d') }}" />
+                  <input type="date"  id="DatePayment" name="DatePayment" class="form-control form-control-sm SizeText" value="{{date('Y-m-d') }}" />
                 </div>
               </div>
             </div>

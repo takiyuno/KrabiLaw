@@ -617,7 +617,7 @@
                           <div class="form-group row mb-0">
                             <label class="col-sm-4 col-form-label text-right SizeText">วันที่ประนอม :</label>
                             <div class="col-sm-8">
-                              <input type="date" value="{{ @$data->legisCompromise->Date_Promise }}" class="form-control form-control-sm SizeText" readonly/>
+                              <input type="date" value="{{ @$data->legisCompromise->Date_Promise }}"  class="form-control form-control-sm SizeText" readonly/>
                             </div>
                           </div>
                         </div>

@@ -524,6 +524,7 @@
                               </div>
                             </div>
                           </div>
+                         
                       </div>
                       <div id="list-page3-list" class="container tab-pane {{ ($FlagTab === 3) ? 'active' : '' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนส่งคำบังคับ <span class="textHeader">(45 วัน)</span></h6>
@@ -535,7 +536,15 @@
                                   <input type="date" id="orderdaycourt" name="orderdaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->orderday_court) }}" readonly/>
                                 </div>
                               </div>
+                              <div class="form-group row mb-0">
+                                <label class="col-sm-4 col-form-label text-right SizeText">ศาลสั่งจ่าย :</label>
+                                <div class="col-sm-8">
+                                  <input type="text" id="adjudicate_price" name="adjudicate_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
+                                </div>
+                             
+                          </div>
                             </div>
+
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันส่งจริง :</label>
@@ -543,7 +552,10 @@
                                   <input type="date" id="ordersendcourt" name="ordersendcourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->ordersend_court) }}" oninput="CourtDate();" />
                                 </div>
                               </div>
+                             
+                              
                             </div>
+                            
                             <div class="col-md-4">
                               <div class="card card-info">
                                 <div class="card-header SizeText">

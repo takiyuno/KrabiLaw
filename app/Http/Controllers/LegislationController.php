@@ -1067,6 +1067,7 @@ class LegislationController extends Controller
           $Legiscourt->capital_court = str_replace (",","",$request->get('capitalcourt'));
           $Legiscourt->indictment_court = str_replace (",","",$request->get('indictmentcourt'));
           $Legiscourt->pricelawyer_court = str_replace (",","",$request->get('pricelawyercourt'));
+          $Legiscourt->adjudicate_price = str_replace (",","",$request->get('adjudicate_price'));
           $Legiscourt->examiday_court = $request->get('examidaycourt');
           $Legiscourt->fuzzy_court = $request->get('fuzzycourt');
           $Legiscourt->examinote_court = $request->get('examinotecourt');

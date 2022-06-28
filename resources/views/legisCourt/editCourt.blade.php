@@ -213,7 +213,7 @@
           <div class="row">
             <div class="col-8">
               <div class="form-inline">
-                <h5>ลูกหนี้ชั้นศาล <small class="textHeader">(Court Debtor)</small></h5>
+                <h5>ลูกหนี้ชั้นศาล  <small class="textHeader">(Court Debtor)</small></h5>
               </div>
             </div>
             <div class="col-4">
@@ -283,7 +283,7 @@
                         <i class="fas fa-balance-scale text-muted"></i>
                         <div class="d-inline-block font-weight-medium text-uppercase">ลูกหนี้ ชั้นศาล</div>
                       </div>
-                      @if($data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                      @if($data->Flag_Class === "สถานะคัดหนังสือรับรองคดี" or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                         <i class="far fa-check-square sub-target"></i>
                       @endif
                     </div>
@@ -292,9 +292,9 @@
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-link text-muted"></i>
-                        <div class="d-inline-block font-weight-medium text-uppercase">ลูกหนี้ ชั้นบังคับคดี</div>
+                        <div class="d-inline-block font-weight-medium text-uppercase">ลูกหนี้ ชั้นบังคับคดี </div>
                       </div>
-                      @if($data->Flag_Class == 'จบงานชั้นบังคับคดี')
+                      @if($data->Flag_Class === 'จบงานชั้นบังคับคดี')
                         <i class="far fa-check-square sub-target"></i>
                       @endif
                     </div>
@@ -337,7 +337,7 @@
                     <ul class="nav nav-tabs" role="tablist">
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 1) ? 'actives active' : '' }}" id="vert-tabs-1-tab" data-toggle="tab" href="#list-page1-list">
-                          @if($data->Flag_Class == 'สถานะส่งสืบพยาน' or $data->Flag_Class == 'สถานะส่งคำบังคับ' or $data->Flag_Class == 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                          @if($data->Flag_Class === 'สถานะส่งสืบพยาน' or $data->Flag_Class === 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                             <i class="far fa-check-square text-success"></i>
                           @endif  
                           ฟ้อง
@@ -345,7 +345,7 @@
                       </li>
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 2) ? 'actives active' : '' }}" id="vert-tabs-2-tab" data-toggle="tab" href="#list-page2-list">
-                          @if($data->Flag_Class == 'สถานะส่งคำบังคับ' or $data->Flag_Class == 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                          @if($data->Flag_Class === 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                             <i class="far fa-check-square text-success"></i>
                           @endif
                           สืบพยาน
@@ -354,11 +354,11 @@
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 3) ? 'actives active' : '' }}" id="vert-tabs-3-tab" data-toggle="tab" href="#list-page3-list">
                           @if($data->Consent_court == NULL)
-                            @if($data->Flag_Class == 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                            @if($data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                               <i class="far fa-check-square text-success"></i>
                             @endif
                           @else
-                            @if($data->Flag_Class == 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                            @if($data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                             <i class="fas fa-unlink text-muted"></i>
                             @endif
                           @endif
@@ -368,11 +368,11 @@
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 4) ? 'actives active' : '' }}" id="vert-tabs-4-tab" data-toggle="tab" href="#list-page4-list">
                           @if($data->Consent_court == NULL)
-                            @if($data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                            @if($data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                               <i class="far fa-check-square text-success"></i>
                             @endif
                           @else
-                            @if($data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                            @if($data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                               <i class="fas fa-unlink text-muted"></i>
                             @endif
                           @endif
@@ -381,7 +381,7 @@
                       </li>
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 5) ? 'actives active' : '' }}" id="vert-tabs-5-tab" data-toggle="tab" href="#list-page5-list">
-                          @if($data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class == 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                          @if($data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี'  or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                             <i class="far fa-check-square text-success"></i>
                           @endif
                           ตั้งเจ้าพนักงาน
@@ -389,7 +389,7 @@
                       </li>
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 6) ? 'actives active' : '' }}" id="vert-tabs-6-tab" data-toggle="tab" href="#list-page6-list">
-                          @if($data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                          @if($data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class == 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                             <i class="far fa-check-square text-success"></i>
                           @endif
                           ต.ผลหมายตั้ง
@@ -466,7 +466,7 @@
                                   <div class="card-body">
                                     <div class="col-md-12">
                                         <span class="todo-wrap SizeText">
-                                          <input type="checkbox" id="11" name="FlagClass" value="สถานะส่งสืบพยาน" {{ ($data->Flag_Class === 'สถานะส่งสืบพยาน' or $data->Flag_Class === 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
+                                          <input type="checkbox" id="11" name="FlagClass" value="สถานะส่งสืบพยาน" {{ ($data->Flag_Class === 'สถานะส่งสืบพยาน' or $data->Flag_Class === 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
                                           <label for="11" class="todo">
                                             <i class="fa fa-check"></i> Prosecute (ส่งสืบพยาน)
                                           </label>
@@ -505,7 +505,7 @@
                                   <div class="col-md-12">
                                     <span class="todo-wrap SizeText">
                                       @if($data->Consent_court == NULL)
-                                      <input type="checkbox" id="12" name="FlagClass" value="สถานะส่งคำบังคับ" {{ ($data->Flag_Class == 'สถานะส่งคำบังคับ' or $data->Flag_Class == 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
+                                      <input type="checkbox" id="12" name="FlagClass" value="สถานะส่งคำบังคับ" {{ ($data->Flag_Class === 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง'or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
                                       @else
                                       <input type="checkbox" id="12" name="FlagClass" value="สถานะส่งคำบังคับ"/>
                                       @endif
@@ -565,7 +565,7 @@
                                   <div class="col-md-12">
                                     <span class="todo-wrap SizeText">
                                       @if($data->Consent_court == NULL)
-                                        <input type="checkbox" id="13" name="FlagClass" value="สถานะส่งตรวจผลหมาย" {{ ($data->Flag_Class == 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
+                                        <input type="checkbox" id="13" name="FlagClass" value="สถานะส่งตรวจผลหมาย" {{ ($data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class ==='สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
                                       @else 
                                         <input type="checkbox" id="13" name="FlagClass" value="สถานะส่งตรวจผลหมาย"/>
                                       @endif
@@ -637,7 +637,7 @@
                                   <div class="col-md-12">
                                     <span class="todo-wrap SizeText">
                                       @if($data->Consent_court == NULL)
-                                        <input type="checkbox" id="14" name="FlagClass" value="สถานะส่งตั้งเจ้าพนักงาน" {{ ($data->Flag_Class == 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
+                                        <input type="checkbox" id="14" name="FlagClass" value="สถานะส่งตั้งเจ้าพนักงาน" {{ ($data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
                                       @else 
                                         <input type="checkbox" id="14" name="FlagClass" value="สถานะส่งตั้งเจ้าพนักงาน"/>
                                       @endif
@@ -683,7 +683,7 @@
                                 <div class="card-body">
                                   <div class="col-md-12">
                                       <span class="todo-wrap SizeText">
-                                        <input type="checkbox" id="15" name="FlagClass" value="สถานะส่งตรวจผลหมายตั้ง" {{ ($data->Flag_Class == 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
+                                        <input type="checkbox" id="15" name="FlagClass" value="สถานะส่งตรวจผลหมายตั้ง" {{ ($data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
                                         <label for="15" class="todo">
                                           <i class="fa fa-check"></i>
                                           Prosecute (ส่งตรวจผลหมายตั้ง)
@@ -746,7 +746,7 @@
                                 <div class="card-body">
                                   <div class="col-md-12">
                                     <span class="todo-wrap SizeText">
-                                      <input type="checkbox" id="16" name="FlagClass" value="สถานะคัดหนังสือรับรองคดี" {{ ($data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
+                                      <input type="checkbox" id="16" name="FlagClass" value="สถานะคัดหนังสือรับรองคดี" {{ ($data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี') ? 'checked' : '' }}/>
                                       <label for="16" class="todo">
                                         <i class="fa fa-check"></i> Prosecute (ส่งชั้นบังคับคดี)
                                       </label>

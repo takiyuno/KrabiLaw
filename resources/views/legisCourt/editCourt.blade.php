@@ -345,7 +345,7 @@
                       </li>
                       <li class="nav-item">
                         <a class="nav-link SizeText {{ ($FlagTab === 2) ? 'actives active' : '' }}" id="vert-tabs-2-tab" data-toggle="tab" href="#list-page2-list">
-                          @if($data->Flag_Class == 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
+                          @if($data->Flag_Class === 'สถานะส่งคำบังคับ' or $data->Flag_Class === 'สถานะส่งตรวจผลหมาย' or $data->Flag_Class === 'สถานะส่งตั้งเจ้าพนักงาน' or $data->Flag_Class === 'สถานะส่งตรวจผลหมายตั้ง' or $data->Flag_Class === 'สถานะคัดหนังสือรับรองคดี' or $data->Flag_Class === 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class === 'สถานะคัดโฉนด' or $data->Flag_Class === 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class === 'ประกาศขายทอดตลาด' or $data->Flag_Class === 'จบงานชั้นบังคับคดี')
                             <i class="far fa-check-square text-success"></i>
                           @endif
                           สืบพยาน

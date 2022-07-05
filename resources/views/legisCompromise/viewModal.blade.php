@@ -302,10 +302,10 @@
               $SetFirstMoney = NULL;
               if($data->legisCompromise != NULL){
                 if($data->legisCompromise->FirstManey_1 != 0){
-                  $SetFirstMoney = $data->legisCompromise->FirstManey_1 - $data->legisCompromise->Sum_FirstPromise;
+                  $SetFirstMoney = $data->legisCompromise->Sum_FirstPromise - $data->legisCompromise->FirstManey_1 ;
                 }
                 else{
-                  $SetFirstMoney = $data->legisCompromise->Payall_Promise - $data->legisCompromise->Sum_FirstPromise;
+                  $SetFirstMoney = $$data->legisCompromise->Sum_FirstPromise - data->legisCompromise->Payall_Promise;
                 }
               }
             @endphp
@@ -317,9 +317,9 @@
                     <option value="" selected>--- ประเภทชำระ ---</option>
                     <option value="เงินก้อนแรก(เงินสด)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T01. เงินก้อนแรก(เงินสด)</option>
                     <option value="เงินก้อนแรก(เงินโอน)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T02. เงินก้อนแรก(เงินโอน)</option>
-                    <option value="ชำระเงินสด" {{ ($SetFirstMoney == 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
-                    <option value="ชำระผ่านโอน" {{ ($SetFirstMoney == 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
-                    <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney == 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option>
+                    <option value="ชำระเงินสด" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
+                    <option value="ชำระผ่านโอน" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
+                    <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option>
                   </select>
                 </div>
               </div>

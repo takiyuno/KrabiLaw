@@ -393,7 +393,7 @@ class LegisComproController extends Controller
           $LegisCompro = new Legiscompromise([
             'legislation_id' => $request->id,
             'Flag_Promise' => 'Active',
-            'Date_Promise' => date('Y-m-d'),                        //วันที่ประนอมหนี้
+            'Date_Promise' => $request->Dateinsert,                        //วันที่ประนอมหนี้
             'Type_Promise' => $request->TypePromise,
             'Sum_Promise' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
             'TotalSum_Promise' => ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0),

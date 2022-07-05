@@ -305,7 +305,7 @@
                   $SetFirstMoney = $data->legisCompromise->Sum_FirstPromise - $data->legisCompromise->FirstManey_1 ;
                 }
                 else{
-                  $SetFirstMoney = $$data->legisCompromise->Sum_FirstPromise - data->legisCompromise->Payall_Promise;
+                  $SetFirstMoney = $data->legisCompromise->Sum_FirstPromise - $data->legisCompromise->Payall_Promise;
                 }
               }
             @endphp

@@ -393,7 +393,7 @@
                         <div class="form-group row mb-0">
                           <label class="col-sm-4 col-form-label text-right SizeText">เลขทีดิน :</label>
                           <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-sm SizeText" value="{{ number_format(@$data->YearCar_legis,0) }}"/>
+                            <input type="text" class="form-control form-control-sm SizeText" value="{{ @$data->YearCar_legis }}"/>
                           </div>
                         </div>
                       </div>

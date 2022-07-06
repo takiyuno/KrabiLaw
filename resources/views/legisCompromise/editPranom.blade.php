@@ -32,7 +32,7 @@
     }
   @endphp
 
-  @if ($data->TypeCon_legis == 'P01')
+  @if ($data->TypeCon_legis == '')
     <section class="Profile-container" style="font-family: 'Prompt', sans-serif;">
       <div class="content">
         <div class="content-header">
@@ -320,6 +320,33 @@
                           @endforeach
                         </tbody>
                       </table>
+                      <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText"><span class="textHeader"></span></h6>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดประนอม :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($row->legisCompromise != NULL) ?number_format($row->legisCompromise->Total_Promise, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดชำระแล้ว :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($row->legisCompromise != NULL) ?number_format($Setpaid, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดคงเหลือ :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($row->legisCompromise != NULL) ?number_format($SetSum, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   </div>
                   <div id="list-page3-list" class="tab-pane {{ ($FlagTab == '3') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">บันทึกติดตาม <span class="textHeader">(Tracking Debters)</span></h6>

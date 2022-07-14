@@ -589,9 +589,9 @@ class LegislationController extends Controller
 
         // query ทรัพย์
         $dataAro = DB::connection('ibmi2')
-          ->table('SFHP.ARMAST')
-          ->join('SFHP.AROTHGAR','SFHP.ARMAST.CONTNO','=','SFHP.AROTHGAR.CONTNO')
-          ->where('SFHP.ARMAST.CONTNO','=', $SetStrConn)
+          ->table('ASFHP.ARMAST')
+          ->join('ASFHP.AROTHGAR','ASFHP.ARMAST.CONTNO','=','ASFHP.AROTHGAR.CONTNO')
+          ->where('ASFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
         
         $dataGT = DB::connection('ibmi2')

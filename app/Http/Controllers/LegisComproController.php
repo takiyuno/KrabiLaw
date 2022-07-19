@@ -565,7 +565,7 @@ class LegisComproController extends Controller
 
         $pdf = new PDF();
         $pdf::SetTitle('ใบเสร็จรับชำระค่างวด');
-        $pdf::AddPage('L', 'A4');
+        $pdf::AddPage('P', 'A4');
         $pdf::SetMargins(5, 5, 5, 5);
         $pdf::SetFont('thsarabun', '', 11, '', true);
         $pdf::SetAutoPageBreak(TRUE, 5);

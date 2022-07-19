@@ -582,7 +582,7 @@
                       @foreach($data5 as $key => $row)
                         @php
                           $SetDate = NULL;
-                          if($row->legiscourt != NULL) {
+                          if($row->legiscourt->sendoffice_court != NULL) {
                             $SetDate = @$row->legiscourt->sendoffice_court;
                           }else{
                             $SetDate = @$row->legiscourt->setoffice_court;

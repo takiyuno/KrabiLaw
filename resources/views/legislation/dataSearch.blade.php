@@ -46,7 +46,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">วันทำสัญญา :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{date('d-m-Y', strtotime($data->SDATE))}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{date('d-m-Y', strtotime(@$data->SDATE))}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,7 +54,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">ค้างงวด :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{$data->HLDNO}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{@$data->HLDNO}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดคงเหลือ :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{number_format($data->BALANC - $data->SMPAY, 2)}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{number_format($data->TOTPRC - $data->SMPAY, 2)}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะทรัพย์ :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{$SetRealty}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{@$SetRealty}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,7 +79,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">วันทำสัญญา :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{date('d-m-Y', strtotime($data->SDATE))}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{date('d-m-Y', strtotime(@$data->SDATE))}}"/>
                                                 </div>
                                             </div>
                                         </div>

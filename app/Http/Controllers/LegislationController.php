@@ -319,12 +319,13 @@ class LegislationController extends Controller
 
         if ($DB_type == 1) {       //ลูกหนี้เช่าซื้อ
           $data = DB::connection('ibmi2')
-              ->table('RSFHP.ARMAST')
-              ->join('RSFHP.INVTRAN','RSFHP.ARMAST.CONTNO','=','RSFHP.INVTRAN.CONTNO')
-              ->join('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')
-              ->where('RSFHP.ARMAST.CONTNO','=', $Contract)
-              ->first();
           
+              ->table('RSFHP.ARMAST')
+              //->leftJoin('RSFHP.INVTRAN','RSFHP.ARMAST.STRNO','=','RSFHP.INVTRAN.STRNO')     
+              ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
+              ->where('RSFHP.ARMAST.CONTNO','=',$Contract)
+              ->first();
+         // dd($data);
           $dataGT = DB::connection('ibmi2')
               ->table('RSFHP.VIEW_ARMGAR')
               ->where('RSFHP.VIEW_ARMGAR.CONTNO','=', $Contract)

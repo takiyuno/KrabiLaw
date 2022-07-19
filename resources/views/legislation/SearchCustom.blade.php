@@ -35,7 +35,7 @@
             <div class="card-tools d-inline float-right">
               <div class="input-group form-inline">
                 <label class="textSize" >เลขที่สัญญา : &nbsp;&nbsp;</label>
-                <input type="text" name="Contno" id="Contno" maxlength="12" class="form-control form-control-sm textSize Boxcolor" data-inputmask="&quot;mask&quot;:&quot;101-99999999&quot;" data-mask="" required/>
+                <input type="text" name="Contno" id="Contno" maxlength="12" class="form-control form-control-sm textSize Boxcolor"  data-mask="" required/>
                 <input type="text" name="Contno2" id="Contno2" maxlength="12" class="form-control form-control-sm textSize Boxcolor" data-mask="" required/>
                 <input type="text" name="Contno3" id="Contno3" maxlength="12" class="form-control form-control-sm textSize Boxcolor"  required/>
                 <span class="input-group-append">

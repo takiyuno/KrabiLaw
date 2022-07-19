@@ -117,10 +117,10 @@
                             <td class="text-left"> {{$row->Name_legis}} </td>
                             <td class="text-center"> 
                               @php
-                                if($row->NewpursueDate_asset != NULL) {
-                                  $SetDate = $row->NewpursueDate_asset;
+                                if($row->Legisasset->NewpursueDate_asset != NULL) {
+                                  $SetDate = $row->Legisasset->NewpursueDate_asset;
                                 }else{
-                                  $SetDate = $row->sequester_asset;
+                                  $SetDate = $row->Legisasset->sequester_asset;
                                 }
                               @endphp
 
@@ -131,8 +131,8 @@
                               @endif
                             </td>
                             <td class="text-center"> 
-                              @if($row->sendsequester_asset != NULL)
-                                {{$row->sendsequester_asset}}
+                              @if($row->Legisasset->sendsequester_asset != NULL)
+                                {{$row->Legisasset->sendsequester_asset}}
                               @else
                                 <i class="text-secondary">ไม่พบข้อมูล</i>
                               @endif
@@ -189,9 +189,9 @@
                             <td class="text-center"> 
                               @php
                                 if($row->NewpursueDate_asset != NULL) {
-                                  $SetDate = $row->NewpursueDate_asset;
+                                  $SetDate = $row->Legisasset->NewpursueDate_asset;
                                 }else{
-                                  $SetDate = $row->sequester_asset;
+                                  $SetDate = $row->Legisasset->sequester_asset;
                                 }
                               @endphp
 
@@ -202,8 +202,8 @@
                               @endif
                             </td>
                             <td class="text-center">
-                              @if($row->sendsequester_asset != NULL)
-                                {{$row->sendsequester_asset}}
+                              @if($row->Legisasset->sendsequester_asset != NULL)
+                                {{$row->Legisasset->sendsequester_asset}}
                               @else
                                 <i class="text-secondary">ไม่พบข้อมูล</i>
                               @endif

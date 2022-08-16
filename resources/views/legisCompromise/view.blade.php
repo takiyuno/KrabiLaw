@@ -67,7 +67,7 @@
                 <span class="text-right">
                   <i class="mr-3 text-muted"></i> 
                   @if($type == 2)
-                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4}}</font></b> ราย )
+                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $CountNullData}}</font></b> ราย )
                   @elseif($type == 3)
                     รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @endif
@@ -134,7 +134,7 @@
                         @endif
                     </div>
                   </a>
-                  @if($type == 3)
+                 
                     <a class="list-group-item hover-up" data-toggle="tab" href="#list-page5-list">
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
@@ -145,7 +145,8 @@
                             <span class="badge bg-danger float-right">{{$CountNullData}}</span>
                           @endif
                       </div>
-                    </a>
+                    </a> 
+                    @if($type == 3)
                     <a class="list-group-item hover-up" data-toggle="tab" href="#list-page6-list">
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
@@ -176,6 +177,7 @@
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
+                            <th class="text-center">วันที่ชำระล่าสุด</th>
                             <th class="text-center">วันดิวถัดไป</th>
                             <th class="text-center">สถานะ</th>
                             <th class="text-right" style="width: 30px"></th>
@@ -197,6 +199,7 @@
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
+                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
                               <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
@@ -246,6 +249,7 @@
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
+                            <th class="text-center">วันที่ชำระล่าสุด</th>
                             <th class="text-center">วันดิวถัดไป</th>
                             <th class="text-center">สถานะ</th>
                             <th class="text-right" style="width: 30px"></th>
@@ -267,6 +271,7 @@
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
+                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
                               <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
@@ -315,6 +320,7 @@
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
+                            <th class="text-center">วันที่ชำระล่าสุด</th>
                             <th class="text-center">วันดิวถัดไป</th>
                             <th class="text-center">สถานะ</th>
                             <th class="text-right" style="width: 30px"></th>
@@ -336,6 +342,7 @@
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
+                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
                               <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
@@ -385,6 +392,7 @@
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
+                            <th class="text-center">วันที่ชำระล่าสุด</th>
                             <th class="text-center">วันดิวถัดไป</th>
                             <th class="text-center">สถานะ</th>
                             <th class="text-right" style="width: 30px"></th>
@@ -406,6 +414,7 @@
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
+                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
                               <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
@@ -456,6 +465,7 @@
                             <th class="text-center">ค้างงวด</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
+                            <th class="text-center">วันที่ชำระล่าสุด</th>
                             <th class="text-center">วันดิวถัดไป</th>
                             <th class="text-center">สถานะ</th>
                             <th class="text-right" style="width: 30px"></th>
@@ -502,6 +512,7 @@
                               </td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
+                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
                               <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
@@ -541,7 +552,7 @@
                         </tbody>
                       </table>
                   </div>
-                  @if($type == 3)
+                  
                     <div id="list-page5-list" class="tab-pane fade">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ไม่มีข้อมูลประนอมหนี้  <span class="textHeader">(New Customers)</span></h6>
                         <table class="table table-hover SizeText font12" id="table55">
@@ -571,6 +582,7 @@
                           </tbody>
                         </table>
                     </div>
+                    @if($type == 3)
                     <div id="list-page6-list" class="tab-pane fade">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ปิดจบประนอม  <span class="textHeader">(End Compounded)</span></h6>
                         <table class="table table-hover SizeText font12" id="table66">

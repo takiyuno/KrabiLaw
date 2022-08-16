@@ -67,9 +67,9 @@
                 <span class="text-right">
                   <i class="mr-3 text-muted"></i> 
                   @if($type == 2)
-                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3}}</font></b> ราย )
+                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4}}</font></b> ราย )
                   @elseif($type == 3)
-                    รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
+                    รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @endif
                 </span>
                 <div class="author-card-profile">
@@ -120,6 +120,17 @@
                       </div>
                         @if($Count1_3 != 0)
                           <span class="badge bg-danger float-right">{{$Count1_3}}</span>
+                        @endif
+                    </div>
+                  </a>
+                  <a class="list-group-item hover-up" data-toggle="tab" href="#list-page6-list">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <i class="fas fa-user-tag mr-1 text-danger"></i>
+                        <div class="d-inline-block font-weight-medium text-uppercase">ขาดชำระ 3 งวดขึ้นไป</div>
+                      </div>
+                        @if($Count1_4 != 0)
+                          <span class="badge bg-danger float-right">{{$Count1_4}}</span>
                         @endif
                     </div>
                   </a>
@@ -393,6 +404,102 @@
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
+                              <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
+                              <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-right">
+                                @if(@$row->legisCompromise->FirstManey_1 != 0)
+                                  @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
+                                    <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
+                                      <i class="fas fa-hands-helping prem"></i>
+                                    </button>
+                                  @else
+                                    <button data-toggle="tooltip" type="button" class="btn btn-danger btn-sm hover-up" title="ขาดชำระเงินก้อนแรก">
+                                      <i class="fas fa-hand-holding-usd prem"></i>
+                                    </button>
+                                  @endif
+                                @elseif (@$row->legisCompromise->Payall_Promise != 0)
+                                  @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->Payall_Promise))
+                                    <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
+                                      <i class="fas fa-hands-helping prem"></i>
+                                    </button>
+                                  @else
+                                    <button data-toggle="tooltip" type="button" class="btn btn-danger btn-sm hover-up" title="ขาดชำระเงินก้อนแรก">
+                                      <i class="fas fa-hand-holding-usd prem"></i>
+                                    </button>
+                                  @endif
+                                @else
+                                  <button data-toggle="tooltip" type="button" class="btn btn-warning btn-sm hover-up" title="ยังไม่คีย์เงินก้อนแรก">
+                                    <i class="fas fa-comment-dollar prem"></i>
+                                  </button>
+                                @endif
+
+                              </td>
+                              <td class="text-right">
+                                <a href="{{ route('MasterCompro.edit',[$row->id]) }}?type={{$type}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
+                                  <i class="far fa-edit"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                  </div>
+                  <div id="list-page6-list" class="tab-pane fade">
+                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ขาดชำระ 3 งวดขึ้นไป  <span class="textHeader">(Missing More 3 Installment)</span></h6>
+                      <table class="table table-hover SizeText font12" id="table66">
+                        <thead>
+                          <tr>
+                            <th class="text-center">เลขที่สัญญา</th>
+                            <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">เริ่มประนอม</th>
+                            <th class="text-center">ค้างงวด</th>
+                            <th class="text-center">ยอดประนอม</th>
+                            <th class="text-center">ยอดคงเหลือ</th>
+                            <th class="text-center">วันดิวถัดไป</th>
+                            <th class="text-center">สถานะ</th>
+                            <th class="text-right" style="width: 30px"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($data1_4 as $key => $row)
+                            @php 
+                              if($row->legispayments != NULL){
+                                $SetDateDue = date_create($row->legispayments->DateDue_Payment);
+                                @$DateDuePayment = date_format($SetDateDue, 'd-m-Y'); 
+                              }else{
+                                @$DateDuePayment = NULL;
+                              }
+                            @endphp
+                            <tr>
+                              <td class="text-left"> {{$row->Contract_legis}}</td>
+                              <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                                @php
+                                  if ($row->legispayments != NULL){
+                                    if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
+                                      $DateDue = date_create($row->legispayments->DateDue_Payment);
+                                      $Date = date_create(date('Y-m-d'));
+                                      $Datediff = date_diff($DateDue,$Date);
+                                      
+                                      if($Datediff->y != NULL) {
+                                        $SetYear = ($Datediff->y * 12);
+                                      }else{
+                                        $SetYear = NULL;
+                                      }
+                                      $DueCus = ($SetYear + $Datediff->m);
+                                    }
+                                    else{
+                                      $DueCus = NULL;
+                                    }
+                                  }
+                                  else{
+                                    $DueCus = NULL;
+                                  }
+                                @endphp
+                                {{ $DueCus }} 
+                              </td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>

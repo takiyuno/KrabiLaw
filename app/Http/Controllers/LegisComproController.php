@@ -104,11 +104,7 @@ class LegisComproController extends Controller
                 return $q->whereBetween('Date_Promise',[$Fdate,$Tdate]);
               });
             })
-            // ->with(['legisCompromise' => function ($query) use($Fdate, $Tdate) { 
-            //   return $query->when(!empty($Fdate) && !empty($Tdate), function($q) use($Fdate, $Tdate) {
-            //     return $q->whereBetween('Date_Promise',[$Fdate,$Tdate]);
-            //   });
-            // }])
+           
             ->with('legisTrackings')
             ->get();
 
@@ -118,14 +114,16 @@ class LegisComproController extends Controller
           $Count1_1 = 0;
           $Count1_2 = 0;
           $Count1_3 = 0;
+          $Count1_4 = 0;
           $data1 = [];
           $data1_1 = [];
           $data1_2 = [];
           $data1_3 = [];
+          $data1_4 = []; 
 
           for($j= 0; $j < count($dataNormal); $j++){
 
-            if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
+            //if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
               if(@$dataNormal[$j]->legispayments->DateDue_Payment >= date('Y-m-d') or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1) {
                 $Count1 += 1;
                 $data1[] = $dataNormal[$j];
@@ -138,12 +136,15 @@ class LegisComproController extends Controller
               }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday4){
                 $Count1_3 += 1;
                 $data1_3[] = $dataNormal[$j];
+              }else{
+                $Count1_4 += 1;
+                $data1_4[] = $dataNormal[$j];
               }
-            }
+            //}
           }
           $type = $request->type;
           $Flag = $request->Flag;
-          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','dateSearch','Count1','Count1_1','Count1_2','Count1_3'));
+          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dateSearch','Count1','Count1_1','Count1_2','Count1_3','Count1_4'));
       }
       elseif ($request->type == 3) {   //ลูกหนี้ประนอมหนี้(เก่า)
         $lastday1 = date('Y-m-d', strtotime("-1 month"));
@@ -172,15 +173,17 @@ class LegisComproController extends Controller
         $Count1_1 = 0;
         $Count1_2 = 0;
         $Count1_3 = 0;
+        $Count1_4 = 0;
         $CountNullData = 0;
         $data1 = [];
         $data1_1 = [];
         $data1_2 = [];
         $data1_3 = [];
+        $data1_4 = [];
         $NullData = [];
 
         for($j= 0; $j < count($dataNormal); $j++){
-          if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
+         // if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
             if ($dataNormal[$j]->legispayments != NULL) {
               if($dataNormal[$j]->legispayments->DateDue_Payment >= date('Y-m-d') or $dataNormal[$j]->legispayments->DateDue_Payment > $lastday1) {
                 $Count1 += 1;
@@ -194,19 +197,22 @@ class LegisComproController extends Controller
               }elseif($dataNormal[$j]->legispayments->DateDue_Payment > $lastday3 or $dataNormal[$j]->legispayments->DateDue_Payment > $lastday4){
                 $Count1_3 += 1;
                 $data1_3[] = $dataNormal[$j];
+              }else{
+                $Count1_4 += 1;
+                $data1_4[] = $dataNormal[$j];
               }
             }
             else {
               $CountNullData += 1;
               $NullData[] = $dataNormal[$j];
             }
-          }
+          //}
         }
 
         $type = $request->type;
         $Flag = $request->Flag;
-        return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','dataEndcaseOld','NullData','dateSearch',
-                              'Count1','Count1_1','Count1_2','Count1_3','CountNullData'));
+        return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dataEndcaseOld','NullData','dateSearch',
+                              'Count1','Count1_1','Count1_2','Count1_3','Count1_4','CountNullData'));
       }
       elseif ($request->type == 4) {   //แจ้งเตือนขาดชำระลูกหนี้ 90 วัน
         $lastday = date('Y-m-d', strtotime("-4 month"));

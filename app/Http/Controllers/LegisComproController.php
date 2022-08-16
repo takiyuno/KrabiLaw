@@ -115,15 +115,17 @@ class LegisComproController extends Controller
           $Count1_2 = 0;
           $Count1_3 = 0;
           $Count1_4 = 0;
+          $CountNullData = 0;
           $data1 = [];
           $data1_1 = [];
           $data1_2 = [];
           $data1_3 = [];
           $data1_4 = []; 
-
+          $NullData = [];  
           for($j= 0; $j < count($dataNormal); $j++){
 
             //if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
+            if ($dataNormal[$j]->legispayments != NULL) {  
               if(@$dataNormal[$j]->legispayments->DateDue_Payment >= date('Y-m-d') or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1) {
                 $Count1 += 1;
                 $data1[] = $dataNormal[$j];
@@ -140,11 +142,15 @@ class LegisComproController extends Controller
                 $Count1_4 += 1;
                 $data1_4[] = $dataNormal[$j];
               }
+            } else {
+              $CountNullData += 1;
+              $NullData[] = $dataNormal[$j];
+            }
             //}
           }
           $type = $request->type;
           $Flag = $request->Flag;
-          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dateSearch','Count1','Count1_1','Count1_2','Count1_3','Count1_4'));
+          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dateSearch','NullData','Count1','Count1_1','Count1_2','Count1_3','Count1_4','CountNullData'));
       }
       elseif ($request->type == 3) {   //ลูกหนี้ประนอมหนี้(เก่า)
         $lastday1 = date('Y-m-d', strtotime("-1 month"));
@@ -231,12 +237,12 @@ class LegisComproController extends Controller
           $Count1 = 0;
           $data1 = [];
           for($i= 0; $i < count($dataNewPranom); $i++){
-            if (@$dataNewPranom[$i]->legisTrackings->Status_Track != 'Y') {
+            //if (@$dataNewPranom[$i]->legisTrackings->Status_Track != 'Y') {
               if($dataNewPranom[$i]->legispayments->DateDue_Payment <= $lastday){
                 $Count1 += 1;
                 $data1[] = $dataNewPranom[$i];
               }
-            }
+            //}
           }
 
         $dataOldPranom = Legislation::where('Flag', 'C')
@@ -250,14 +256,14 @@ class LegisComproController extends Controller
           $Count2 = 0;
           $data2 = [];
           for($j= 0; $j < count($dataOldPranom); $j++){
-            if (@$dataOldPranom[$j]->legisTrackings->Status_Track != 'Y') {
+            //if (@$dataOldPranom[$j]->legisTrackings->Status_Track != 'Y') {
               if($dataOldPranom[$j]->legispayments != NULL){
                 if($dataOldPranom[$j]->legispayments->DateDue_Payment <= $lastday){
                   $Count2 += 1;
                   $data2[] = $dataOldPranom[$j];
                 }
               }
-            }
+            //}
           }
 
           $type = $request->type;

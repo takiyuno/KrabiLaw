@@ -122,7 +122,7 @@
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Total_Promise, 2)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Sum_Promise, 2)}}</td>
-                              <td class="text-center"> {{ date('d-m-Y', strtotime(substr($row->legispayments->created_at,0,10))) }}</td>
+                              <td class="text-center"> {{formatDateThai(substr($row->legispayments->Date_Payment,0,10))}}</td>
                               <td class="text-center"> {{formatDateThai(@$row->legispayments->DateDue_Payment)}}</td>
                               <td class="text-right">
                                 @php
@@ -189,7 +189,7 @@
                               <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Total_Promise, 2)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Sum_Promise, 2)}}</td>
-                              <td class="text-center">{{formatDateThai(substr($row->legispayments->created_at,0,10))}}</td>
+                              <td class="text-center">{{formatDateThai(substr($row->legispayments->Date_Payment,0,10))}}</td>
                               <td class="text-center">{{formatDateThai(@$row->legispayments->DateDue_Payment)}}</td>
                               <td class="text-right">
                                 @php

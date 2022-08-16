@@ -125,7 +125,7 @@
                             <tr>
                               <td class="text-center"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{ date('d-m-Y', strtotime(substr($row->legispayments->created_at,0,10))) }} </td>
+                              <td class="text-center"> {{ date('d-m-Y', strtotime(substr(@$row->legispayments->created_at,0,10))) }} </td>
                               <td class="text-center"> 
                                 @php
                                   if ($row->legispayments != NULL){

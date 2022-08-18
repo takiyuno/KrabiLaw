@@ -1,7 +1,11 @@
 @extends('layouts.master')
 @section('title','ลูกหนี้เตรียมฟ้อง')
 @section('content')
-
+<style>
+       .dateHide {
+      display:none;
+    }
+  </style>
   <!-- Main content -->
   <section class="Profile-container" style="font-family: 'Prompt', sans-serif;">
     <div class="content-header">
@@ -81,7 +85,9 @@
                         @endphp
                         {{$row->Realperiod_legis}}
                       </td>
-                      <td class="text-center"> {{date('d-m-Y', strtotime($row->Date_legis))}}</td>
+                      <td class="text-center"> 
+                      <span class="dateHide">{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span> 
+                        {{date('d-m-Y', strtotime($row->Date_legis))}}</td>
                       <td class="text-center">
                         @if($row->Datesend_Flag == null)
                           @php

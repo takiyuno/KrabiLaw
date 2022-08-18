@@ -12,6 +12,9 @@
     .font11{
       font-size: 11px;
     }
+    .dateHide span{
+      display:none;
+    }
   </style>
 
   <!-- Main content -->
@@ -97,7 +100,7 @@
                 <div class="tab-content">
                   <div id="list-page1-list" class="tab-pane active">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font11">ประนอมหนี้ใหม่  <span class="textHeader">(New Compounding Debt)</span></h6>
-                      <table class="table table-hover SizeText font11" id="table11">
+                      <table class="table table-hover SizeText font11 dateHide" id="table11">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -119,11 +122,17 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>  
+                              {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Total_Promise, 2)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Sum_Promise, 2)}}</td>
-                              <td class="text-center"> {{formatDateThai(substr($row->legispayments->Date_Payment,0,10))}}</td>
-                              <td class="text-center"> {{formatDateThai(@$row->legispayments->DateDue_Payment)}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  
+                                {{formatDateThai(substr($row->legispayments->Date_Payment,0,10))}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>    
+                              {{formatDateThai(@$row->legispayments->DateDue_Payment)}}</td>
                               <td class="text-right">
                                 @php
                                   $SetPayAll = str_replace (",","",@$row->legisCompromise->FirstManey_1);
@@ -164,7 +173,7 @@
                   </div>
                   <div id="list-page2-list" class="tab-pane fade">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font11">ประนอมหนี้เก่า  <span class="textHeader">(Old Compounding Debt)</span></h6>
-                      <table class="table table-hover SizeText font11" id="table22">
+                      <table class="table table-hover SizeText font11 dateHide" id="table22">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -186,11 +195,17 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>     
+                              {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Total_Promise, 2)}}</td>
                               <td class="text-right"> {{number_format(@$row->legisCompromise->Sum_Promise, 2)}}</td>
-                              <td class="text-center">{{formatDateThai(substr($row->legispayments->Date_Payment,0,10))}}</td>
-                              <td class="text-center">{{formatDateThai(@$row->legispayments->DateDue_Payment)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>    
+                              {{formatDateThai(substr($row->legispayments->Date_Payment,0,10))}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>   
+                              {{formatDateThai(@$row->legispayments->DateDue_Payment)}}</td>
                               <td class="text-right">
                                 @php
                                   $SetPayAll = str_replace (",","",@$row->legisCompromise->FirstManey_1);

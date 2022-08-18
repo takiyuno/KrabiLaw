@@ -4,13 +4,16 @@
 
   @if(session()->has('success'))
     <script type="text/javascript">
-      toastr.success('{{ session()->get('success') }}')
+      toastr.success("{{ session()->get('success') }}")
     </script>
   @endif
 
   <style>
     .font12{
       font-size: 12px;
+    }
+    .dateHide span{
+      display:none;
     }
   </style>
 
@@ -169,7 +172,7 @@
                 <div class="tab-content">
                   <div id="list-page1-list" class="tab-pane active">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ชำระปกติ  <span class="textHeader">(Normal Payment)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table11">
+                      <table class="table table-hover SizeText font12 dateHide" id="table11">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -196,11 +199,18 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>
+                                 {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center" >
+                                <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>
+                                {{ formatDateThai(@$row->legispayments->Date_Payment)}}
+                              </td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>
+                                {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
@@ -241,7 +251,7 @@
                   </div>
                   <div id="list-page2-list" class="tab-pane fade">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ขาดชำระ 1 งวด  <span class="textHeader">(Missing 1 Installment)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table22">
+                      <table class="table table-hover SizeText font12 dateHide" id="table22">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -268,11 +278,15 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>  
+                              {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center"> <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>  
+                                 {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
@@ -312,7 +326,7 @@
                   </div>
                   <div id="list-page3-list" class="tab-pane fade">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ขาดชำระ 2 งวด  <span class="textHeader">(Missing 2 Installment)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table33">
+                      <table class="table table-hover SizeText font12 dateHide" id="table33">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -339,11 +353,15 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
+                              {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span> 
+                                {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
@@ -384,7 +402,7 @@
                   </div>
                   <div id="list-page4-list" class="tab-pane fade">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ขาดชำระ 3 งวด  <span class="textHeader">(Missing 3 Installment)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table44">
+                      <table class="table table-hover SizeText font12 dateHide" id="table44">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -411,11 +429,15 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>   
+                              {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>  
+                                {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
@@ -456,7 +478,7 @@
                   </div>
                   <div id="list-page6-list" class="tab-pane fade">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ขาดชำระ 3 งวดขึ้นไป  <span class="textHeader">(Missing More 3 Installment)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table66">
+                      <table class="table table-hover SizeText font12 dateHide" id="table66">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -484,7 +506,9 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
+                              {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-center"> 
                                 @php
                                   if ($row->legispayments != NULL){
@@ -512,8 +536,10 @@
                               </td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center"> {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>    
+                              {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
                               <td class="text-right">
                                 @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
@@ -555,7 +581,7 @@
                   
                     <div id="list-page5-list" class="tab-pane fade">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ไม่มีข้อมูลประนอมหนี้  <span class="textHeader">(New Customers)</span></h6>
-                        <table class="table table-hover SizeText font12" id="table55">
+                        <table class="table table-hover SizeText font12 dateHide" id="table55">
                           <thead>
                             <tr>
                               <th class="text-center">เลขที่สัญญา</th>
@@ -571,7 +597,9 @@
                                 <td class="text-left"> {{$row->Contract_legis}}</td>
                                 <td class="text-center"> {{$row->TypeCon_legis}}</td>
                                 <td class="text-left"> {{$row->Name_legis}} </td>
-                                <td class="text-center"> {{formatDateThai(@$row->Date_legis)}}</td>
+                                <td class="text-center"> 
+                                <span >{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span>    
+                                {{formatDateThai(@$row->Date_legis)}}</td>
                                 <td class="text-right">
                                   <a href="{{ route('MasterCompro.edit',[$row->id]) }}?type={{$type}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
                                     <i class="far fa-edit"></i>
@@ -585,7 +613,7 @@
                     @if($type == 3)
                     <div id="list-page6-list" class="tab-pane fade">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ปิดจบประนอม  <span class="textHeader">(End Compounded)</span></h6>
-                        <table class="table table-hover SizeText font12" id="table66">
+                        <table class="table table-hover SizeText font12 dateHide" id="table66">
                           <thead>
                             <tr>
                               <th class="text-center">ลำดับ</th>
@@ -613,6 +641,7 @@
                                   @endif
                                 </td>
                                 <td class="text-center">
+                                <span >{{ date_format(date_create(@$row->DateStatus_legis), 'Ymd')}} </span>
                                   <!-- <button class="btn btn-success btn-xs SizeText font12" title="ปิดจบงานแล้ว"> -->
                                     {{ ($row->DateStatus_legis != NULL ?formatDateThai($row->DateStatus_legis): '-') }}
                                     <!-- </button> -->

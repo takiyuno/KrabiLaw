@@ -7,7 +7,11 @@
       toastr.success('{{ session()->get('success') }}')
     </script>
   @endif
-
+  <style>
+       .dateHide {
+      display:none;
+    }
+  </style>
   <!-- Main content -->
   <section class="Profile-container" style="font-family: 'Prompt', sans-serif;">
     <div class="content">
@@ -204,11 +208,12 @@
             <div class="tab-content">
               <div id="list-page1-list" class="container tab-pane SizeText @if(isset($FlagTab)) {{($FlagTab == 1) ? 'active' : '' }} @else active @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้  <span class="textHeader">(ชั้นฟ้อง)</span></h6>
-                  <table class="table table-hover SizeText" id="table11">
+                  <table class="table table-hover SizeText " id="table11">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">วันที่นำข้อมูลเข้า</th>
                         <th class="text-center">วันฟ้อง</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -245,7 +250,14 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}}</td>
-                          <td class="text-center"> {{ ($row->legiscourt->fillingdate_court != NULL) ?formatDateThai($row->legiscourt->fillingdate_court): 'ไม่พบข้อมูล' }}</td>
+                          <td class="text-left"> 
+                          <span class="dateHide">{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span> 
+                            
+                            {{ ($row->Date_legis != NULL) ?formatDateThai($row->Date_legis): 'ไม่พบข้อมูล' }}
+                          </td>
+                          <td class="text-center"> 
+                          <span class="dateHide">{{ date_format(date_create(@$row->legiscourt->fillingdate_court), 'Ymd')}} </span>   
+                          {{ ($row->legiscourt->fillingdate_court != NULL) ?formatDateThai($row->legiscourt->fillingdate_court): 'ไม่พบข้อมูล' }}</td>
                           <td class="text-left"> 
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -284,7 +296,7 @@
               </div>
               <div id="list-page2-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 2) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(ชั้นสืบพยาน)</span></h6>
-                  <table class="table table-hover SizeText" id="table22">
+                  <table class="table table-hover SizeText " id="table22">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -331,7 +343,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
-                          <td class="text-center">{{($SetDate !== NULL) ? formatDateThai($SetDate) : '-' }}</td>
+                          <td class="text-center">
+                          <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
+                          {{($SetDate !== NULL) ? formatDateThai($SetDate) : '-' }}</td>
                           <td class="text-left"> 
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -374,7 +388,7 @@
               </div>
               <div id="list-page3-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 3) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(ชั้นส่งคำบังคับ)</span></h6>
-                  <table class="table table-hover SizeText" id="table33">
+                  <table class="table table-hover SizeText " id="table33">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -424,6 +438,7 @@
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">
                             @if($SetDate != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
                               {{ formatDateThai($SetDate) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
@@ -471,7 +486,7 @@
               </div>
               <div id="list-page4-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 4) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(ชั้นตรวจผลหมาย)</span></h6>
-                  <table class="table table-hover SizeText" id="table44">
+                  <table class="table table-hover SizeText " id="table44">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -521,6 +536,7 @@
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">
                             @if($SetDate != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
                               {{ formatDateThai($SetDate) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
@@ -568,7 +584,7 @@
               </div>
               <div id="list-page5-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 5) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(ชั้นตั้งเจ้าพนักงาน)</span></h6>
-                  <table class="table table-hover SizeText" id="table55">
+                  <table class="table table-hover SizeText " id="table55">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -618,6 +634,7 @@
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">                         
                             @if($SetDate != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
                               {{ formatDateThai($SetDate) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
@@ -665,7 +682,7 @@
               </div>
               <div id="list-page6-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 6) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้  <span class="textHeader">(ชั้นตรวจผลหมายตั้ง)</span></h6>
-                  <table class="table table-hover SizeText" id="table66">
+                  <table class="table table-hover SizeText " id="table66">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -715,6 +732,7 @@
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center"> 
                             @if($SetDate != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
                               {{ formatDateThai($SetDate) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
@@ -765,7 +783,7 @@
             <div class="tab-content">
               <div id="list-page1-list" class="container tab-pane SizeText @if(isset($FlagTab)) {{($FlagTab == 1) ? 'active' : '' }} @else active @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้  <span class="textHeader">(คัดหนังสือรับรองคดีถึงที่สุด)</span></h6>
-                  <table class="table table-hover SizeText" id="table11">
+                  <table class="table table-hover SizeText " id="table11">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -812,7 +830,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
-                          <td class="text-center"> {{ (@$row->legiscourtCase->dateCertificate_case != NULL) ?FormatDatethai(@$row->legiscourtCase->dateCertificate_case): 'ยังไม่ระบุวันที่' }}</td>
+                          <td class="text-center">
+                          <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->dateCertificate_case), 'Ymd')}} </span>   
+                          {{ (@$row->legiscourtCase->dateCertificate_case != NULL) ?FormatDatethai(@$row->legiscourtCase->dateCertificate_case): 'ยังไม่ระบุวันที่' }}</td>
                           <td class="text-left"> 
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -856,12 +876,13 @@
               </div>
               <div id="list-page2-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 2) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(สืบทรัพย์(บังคับคดี))</span></h6>
-                  <table class="table table-hover SizeText" id="table22">
+                  <table class="table table-hover SizeText " id="table22">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
                         <th class="text-center">วันที่สืบทรัพย์</th>
+                        <th class="text-center">สถานะทรัพย์</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
                       </tr>
@@ -910,7 +931,21 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
-                          <td class="text-center"> {{ ($SetDate != NULL) ?FormatDatethai($SetDate): 'ยังไม่ระบุวันที่' }} </td>
+                          <td class="text-center"> 
+                          <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span>    
+                          {{ ($SetDate != NULL) ?FormatDatethai($SetDate): 'ยังไม่ระบุวันที่' }} </td>
+                          <td class="text-center">
+                            @php
+                              if($row->Legisasset->propertied_asset=='Y'){
+                                $assetText = 'ลูกหนี้มีทรัพย์';
+                              }else if($row->Legisasset->propertied_asset=='N'){
+                                $assetText = 'ลูกหนี้ไม่มีทรัพย์';
+                              }else{
+                                $assetText = '';
+                              }
+                            @endphp  
+                            {{$assetText}}
+                          </td>
                           <td class="text-left">
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -958,7 +993,7 @@
               </div>
               <div id="list-page3-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 3) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(คัดโฉนด/ถ่ายภาพ/ประเมิณ)</span></h6>
-                  <table class="table table-hover SizeText" id="table33">
+                  <table class="table table-hover SizeText " id="table33">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -1011,7 +1046,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
-                          <td class="text-center"> {{ ($row->legiscourtCase->datepreparedoc_case != NULL) ?FormatDatethai($row->legiscourtCase->datepreparedoc_case): 'ยังไม่ระบุวันที่' }} </td>
+                          <td class="text-center"> 
+                          <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->datepreparedoc_case), 'Ymd')}} </span>    
+                          {{ ($row->legiscourtCase->datepreparedoc_case != NULL) ?FormatDatethai($row->legiscourtCase->datepreparedoc_case): 'ยังไม่ระบุวันที่' }} </td>
                           <td class="text-left">
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -1059,7 +1096,7 @@
               </div>
               <div id="list-page4-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 4) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(ตั้งเรื่องยึดทรัพย์)</span></h6>
-                  <table class="table table-hover SizeText" id="table44">
+                  <table class="table table-hover SizeText " id="table44">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -1112,7 +1149,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
-                          <td class="text-center"> {{($row->legiscourtCase->dateSequester_case != NULL) ?FormatDatethai($row->legiscourtCase->dateSequester_case): 'ยังไม่ระบุวันที่' }} </td>
+                          <td class="text-center"> 
+                          <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->dateSequester_case), 'Ymd')}} </span>   
+                          {{($row->legiscourtCase->dateSequester_case != NULL) ?FormatDatethai($row->legiscourtCase->dateSequester_case): 'ยังไม่ระบุวันที่' }} </td>
                           <td class="text-left">
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -1160,7 +1199,7 @@
               </div>
               <div id="list-page5-list" class="container tab-pane fade show SizeText @if(isset($FlagTab)) {{($FlagTab == 5) ? 'active' : '' }} @endif">
                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ลูกหนี้ <span class="textHeader">(ประกาศขายทอดตลาด)</span></h6>
-                  <table class="table table-hover SizeText" id="table55">
+                  <table class="table table-hover SizeText " id="table55">
                     <thead>
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
@@ -1213,7 +1252,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
-                          <td class="text-center">{{($row->legiscourtCase->datePublicsell_case != NULL) ?FormatDatethai($row->legiscourtCase->datePublicsell_case): 'ยังไม่ระบุวันที่' }}</td>
+                          <td class="text-center">
+                          <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->datePublicsell_case), 'Ymd')}} </span>   
+                          {{($row->legiscourtCase->datePublicsell_case != NULL) ?FormatDatethai($row->legiscourtCase->datePublicsell_case): 'ยังไม่ระบุวันที่' }}</td>
                           <td class="text-left">
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">

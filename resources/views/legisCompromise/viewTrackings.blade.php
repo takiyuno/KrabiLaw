@@ -4,13 +4,16 @@
 
   @if(session()->has('success'))
     <script type="text/javascript">
-      toastr.success('{{ session()->get('success') }}')
+      toastr.success("{{ session()->get('success') }}")
     </script>
   @endif
 
   <style>
     .font12{
       font-size: 12px;
+    }
+    .dateHide span{
+      display:none;
     }
   </style>
 
@@ -91,7 +94,7 @@
                 <div class="tab-content">
                   <div id="list-page1-list" class="container tab-pane active">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ประนอมหนี้ใหม่  <span class="textHeader">(New Compounding Debt)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table11">
+                      <table class="table table-hover SizeText font12 dateHide" id="table11">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -125,7 +128,9 @@
                             <tr>
                               <td class="text-center"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{formatDateThai(substr(@$row->legispayments->Date_Payment,0,10))}}</td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span> 
+                                {{!empty($row->legispayments->Date_Payment)?formatDateThai(substr(@$row->legispayments->Date_Payment,0,10)):''}}</td>
                               <td class="text-center"> 
                                 @php
                                   if ($row->legispayments != NULL){
@@ -152,7 +157,9 @@
                                 {{ $DueCus }} 
                               </td>
                               <td class="text-left" title="{{$row->legisTrackings->Detail_Track}}"> {{$row->legisTrackings->Subject_Track}} </td>
-                              <td class="text-center"> {{ ($row->legisTrackings->DateDue_Track != NULL) ?formatDateThai($row->legisTrackings->DateDue_Track) : '-' }} </td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legisTrackings->DateDue_Track), 'Ymd')}} </span> 
+                                {{ ($row->legisTrackings->DateDue_Track != NULL) ?formatDateThai($row->legisTrackings->DateDue_Track) : '-' }} </td>
                               <td class="text-center">
                                 @if($DateNew != NULL)
                                   <span class="btn-outline-warning btn-sm hover-up mr-1 prem">
@@ -178,7 +185,7 @@
                   </div>
                   <div id="list-page2-list" class="container tab-pane fade">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ประนอมหนี้เก่า  <span class="textHeader">(Old Compounding Debt)</span></h6>
-                      <table class="table table-hover SizeText font12" id="table22">
+                      <table class="table table-hover SizeText font12 dateHide" id="table22">
                         <thead>
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
@@ -213,7 +220,9 @@
                             <tr>
                               <td class="text-center"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-center"> {{ date('d-m-Y', strtotime(substr($row->legisTrackings->created_at,0,10))) }} </td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(substr(@$row->legisTrackings->created_at,0,10)), 'Ymd')}} </span>   
+                              {{ date('d-m-Y', strtotime(substr($row->legisTrackings->created_at,0,10))) }} </td>
                               <!-- <td class="text-center"> {{ date('d-m-Y', strtotime(substr($row->legispayments->created_at,0,10))) }} -->
                               <td class="text-center"> 
                                 @php
@@ -241,7 +250,9 @@
                                 {{ $DueCus }} 
                               </td>
                               <td class="text-center" title="{{$row->legisTrackings->Detail_Track}}"> {{$row->legisTrackings->Subject_Track}} </td>
-                              <td class="text-center"> {{ ($row->legisTrackings->DateDue_Track != NULL) ?formatDateThai($row->legisTrackings->DateDue_Track) : '-' }} </td>
+                              <td class="text-center">
+                              <span >{{ date_format(date_create(@$row->legisTrackings->DateDue_Track), 'Ymd')}} </span>  
+                              {{ ($row->legisTrackings->DateDue_Track != NULL) ?formatDateThai($row->legisTrackings->DateDue_Track) : '-' }} </td>
                               <td class="text-center"> 
                                 @if($DateNew != NULL)
                                   <span class="btn-outline-warning btn-sm hover-up mr-1 prem">

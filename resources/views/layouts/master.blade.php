@@ -133,10 +133,13 @@
 
       /* Styles for the content section */
      
+   
   </style>
   
   <script>
-    $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button);
+
+   
   </script>
 
 </head>

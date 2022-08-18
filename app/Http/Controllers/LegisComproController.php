@@ -93,9 +93,9 @@ class LegisComproController extends Controller
 
           $dataNormal = Legislation::where('Flag', 'Y')
             ->where('Status_legis', NULL)
-            ->Wherehas('legispayments',function ($query) {
-              return $query->where('Flag_Payment', 'Y');
-            })
+            // ->Wherehas('legispayments',function ($query) {
+            //   return $query->where('Flag_Payment', 'Y');
+            // })
             ->with(['legispayments' => function ($query) {
               return $query->where('Flag_Payment', 'Y');
             }])

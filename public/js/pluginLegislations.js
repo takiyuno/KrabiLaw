@@ -50,8 +50,26 @@
   setInterval(blinker, 1500);
 
 // -------- DataTable ------------
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+  "date-uk-pre": function ( a ) {
+      var ukDatea = a.split('/');
+      return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+  },
+  
+  "date-uk-asc": function ( a, b ) {
+      return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+  },
+  
+  "date-uk-desc": function ( a, b ) {
+      return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+  }
+  } );
   $(document).ready(function() {
+   
       $('#table').DataTable( {
+        columnDefs: [
+          { type: 'date-uk', targets: 0 }
+         ],
           "responsive": true,
           "autoWidth": false,
           "ordering": true,
@@ -59,6 +77,9 @@
           "order": [[ 0, "asc" ]]
       });
       $('#tableD').DataTable( {
+        columnDefs: [
+          { type: 'date-uk', targets: 0 }
+         ],
         "responsive": true,
         "autoWidth": false,
         "ordering": true,
@@ -66,6 +87,7 @@
         "order": [[ 0, "desc" ]]
       });
       $('#table1,#table2').DataTable( {
+      
         "searching" : true,
         "lengthChange" : false,
         "info" : false,
@@ -73,6 +95,10 @@
         "order": [[ 0, "asc" ]]
       });
       $('#table11,#table22,#table33,#table44,#table55,#table66').DataTable( {
+        columnDefs: [
+           { type: 'date-uk', targets: 0 }
+          ],
+    
         "responsive": true,
         "autoWidth": false,
         "ordering": true,
@@ -81,6 +107,9 @@
         "order": [[ 0, "asc" ]]
       });
       $('#table111,#table222').DataTable( {
+        columnDefs: [
+          { type: 'date-uk', targets: 0 }
+         ],
         "responsive": true,
         "autoWidth": false,
         "ordering": true,

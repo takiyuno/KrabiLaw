@@ -15,6 +15,9 @@
     .dateHide span{
       display:none;
     }
+    .dateHide2 p{
+      display:none;
+    }
   </style>
 
   <!-- Main content -->
@@ -142,7 +145,7 @@
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
                           <i class="fas fa-user-tag mr-1 text-muted"></i>
-                          <div class="d-inline-block font-weight-medium text-uppercase">ไม่มีข้อมูลประนอมหนี้</div>
+                          <div class="d-inline-block font-weight-medium text-uppercase">สถานะลูกหนี้ยังไม่มีการชำระ</div>
                         </div>
                           @if($CountNullData != 0)
                             <span class="badge bg-danger float-right">{{$CountNullData}}</span>
@@ -581,25 +584,77 @@
                   
                     <div id="list-page5-list" class="tab-pane fade">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ไม่มีข้อมูลประนอมหนี้  <span class="textHeader">(New Customers)</span></h6>
-                        <table class="table table-hover SizeText font12 dateHide" id="table55">
+                        <table class="table table-hover SizeText font12 dateHide2" id="table55">
                           <thead>
                             <tr>
                               <th class="text-center">เลขที่สัญญา</th>
                               <th class="text-center">ประเภทสัญญา</th>
                               <th class="text-center">ชื่อ-สกุล</th>
-                              <th class="text-center">นำเข้าระบบ</th>
+                              <th class="text-center">วันที่ประนอม</th>
+                              <th class="text-center">สถานะ</th>
                               <th class="text-right" style="width: 30px"></th>
                             </tr>
                           </thead>
                           <tbody>
                             @foreach($NullData as $key => $row)
+
+                                  @php
+                                  if(@$row->legisCompromise->Date_Promise!=NULL){
+                                    $SetDate = @$row->legisCompromise->Date_Promise; 
+                                    
+                                  }else{
+                                    $SetDate = NULL;
+                                  }                          
+                                  
+                                if($SetDate >= date('Y-m-d')) {
+                                  $DateDue = date_create($SetDate);
+                                  $NowDate = date_create(date('Y-m-d'));
+                                  $DateDiff = date_diff($NowDate,$DateDue);
+                                  if($DateDiff->d <= 7){
+                                    $Tag = 'Active';
+                                    $DateShow = $DateDiff->format("%a วัน");
+                                  }else{
+                                    $Tag = NULL;
+                                    $DateShow = 'รอเข้ามาชำระ';
+                                  }
+                                }else{
+                                  $Tag = 'Closest';
+                                  $DateShow = 'เลยกำหนดการ';
+                                }
+                                
+                              @endphp
                               <tr>
                                 <td class="text-left"> {{$row->Contract_legis}}</td>
                                 <td class="text-center"> {{$row->TypeCon_legis}}</td>
                                 <td class="text-left"> {{$row->Name_legis}} </td>
                                 <td class="text-center"> 
-                                <span >{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span>    
-                                {{formatDateThai(@$row->Date_legis)}}</td>
+                                  <p >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </p>    
+                                  {{formatDateThai(@$row->legisCompromise->Date_Promise)}}
+                                </td>
+                                    
+                                <td class="text-left"> 
+                                  @if($Tag == 'Active')
+                                    <span class="btn-outline-warning btn-sm hover-up mr-2">
+                                      <i class="far fa-calendar-alt prem"></i>
+                                    </span>
+                                    <span class="textSize text-warning">กำหนดงวดเเรก {{$DateShow}}</span>
+                                  @elseif($Tag == 'Closest')
+                                    @if($SetDate != NULL)
+                                      <span class="btn-outline-danger btn-sm hover-up mr-2">
+                                        <i class="fas fa-exclamation-circle prem"></i>
+                                      </span>
+                                      <span class="textSize text-red">{{$DateShow}}</span>
+                                    @else
+                                      <i class="text-secondary">ไม่พบข้อมูล</i>
+                                    @endif
+                                  @else
+                                    <span class="btn-outline-success btn-sm hover-up textSize mr-2">
+                                      <i class="fas fa-history prem"></i>
+                                    </span>
+                                    <span class="textSize text-green">{{$DateShow}}</span>
+                                  @endif
+                                </td>
+
                                 <td class="text-right">
                                   <a href="{{ route('MasterCompro.edit',[$row->id]) }}?type={{$type}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
                                     <i class="far fa-edit"></i>

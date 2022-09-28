@@ -55,7 +55,8 @@ class LegislationController extends Controller
       elseif (session()->has('FlagTab')) {
           $FlagTab = session('FlagTab');
       }
-
+      $pranom_list = Legiscompromise::select(DB::raw("legislation_id"))
+      ->where('Flag_Promise','=','Active')->get();
       if($request->type == 1) {        //Popup-รายชื่อลูกหนี้
         $type = $request->type;
         return view('legislation.SearchCustom',compact('type'));
@@ -91,34 +92,41 @@ class LegislationController extends Controller
         return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus'));
       }
       elseif ($request->type == 4) {   // View-ลูกหนี้ชั้นศาล
+       
         $data1 = Legislation::where('Status_legis', NULL)
               ->where('Flag', 'Y')
               ->where('Flag_Class', 'สถานะส่งฟ้อง')
+              //->whereNotIn('id',$pranom_list)
               ->get();
 
         $data2 = Legislation::where('Status_legis', NULL)
               ->where('Flag', 'Y')
               ->where('Flag_Class', 'สถานะส่งสืบพยาน')
+             // ->whereNotIn('id',$pranom_list)
               ->get();
 
         $data3 = Legislation::where('Status_legis', NULL)
               ->where('Flag', 'Y')
               ->where('Flag_Class', 'สถานะส่งคำบังคับ')
+              //->whereNotIn('id',$pranom_list)
               ->get();
 
         $data4 = Legislation::where('Status_legis', NULL)
               ->where('Flag', 'Y')
               ->where('Flag_Class', 'สถานะส่งตรวจผลหมาย')
+              //->whereNotIn('id',$pranom_list)
               ->get();
 
         $data5 = Legislation::where('Status_legis', NULL)
               ->where('Flag', 'Y')
               ->where('Flag_Class', 'สถานะส่งตั้งเจ้าพนักงาน')
+             // ->whereNotIn('id',$pranom_list)
               ->get();
 
         $data6 = Legislation::where('Status_legis', NULL)
               ->where('Flag', 'Y')
               ->where('Flag_Class', 'สถานะส่งตรวจผลหมายตั้ง')
+              //->whereNotIn('id',$pranom_list)
               ->get();
 
         // dump($data1,$data2);
@@ -128,26 +136,31 @@ class LegislationController extends Controller
       elseif ($request->type == 5) {   // View-ลูกหนี้ชั้นบังคับคดี
         $data1 = Legislation::where('Status_legis', NULL)
           ->where('Flag_Class','=', 'สถานะคัดหนังสือรับรองคดี')
+          //->whereNotIn('id',$pranom_list)
           ->with('legiscourtCase')
           ->get();
 
         $data2 = Legislation::where('Status_legis', NULL)
           ->where('Flag_Class','=', 'สถานะสืบทรัพย์บังคับคดี')
+          //->whereNotIn('id',$pranom_list)
           ->with('legiscourtCase')
           ->get();
 
         $data3 = Legislation::where('Status_legis', NULL)
           ->where('Flag_Class','=', 'สถานะคัดโฉนด')
+          //->whereNotIn('id',$pranom_list)
           ->with('legiscourtCase')
           ->get();
 
         $data4 = Legislation::where('Status_legis', NULL)
           ->where('Flag_Class','=', 'สถานะตั้งยึดทรัพย์')
+          //->whereNotIn('id',$pranom_list)
           ->with('legiscourtCase')
           ->get();
 
         $data5 = Legislation::where('Status_legis', NULL)
           ->where('Flag_Class','=', 'ประกาศขายทอดตลาด')
+         // ->whereNotIn('id',$pranom_list)
           ->with('legiscourtCase')
           ->get();
 

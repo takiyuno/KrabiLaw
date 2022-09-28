@@ -1404,7 +1404,7 @@ class LegisComproController extends Controller
                       $SetDuePrice,
                       ($value->legisCompromise->Sum_FirstPromise + $value->legisCompromise->Sum_DuePayPromise),
                       $value->legisCompromise->Sum_Promise,
-                      substr(@$value->legispayments->Date_Payment,0,10),
+                      @$value->legispayments->Date_Payment,
                       @$value->legispayments->Gold_Payment, //ยอดชำระงวดล่าสุด
                       @$dataPay, //ยอดชำระสะสมในเดือน
                       @$value->legispayments->Type_Payment,

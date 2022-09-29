@@ -487,6 +487,12 @@
                                   <input type="date" id="examidaycourt" name="examidaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->examiday_court) }}" oninput="CourtDate();" />
                                 </div>
                               </div>
+                              <div class="form-group row mb-0">
+                                <label class="col-sm-4 col-form-label text-right SizeText">ศาลสั่งจ่าย :</label>
+                                <div class="col-sm-8">
+                                  <input type="text" id="adjudicate_price" name="adjudicate_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
+                                </div>                             
+                          </div>
                             </div>
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
@@ -535,14 +541,7 @@
                                 <div class="col-sm-8">
                                   <input type="date" id="orderdaycourt" name="orderdaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->orderday_court) }}" readonly/>
                                 </div>
-                              </div>
-                              <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">ศาลสั่งจ่าย :</label>
-                                <div class="col-sm-8">
-                                  <input type="text" id="adjudicate_price" name="adjudicate_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
-                                </div>
-                             
-                          </div>
+                              </div>                              
                             </div>
 
                             <div class="col-md-4">

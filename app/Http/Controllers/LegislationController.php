@@ -1555,7 +1555,10 @@ class LegislationController extends Controller
     public function Report(Request $request)
     {
       if ($request->type == 1) {        //รายงาน ลูกหนี้เตรียมฟ้อง
-        // $status = 'ลูกหนี้เตรียมฟ้อง';
+        // $status = 'ลูกหนี้เตรียมฟ้อง';   
+        // $data = Legislation::where('Flag_Class','=', NULL)
+        //       ->where('Flag', 'Y')
+        //       ->get();
         // Excel::create('รายงานลูกหนี้เตรียมฟ้อง', function ($excel) use($data,$status) {
         //   $excel->sheet($status, function ($sheet) use($data,$status) {
         //       $sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
@@ -1566,15 +1569,17 @@ class LegislationController extends Controller
         //       $row = 3;
         //       $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ','งวด','วันที่รับงาน','สถานะ','วันที่ส่งงานทนาย','ผู้จัดเตรียม','หมายเหตุ'));
 
+           
+
         //       foreach ($data as $key => $value) {
         //         $sheet->row(++$row, array(
         //           $key+1,
         //           $value->Contract_legis,
         //           $value->Name_legis,
         //           $value->Phone_legis,
-        //           $SetStatus,
+        //          '',
         //           $value->Date_asset,
-        //           $SetTextAsset,
+        //           'ลูกหนี้เตรียมฟ้อง',
         //           $SetTextCompro,
         //           $value->DateStatus_legis,
         //           number_format($value->PriceStatus_legis, 2),

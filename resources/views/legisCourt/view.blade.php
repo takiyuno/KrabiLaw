@@ -43,6 +43,7 @@
                   <ul class="dropdown-menu" role="menu">
                     @if($type == 4)
                       <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{3}}">รายงาน ลูกหนี้ชั้นศาล</a></li>
+                      <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{6}}">รายงาน สรุปงานชั้นศาล</a></li>
                     @elseif($type == 5)
                       <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{4}}">รายงาน ลูกหนี้ชั้นบังคับคดี</a></li>
                     @endif

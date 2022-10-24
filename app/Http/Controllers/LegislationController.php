@@ -519,6 +519,10 @@ class LegislationController extends Controller
         $Note[4] = $request->get('Note4');
         $Note[5] = $request->get('Note5');
         $Note[6] = $request->get('Note6');
+
+        $Legiscourtcase = Legiscourtcase::where('legislation_id',$legis_id)->first();
+        $Legiscourtcase->datePublicsell_case = $datePublish[1];
+        $Legiscourtcase->update();
         
         $data = LegisPublishsell::where('legislation_id',$legis_id)->orderBy('id','desc')->first();
           if($data == NULL){
@@ -553,9 +557,7 @@ class LegislationController extends Controller
             }
           }
 
-        $Legiscourtcase = Legiscourtcase::where('legislation_id',$legis_id)->first();
-          $Legiscourtcase->datePublicsell_case = $datePublish[1];
-        $Legiscourtcase->update();
+        
 
         return redirect()->back()->with(['success' => 'บันทึกข้อมูลเรียบร้อยแล้ว']);
       }
@@ -1042,7 +1044,7 @@ class LegislationController extends Controller
           $user->Phone_legis = $request->get('phone');
           $user->Address_legis = $request->get('address');
           $user->TopPrice_legis = str_replace(",","",$request->get('TopPrice_legis'));
-          $user->Pay_legis = str_replace(",","",$request->get('Pay_legis'));
+          $user->Pay_legis = floatval($request->get('Pay_legis') == NULL ? 0 : str_replace(",","",$request->get('Pay_legis')));
           $user->Interest_legis = str_replace(",","",$request->get('Interest_legis'));
           $user->Period_legis = str_replace(",","",$request->get('Period_legis'));
           $user->Countperiod_legis = str_replace(",","",$request->get('Countperiod_legis'));
@@ -1078,10 +1080,10 @@ class LegislationController extends Controller
           $Legiscourt->law_court = $request->get('lawcourt');                  
           $Legiscourt->bnumber_court = $request->get('bnumbercourt');
           $Legiscourt->rnumber_court = $request->get('rnumbercourt');
-          $Legiscourt->capital_court = str_replace (",","",$request->get('capitalcourt'));
-          $Legiscourt->indictment_court = str_replace (",","",$request->get('indictmentcourt'));
-          $Legiscourt->pricelawyer_court = str_replace (",","",$request->get('pricelawyercourt'));
-          $Legiscourt->adjudicate_price = str_replace (",","",$request->get('adjudicate_price'));
+          $Legiscourt->capital_court = floatval($request->get('capitalcourt') == NULL ? 0 : str_replace (",","",$request->get('capitalcourt')));
+          $Legiscourt->indictment_court = floatval($request->get('indictmentcourt') == NULL ? 0 : str_replace (",","",$request->get('indictmentcourt')));
+          $Legiscourt->pricelawyer_court = floatval($request->get('pricelawyercourt') == NULL ? 0 : str_replace (",","",$request->get('pricelawyercourt')));
+          $Legiscourt->adjudicate_price = floatval($request->get('adjudicate_price') == NULL ? 0 :str_replace (",","",$request->get('adjudicate_price')));
           $Legiscourt->examiday_court = $request->get('examidaycourt');
           $Legiscourt->fuzzy_court = $request->get('fuzzycourt');
           $Legiscourt->examinote_court = $request->get('examinotecourt');
@@ -1700,7 +1702,7 @@ class LegislationController extends Controller
                 });
                 $row = 3;
                 $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
-                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
                     'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ'));
@@ -1774,7 +1776,12 @@ class LegislationController extends Controller
                   }else{
                     $SetPrice = 0;
                   }
-  
+                  //ยอดศาลสั่ง
+                  if(@$value->legiscourt->adjudicate_price != NULL){
+                    $SetPriceAdjud = @$value->legiscourt->adjudicate_price;
+                  }else{
+                    $SetPriceAdjud = 0;
+                  }
                   $sheet->row(++$row, array(
                     $key+1,
                     @$value->Contract_legis,
@@ -1785,15 +1792,17 @@ class LegislationController extends Controller
                     @$value->legiscourt->law_court,
                     @$value->legiscourt->bnumber_court,
                     @$value->legiscourt->rnumber_court,
-                    date('d-m-Y', strtotime(@$value->legiscourt->fillingdate_court)),
+                    @$value->legiscourt->fillingdate_court,
                     number_format(@$value->Sumperiod_legis, 2),
                     number_format(@$SetCourtPrice, 2),
                     number_format(@$SetPrice, 2),
-                    date('d-m-Y', strtotime($Setexamiday)),
-                    date('d-m-Y', strtotime($Setordersend)),
-                    date('d-m-Y', strtotime($Setchecksend)),
-                    date('d-m-Y', strtotime($Setsendoffice)),
-                    date('d-m-Y', strtotime($Setsendcheckresults)),
+                    number_format(@$SetPriceAdjud, 2),
+                    
+                    $Setexamiday,
+                    $Setordersend,
+                    $Setchecksend,
+                    $Setsendoffice,
+                    $Setsendcheckresults,
                     @$value->Date_asset,
                     $SetTextAsset,
                     $SetTextCompro,
@@ -1910,7 +1919,13 @@ class LegislationController extends Controller
               }
           });
         })->export('xlsx');
-      }
+      }elseif($request->type == 6){
+        $datefrom = "2022-01-01";
+        $dateto = "2022-10-31";
+  
+
+        return view('legisCourt.reportCourt', compact('datefrom','dateto'));
+    }
     }
 
     public function download(Request $request,$file)

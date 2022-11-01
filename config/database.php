@@ -59,12 +59,12 @@ return [
             'driver'               => 'db2_ibmi_odbc',
             'driverName'           => '{IBM DB2 ODBC DRIVER}',
              // General settings
-            'host'                 => '203.150.34.16',
+            'host'                 => '183.88.221.232',
             'protocol'             => 'TCPIP',
             'username'             => 'sfhp',
             'password'             => 'Soft@2K7',
             //Server settings
-            'database'             => 'DATASF',
+            'database'             => 'KB',
             'prefix'               => '',
             'schema'               => 'information_schema',
             'port'                 => '50000',

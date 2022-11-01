@@ -12,7 +12,7 @@
           </button>
         </h5>
       </div>
-      @if ($data->TypeCon_legis == '')
+      @if ($data->TypeCon_legis == 'P01')
         <form name="form" action="{{ route('MasterCompro.store') }}" method="post" enctype="multipart/form-data" id="quickForm">
           @csrf
           <div class="card-body SizeText">

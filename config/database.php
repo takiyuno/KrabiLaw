@@ -64,7 +64,7 @@ return [
             'username'             => 'sfhp',
             'password'             => 'Soft@2K7',
             //Server settings
-            'database'             => 'KB',
+            'database'             => 'DATASF',
             'prefix'               => '',
             'schema'               => 'information_schema',
             'port'                 => '50000',

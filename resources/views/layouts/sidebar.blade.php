@@ -130,6 +130,10 @@
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>ลูกหนี้ ชั้นเตรียมฟ้อง</p>
                 </a>
+                <a href="{{ route('MasterLegis.index') }}?type={{21}}" class="nav-link SizeText @if(isset($SetActive21)) {{($SetActive21 == true) ? 'active' : '' }} @endif">
+                  <i class="far fa-dot-circle nav-icon"></i>
+                  <p>ลูกหนี้ หลุดขายฝาก</p>
+                </a>
                 <a href="{{ route('MasterLegis.index') }}?type={{4}}" class="nav-link SizeText @if(isset($SetActive4)) {{($SetActive4 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>ลูกหนี้ ชั้นศาล</p>
@@ -138,19 +142,19 @@
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>ลูกหนี้ ชั้นบังคับคดี</p>
                 </a>
-                <!-- <a href="{{ route('MasterLegis.index') }}?type={{7}}" class="nav-link SizeText @if(isset($SetActive7)) {{($SetActive7 == true) ? 'active' : '' }} @endif">
+                {{-- <a href="{{ route('MasterLegis.index') }}?type={{7}}" class="nav-link SizeText @if(isset($SetActive7)) {{($SetActive7 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>รายการลูกหนี้ปิดจบ</p>
-                </a> -->
+                </a> 
                
-                <!-- <a href="{{ route('MasterLegis.index') }}?type={{20}}" class="nav-link SizeText @if(isset($SetActive20)) {{($SetActive20 == true) ? 'active' : '' }} @endif">
+                <a href="{{ route('MasterLegis.index') }}?type={{20}}" class="nav-link SizeText @if(isset($SetActive20)) {{($SetActive20 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>ระบบลูกหนี้กฎหมาย</p>
                 </a>
                 <a href="{{ route('MasterLegis.index') }}?type={{10}}" class="nav-link SizeText @if(isset($SetActive10)) {{($SetActive10 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>ระบบลูกหนี้ของกลาง</p>
-                </a> -->
+                </a> --}}
               </li>
             </ul>
           </li>
@@ -177,7 +181,7 @@
               <li class="nav-item">
                 <a href="{{ route('MasterCompro.index') }}?type={{3}}" class="nav-link SizeText @if(isset($SetCompro3)) {{($SetCompro3 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>
-                  <p>ลูกหนี้ประนอมเก่า</p>
+                  <p>ลูกหนี้ประนอมเก่า/หลุดขายฝาก</p>
                 </a>
               </li>
               <li class="nav-item">

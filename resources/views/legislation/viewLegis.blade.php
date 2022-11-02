@@ -116,9 +116,15 @@
                       <td class="text-left" title="{{ $row->Noteby_legis }}"> {{ str_limit($row->Noteby_legis,30) }} </td>
                       <td class="text-center">
                         @if($row->Flag_status == '1')
-                          <span class="btn-danger btn-sm hover-up textSize" title="เตรียมเอกสาร">
-                            <i class="fas fa-file-signature pr-1"></i> เตรียม
-                          </span>
+                          @if($row->legisCompromise != NULL)
+                            <span class="btn-warning btn-sm hover-up textSize" title="เตรียมเอกสาร">
+                              <i class="fas fa-hand-holding-usd prem"></i>
+                            </span>
+                          @else
+                            <span class="btn-danger btn-sm hover-up textSize" title="เตรียมเอกสาร">
+                              <i class="fas fa-file-signature pr-1"></i> เตรียม 
+                            </span>
+                          @endif
                         @else
                           <span class="btn-success btn-sm hover-up textSize" title="วันส่งทนาย {{date('d-m-Y', strtotime($row->Datesend_Flag))}}">
                             <i class="fas fa-user-check"></i> ส่งทนาย

@@ -350,7 +350,7 @@
                           <select name="TypeCus_Flag" class="form-control form-control-sm SizeText Boxcolor" required>
                             <option value="" selected>--- ประเภทลูกหนี้ ---</option>
                             <option value="Y" {{ ($data->Flag == 'Y') ? 'selected' : '' }}>1. ลูกหนี้งานฟ้อง</option>
-                            <option value="C" {{ ($data->Flag == 'C') ? 'selected' : '' }}>2. ลูกหนี้ประนอมหนี้เก่า</option>
+                            <option value="C" {{ ($data->Flag == 'C') ? 'selected' : '' }}>2. ลูกหนี้ประนอมหนี้/หลุดขายฝาก</option>
                           </select>
                         </div>
                       </div>

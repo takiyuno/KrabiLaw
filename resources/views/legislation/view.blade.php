@@ -68,7 +68,7 @@
               <li class="dropdown-divider"></li>
               <li><a target="_blank" class="dropdown-item" data-toggle="modal" data-target="#modal-3" data-link="{{ route('MasterCompro.show', 3) }}"> รายงาน ตรวจสอบการรับชำระ</a></li>
               <li class="dropdown-divider"></li>
-              <li><a target="_blank" class="dropdown-item" href="{{ route('LegisCompro.ReportCompro', 6) }}"> รายงาน ลูกหนี้ Non-Vat</a></li>
+              {{-- <li><a target="_blank" class="dropdown-item" href="{{ route('LegisCompro.ReportCompro', 6) }}"> รายงาน ลูกหนี้ Non-Vat</a></li> --}}
             </ul>
           </div>
         </div>

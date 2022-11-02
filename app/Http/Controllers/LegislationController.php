@@ -82,10 +82,12 @@ class LegislationController extends Controller
         if ($dateSearch != NULL) {
           $data = Legislation::where('Flag_status', $FlagStatus)
             ->whereBetween('Date_legis',[$Fdate,$Tdate])
+            ->where('Flag', 'Y')
             ->get();
         }
         else{
-          $data = Legislation::where('Flag_status', 1)->get();
+          $data = Legislation::where('Flag_status', 1)
+                  ->where('Flag', 'Y')->get();
         }
 
         $type = $request->type;
@@ -307,6 +309,25 @@ class LegislationController extends Controller
 
         $type = $request->type;
         return view('legislation.view', compact('type','data1','data2','data3','data4','data5','data6','data7','data8'));
+      }elseif($request->type == 21){
+        $FlagStatus = '';
+        if ($request->get('FlagStatus')){
+          $FlagStatus = $request->get('FlagStatus');
+        }
+
+        if ($dateSearch != NULL) {
+          $data = Legislation::where('Flag_status', $FlagStatus)
+            ->whereBetween('Date_legis',[$Fdate,$Tdate])
+            ->where('Flag', 'C')
+            ->get();
+        }
+        else{
+          $data = Legislation::where('Flag_status', 1)
+                  ->where('Flag', 'C')->get();
+        }
+
+        $type = $request->type;
+        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus'));
       }
     }
 
@@ -378,7 +399,7 @@ class LegislationController extends Controller
             $SetRealty = 'ไม่มีทรัพย์';
           }
         }
-        elseif ($DB_type == 3 ) {   //ลูกหนี้เงินกู้/ขายฝาก
+        elseif ($DB_type == 3 or $DB_type == 6) {   //ลูกหนี้เงินกู้/ขายฝาก
           $data = DB::connection('ibmi2')
               ->table('PSFHP.ARMAST')
               ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')
@@ -660,22 +681,22 @@ class LegislationController extends Controller
       //     ->where('LSFHP.ARHOLD.CONTNO', $SetStrConn)
       //     ->first();
       // }
-      // elseif ($request->type == 6) {    //ลูกหนี้ขายฝาก
-      //   $SetTypeDB = 'PSFHP';
-      //   $SetTypeConn = 'P01';
+        elseif ($request->type == 6) {    //ลูกหนี้ขายฝาก
+          $SetTypeDB = 'PSFHP';
+          $SetTypeConn = 'P01';
 
-      //   $data = DB::connection('ibmi2')
-      //     ->table('PSFHP.ARMAST')
-      //     ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')
-      //     ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
-      //     ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
-      //     ->first();
+          $data = DB::connection('ibmi2')
+            ->table('PSFHP.ARMAST')
+            ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')
+            ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+            ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
+            ->first();
 
-      //   $dataGT = DB::connection('ibmi2')
-      //     ->table('PSFHP.VIEW_ARMGAR')
-      //     ->where('PSFHP.VIEW_ARMGAR.CONTNO','=', $SetStrConn)
-      //     ->first();
-      // }
+          $dataGT = DB::connection('ibmi2')
+            ->table('PSFHP.VIEW_ARMGAR')
+            ->where('PSFHP.VIEW_ARMGAR.CONTNO','=', $SetStrConn)
+            ->first();
+        }
 
       //ประเภทลูกหนี้
       if ($request->TypeCus_Flag == 'Y') {        //ลูกหนี้เตรียมฟ้อง

@@ -22,7 +22,7 @@
                   <option value="" class="text-red" selected>--------- ฐานลูกหนี้ใหม่ ---------</option>
                   <option value="1">1. ลูกหนี้เช่าซื้อ (RSFHP)</option>
                   <option value="3">2. ลูกหนี้เงินกู้ (PSFHP)</option>
-                  <!-- <option value="6">3. ลูกหนี้ขายฝาก (PSFHP)</option> -->
+                  <option value="6">3. ลูกหนี้ขายฝาก (PSFHP)</option>
                   <option value="" class="text-red">--------- ฐานลูกหนี้เก่า -------</option>
                   <option value="2">1. ลูกหนี้เช่าซื้อเก่า (ASFHP)</option>
                   <!-- <option value="4">2. ลูกหนี้ขายฝากเก่า (LSFHP)</option>

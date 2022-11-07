@@ -117,7 +117,7 @@
                       <td class="text-center">
                         @if($row->Flag_status == '1')
                           @if($row->legisCompromise != NULL)
-                            <span class="btn-warning btn-sm hover-up textSize" title="เตรียมเอกสาร">
+                            <span class="btn-warning btn-sm hover-up textSize" title="ประนอม">
                               <i class="fas fa-hand-holding-usd prem"></i>
                             </span>
                           @else

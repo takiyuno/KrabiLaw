@@ -704,9 +704,9 @@ class LegislationController extends Controller
         $FlagAsset = true;
         $FlagCompro = false;
       }elseif ($request->TypeCus_Flag == 'C') {   //ประนอมหนี้
-        $SetFalg = 3;
+        $SetFalg = 1;
         $FlagAsset = false;
-        $FlagCompro = true;
+        $FlagCompro = false;
       }
 
       if ($request->type == 1 or $request->type == 2 or $request->type == 3) {

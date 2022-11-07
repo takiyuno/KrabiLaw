@@ -72,7 +72,7 @@
           $('#Contno').show(); 
           $('#Contno2,#Contno3').hide();
         }
-        else if(DB_type == 3){
+        else if(DB_type == 3 || DB_type == 6 ){
           $('#Contno2').show();
           $('#Contno,#Contno3').hide();
         }
@@ -86,10 +86,11 @@
 <script type="text/javascript">
   $(".button").click(function(ev){
       var DB_type = $('#DB_type').val();
+      console.log(DB_type);
       if(DB_type == 1 ){
         var Contno = $('#Contno').val();  //format (101-99999)
       }
-      else if(DB_type == 3){              //format (P99-99999999)
+      else if(DB_type == 3 || DB_type == 6){              //format (P99-99999999)
         var Contno = $('#Contno2').val();
       }
       else if(DB_type == 2){              //format ()

@@ -9,16 +9,26 @@
     <table border="0">
       <tbody>
         <tr>
-          <th width="80px"></th>
-          <th width="50px">ชื่อลูกค้า</th>
-          <th width="305px">{{@$ItemPay->PaymentTolegislation->Name_legis}}</th>
+          <th width="50px"></th>
+          <th width="355px">  
+            @if (@$ItemPay->PaymentTolegislation->TypeCon_legis == '101')
+             บริษัท ชูเกียรติลิสซิ่ง กระบี่ จำกัด
+          @else
+             บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด 
+          @endif</th>
+          {{-- <th width="305px"></th> --}}
           <th align="right" width="100px">พิมพ์ : {{date('d-m-Y')}} &nbsp;</th>
         </tr>
         <tr >
-          <th width="80px"></th>
-          <th width="50px">ที่อยู่</th>
-          <th width="305px">{{@$ItemPay->PaymentTolegislation->Address_legis}}</th>
+          <th width="50px"></th>
+          <th width="355px">ที่อยู่ 266 ม.2 ต.กระบี่น้อย อ.เมือง จ.กระบี่ 81000 </th>
           <th align="right" width="100px">เลขใบเสร็จ : {{ $ItemPay->Jobnumber_Payment }} &nbsp;</th>
+        </tr>
+        <tr>
+          <th width="50px"></th>
+          <th width="305px">           
+            เบอร์โทร 075-650919 แฟกซ์ 075-650683         
+          </th>
         </tr>
       </tbody>
     </table>
@@ -40,26 +50,18 @@
         </tr>
         <tr>
           <th width="350px">
-            @if (@$ItemPay->PaymentTolegislation->TypeCon_legis == '101')
-              ที่อยู่ บริษัท ชูเกียรติลิสซิ่ง กระบี่ จำกัด
-            @else
-              ที่อยู่ บริษัท ชูเกียรติ พร๊อมเพอร์ตี้ จำกัด 
-            @endif
+            <b>ส่งที่&nbsp;&nbsp;&nbsp; {{@$ItemPay->PaymentTolegislation->Name_legis}}</b>
           </th>
           <th width="200px" align="right"></th>
         </tr>
         <tr >
           <th width="305px">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 266 ม.2 ต.กระบี่น้อย อ.เมือง จ.กระบี่ 81000 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>{{@$ItemPay->PaymentTolegislation->Address_legis}}</b>
           </th>
         </tr>
         <tr>
           <th width="305px">
-            @if (@$ItemPay->PaymentTolegislation->TypeCon_legis == '101')
-            เบอร์โทร 075-650919 แฟกซ์ 075-650683
-            @else
-            เบอร์โทร 075-650919 แฟกซ์ 075-650683
-            @endif
+           &nbsp;&nbsp;&nbsp;&nbsp; <b>เบอร์โทร &nbsp;{{@$ItemPay->PaymentTolegislation->Phone_legis}}</b>
           </th>
         </tr>
         <tr style="line-height: 150%;">
@@ -98,7 +100,7 @@
             @php
               $SetPrice = ($ItemPay->Gold_Payment / 1.07);
             @endphp
-            {{number_format($SetPrice, 2)}}
+            {{number_format($ItemPay->Gold_Payment, 2)}}
           </th>
         </tr>
         <tr>
@@ -116,10 +118,10 @@
             {{number_format(@$SetPaydue, 2)}}
           </th>
           <th width="60px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid; background-color: #FBE4D5">
-            vat
+            {{-- vat --}}
           </th>
           <th width="185px" style="border-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-style: solid">
-            7%
+            {{-- 7% --}}
           </th>
         </tr>
         <tr>
@@ -135,7 +137,7 @@
             @php
               $SetVat = ($ItemPay->Gold_Payment * 7) / 107;
             @endphp
-            {{number_format($SetVat, 2)}}
+            {{-- {{number_format($SetVat, 2)}} --}}
           </th>
         </tr>
         <tr>

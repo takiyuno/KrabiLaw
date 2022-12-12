@@ -603,13 +603,17 @@ class LegisComproController extends Controller
 
         $data = Legislation::where('id',$id)
           ->with('legisCompromise')
+          ->with(['legisCompromise' => function ($query) {
+            return $query->where('Flag_Promise','<>','InActive');
+          }])
           ->with(['legispayments' => function ($query) {
             return $query->where('Flag_Payment', 'Y');
           }])
           ->with('legisTrackings')
           ->first();
 
-        $dataPay = legispayment::where('legislation_id',$id)->get();
+        $dataPay = legispayment::where('legislation_id',$id)
+                    ->where('Count_Promis',NULL)->get();
         $dataTrack = LegisTrackings::where('legislation_id',$id)->get();
         
         $type = $request->type;

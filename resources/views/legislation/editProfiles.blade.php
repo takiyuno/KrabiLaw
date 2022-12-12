@@ -182,6 +182,7 @@
           <div class="col-lg-3">
             <div class="box-shadow">
               <div class="author-card pb-3 pt-3">
+                @if(auth()->user()->position =='Admin')
                 <div class="author-card-cover" style="background-image: url({{ asset('dist/img/bg1.jpg') }})">
                   @php
                     if ($data->Flag_status == 2) {
@@ -200,6 +201,7 @@
                     </a>
                   @endif
                 </div>
+                @endif
                 <div class="author-card-profile">
                    <div class="author-card-avatar"><img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="Daniel Adams">
                 </div>

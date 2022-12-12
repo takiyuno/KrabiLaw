@@ -400,7 +400,8 @@ class LegisComproController extends Controller
     public function store(Request $request)
     {
       if ($request->type == 1) {    //create and update LegisCompro
-        $dataCompro = Legiscompromise::where('legislation_id',$request->id)->first();
+        $dataCompro = Legiscompromise::where('legislation_id',$request->id)
+                                        ->where('Flag_Promise','<>','Active')->first();
         if ($dataCompro == NULL) {
           $LegisCompro = new Legiscompromise([
             'legislation_id' => $request->id,

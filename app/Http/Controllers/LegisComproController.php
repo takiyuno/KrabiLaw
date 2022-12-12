@@ -401,7 +401,7 @@ class LegisComproController extends Controller
     {
       if ($request->type == 1) {    //create and update LegisCompro
         $dataCompro = Legiscompromise::where('legislation_id',$request->id)
-                                        ->where('Flag_Promise','<>','Active')->first();
+                                        ->where('Flag_Promise','=','Active')->first();
         if ($dataCompro == NULL) {
           $LegisCompro = new Legiscompromise([
             'legislation_id' => $request->id,
@@ -603,7 +603,6 @@ class LegisComproController extends Controller
         }
 
         $data = Legislation::where('id',$id)
-          ->with('legisCompromise')
           ->with(['legisCompromise' => function ($query) {
             return $query->where('Flag_Promise','<>','InActive');
           }])
@@ -695,7 +694,8 @@ class LegisComproController extends Controller
         $LegisPay->save();
 
         //Update Flag LegisCompro
-        $LegisCompro = Legiscompromise::where('legislation_id',$id)->first();
+        $LegisCompro = Legiscompromise::where('legislation_id',$id)
+                                        ->where('Flag_Promise','Active')->first();
           if ($request->TypePayment == "เงินก้อนแรก(เงินสด)" or $request->TypePayment == "เงินก้อนแรก(เงินโอน)") {
             $LegisCompro->Sum_FirstPromise += (str_replace (",","",$request->Cash));
           }else {

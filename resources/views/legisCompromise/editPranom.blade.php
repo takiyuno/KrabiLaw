@@ -275,7 +275,7 @@
                   </div>
                   <div id="list-page2-list" class="tab-pane {{ ($FlagTab == '2') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
-                      <table class="table table-hover SizeText-1 table-sm" id="table1">
+                      <table class="table table-hover SizeText-1 table-sm table1" id="">
                         <thead>
                           <tr>
                             <th class="text-center" style="width: 20px">No.</th>
@@ -793,7 +793,7 @@
                   </div>
                   <div id="list-page2-list" class="tab-pane {{ ($FlagTab == '2') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
-                      <table class="table table-hover SizeText-1 table-sm" id="table1">
+                      <table class="table table-hover SizeText-1 table-sm table1" id="">
                         <thead>
                           <tr>
                             <th class="text-center" style="width: 20px">No.</th>
@@ -1009,6 +1009,19 @@
 
       $('#GetNote').val(SetNotePromise);
     });
-
+    $(function () {
+    $('.table1,.table2').DataTable( {
+      
+      "searching" : true,
+      "lengthChange" : true,
+      "info" : false,
+      "pageLength": 6,
+      "order": [[ 0, "asc" ]],
+      "dom": 'Blfrtip',
+      "buttons": [
+        'excel', 'print'
+      ]
+    });
+  });
   </script>
 @endsection

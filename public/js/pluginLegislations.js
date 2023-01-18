@@ -92,7 +92,11 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         "lengthChange" : false,
         "info" : false,
         "pageLength": 6,
-        "order": [[ 0, "asc" ]]
+        "order": [[ 0, "asc" ]],
+        "dom": 'Blfrtip',
+        "buttons": [
+          'excel', 'print'
+        ]
       });
       $('#table11,#table22,#table33,#table44,#table55,#table66').DataTable( {
         columnDefs: [

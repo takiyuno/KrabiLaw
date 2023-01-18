@@ -704,14 +704,14 @@ class LegisComproController extends Controller
 
           // เช็คส่วนลด
           if ($request->Discount != NULL) {
-            $LegisCompro->Discount_Promise = $request->Discount;
+            $LegisCompro->Discount_Promise = (str_replace (",","",$request->Discount));
           }
           // เช็คยอดคงเหลือ
           if ($LegisCompro->ComproTolegislation->TypeCon_legis == 'P01') {
             $LegisCompro->Sum_Promise += (str_replace (",","",$request->Cash));
           }
           else {
-            $Setpaid = ($LegisCompro->Sum_FirstPromise + $LegisCompro->Sum_DuePayPromise + $request->Discount);
+            $Setpaid = ($LegisCompro->Sum_FirstPromise + $LegisCompro->Sum_DuePayPromise + (str_replace (",","",$request->Discount))+(str_replace (",","",$request->Cash)));
             $LegisCompro->Sum_Promise = ($LegisCompro->Total_Promise - $Setpaid);
 
             // เช็คปิดบัญชี
@@ -1405,7 +1405,7 @@ class LegisComproController extends Controller
                       $value->legisCompromise->Total_Promise,
                       $SetFirst,
                       $SetFirstMoney,
-                      $value->legisCompromise->Due_Promise,
+                      $value->legisCompromise->Period_1,
                       $SetDuePrice,
                       ($value->legisCompromise->Sum_FirstPromise + $value->legisCompromise->Sum_DuePayPromise),
                       $value->legisCompromise->Sum_Promise,

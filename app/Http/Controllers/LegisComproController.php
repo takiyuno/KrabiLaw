@@ -711,8 +711,8 @@ class LegisComproController extends Controller
             $LegisCompro->Sum_Promise += (str_replace (",","",$request->Cash));
           }
           else {
-            $Setpaid = ($LegisCompro->Sum_FirstPromise + $LegisCompro->Sum_DuePayPromise + (str_replace (",","",$request->Discount))+(str_replace (",","",$request->Cash)));
-            $LegisCompro->Sum_Promise = ($LegisCompro->Total_Promise - $Setpaid);
+            $Setpaid = (floatval(str_replace (",","",$LegisCompro->Sum_FirstPromise)) + floatval(str_replace (",","",$LegisCompro->Sum_DuePayPromise)) + floatval(str_replace (",","",$request->Discount))+floatval(str_replace (",","",$request->Cash)));
+            $LegisCompro->Sum_Promise = (floatval($LegisCompro->Total_Promise) - $Setpaid);
 
             // เช็คปิดบัญชี
             if ($Setpaid >= $LegisCompro->Total_Promise) {

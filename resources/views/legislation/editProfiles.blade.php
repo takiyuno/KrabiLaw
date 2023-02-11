@@ -568,6 +568,22 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">วันที่หยุด :</label>
+                        <div class="col-sm-8">
+                          <input type="date" name="dateStopRev" value="{{ @$data->dateStopRev }}" class="form-control form-control-sm SizeText" {{@$data->dateStopRev!=NULL?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">วันที่ตัดหนี้ 0 :</label>
+                        <div class="col-sm-8">
+                          <input type="date" name="dateCutOff" value="{{ @$data->dateCutOff }}" class="form-control form-control-sm SizeText" {{@$data->dateCutOff!=NULL?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">เอกสาร <span class="textHeader">(Documents)</span></h6>
                   <div class="row">
@@ -598,6 +614,7 @@
                       </span>
                     </div>
                   </div>
+                  
               </div>
             </div>
           </div>

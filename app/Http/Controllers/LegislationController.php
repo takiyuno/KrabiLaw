@@ -1078,6 +1078,8 @@ class LegislationController extends Controller
           $user->Acceptbuyerandsup_list = $request->get('Acceptbuyerandsuplist');     //ใบตอบรับผู้ซื้อ - ผู้ค้ำ
           $user->Notice_list = $request->get('Noticelist');                           //หนังสือโนติสผู้ซื้อ - ผู้ค้ำ
           $user->AcceptTwoNotice_list = $request->get('AcceptTwoNoticelist');         //ใบตอบรับโนติสผู้ซื้อ - ผู้ค้ำ
+          $user->dateStopRev = $request->get('dateStopRev');         //หยุดรับรู้รายได้
+          $user->dateCutOff = $request->get('dateCutOff');         //ตัดหนี้ 0
 
           if ($request->get('TypeCus_Flag') == 'C') {
             $user->Flag = $request->get('TypeCus_Flag');

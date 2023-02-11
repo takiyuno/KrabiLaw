@@ -13,7 +13,7 @@ class Legislation extends Model
                         'Category_legis','DateDue_legis','TopPrice_legis','Pay_legis','DateSue_legis','DateVAT_legis',
                         'NameGT_legis','IdcardGT_legis','AddressGT_legis','Realty_legis',
                         'Period_legis','Countperiod_legis','Interest_legis','Beforeperiod_legis','Beforemoey_legis','Remainperiod_legis','Staleperiod_legis','Realperiod_legis','Sumperiod_legis',
-                        'Note','Flag',
+                        'Note','Flag','dateStopRev','dateCutOff',
                         'Status_legis','UserStatus_legis','DateStatus_legis','PriceStatus_legis','txtStatus_legis','Discount_legis','Paidamount_legis','CostPrice_legis','DateUpState_legis',
                         'Flag_Class','Flag_status','Datesend_Flag','Noteby_legis','UserSend1_legis','UserSend2_legis','UseClear_Legiscom','DateClear_Legiscom','CountClear_Legiscom',
                         'Terminatebuyer_list','Terminatesupport_list','Acceptbuyerandsup_list','Twodue_list','AcceptTwodue_list',

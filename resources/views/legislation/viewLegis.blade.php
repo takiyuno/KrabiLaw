@@ -44,6 +44,8 @@
                     <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{1}}">รายงาน ลูกหนี้เตรียมฟ้อง</a></li>
                     <li class="dropdown-divider"></li>
                     <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{2}}">รายงาน ลูกหนี้ Non-Vat</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-item textSize-13" data-toggle="modal" data-target="#modal-lg" data-link="{{ route('MasterLegis.create') }}?type={{2}}&FlagTab={{6}}">รายงาน ลูกหนี้ทั้งหมด</a></li>
                   </ul>
                 </div>
               </div>
@@ -155,4 +157,28 @@
       <a id="button"></a>
     </div>
   </section>
+
+  <div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>One fine body…</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  //*************** Modal *************//
+  $(function () {
+        $("#modal-lg").on("show.bs.modal", function (e) {
+            var link = $(e.relatedTarget).data("link");
+            $("#modal-lg .modal-body").load(link, function(){
+            });
+        });
+    });
+
+  </script>
 @endsection

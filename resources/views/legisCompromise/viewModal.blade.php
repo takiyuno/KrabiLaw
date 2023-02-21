@@ -319,7 +319,7 @@
                     <option value="เงินก้อนแรก(เงินโอน)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T02. เงินก้อนแรก(เงินโอน)</option>
                     <option value="ชำระเงินสด" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
                     <option value="ชำระผ่านโอน" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
-                    <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option>
+                    {{-- <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option> --}}
                   </select>
                 </div>
               </div>
@@ -329,6 +329,19 @@
                 <label class="col-sm-4 col-form-label text-right">ยอดรับชำระ : </label>
                 <div class="col-sm-8">
                   <input type="text" name="Cash" id="Cash" class="form-control form-control-sm SizeText Boxcolor" maxlength="9" placeholder="0.00" readonly required/>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row mb-0">
+                <label class="col-sm-4 col-form-label text-right">โอนเข้าบัญชี : </label>
+                <div class="col-sm-8">
+                  <select id="BankIn" name="BankIn" class="form-control form-control-sm SizeText Boxcolor" disabled >
+                    <option value="SV" >SV</option>
+                    <option value="กรุงศรี 5100-5" >กรุงศรี 5100-5</option>
+                    <option value="กสิกร 2479-9">กสิกร 2479-9</option>
+                    <option value="กรุงไทย 0134-6">กรุงไทย 0124-9</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -413,6 +426,16 @@
         $('#Discount').val(addCommas(Discount));
         $('#DateDue').val(DateDue);
       });
+      $('#TypePayment').on('change',function(){
+      var payType= $('#TypePayment').val();
+      if(payType=="เงินก้อนแรก(เงินโอน)" || payType=="ชำระผ่านโอน" ){
+          $("#BankIn").removeAttr('disabled'); 
+          $("#BankIn").attr("required", "true");
+      }else{
+        $("#BankIn").attr('disabled','disabled');
+        $("#BankIn").removeAttr("required");
+      }
+    });
     </script>
   </section>
 @elseif($type == 6) {{-- Modal Trackings --}}
@@ -685,6 +708,20 @@
             </div>
             <div class="col-6">
               <div class="form-group row mb-0">
+                <label class="col-sm-4 col-form-label text-right">โอนเข้าบัญชี : </label>
+                <div class="col-sm-8">
+                  <select id="BankIn" name="BankIn" class="form-control form-control-sm SizeText Boxcolor">
+                    <option value="" selected>--- ประเภทชำระ ---</option>
+                    <option value="SV" {{ ($data->BankIn == 'SV') ? 'selected' : '' }}>SV</option>
+                    <option value="กรุงศรี 5100-5" {{ ($data->BankIn == 'กรุงศรี 5100-5') ? 'selected' : '' }}>กรุงศรี 5100-5</option>
+                    <option value="กสิกร 2479-9" {{ ($data->BankIn == 'กสิกร 2479-9') ? 'selected' : '' }}>กสิกร 2479-9</option>
+                    <option value="กรุงไทย 0134-6" {{ ($data->BankIn == 'กรุงไทย 0124-9') ? 'selected' : '' }}>กรุงไทย 0124-9</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row mb-0">
                 <label class="col-sm-4 col-form-label text-right">ส่วนลด : </label>
                 <div class="col-sm-8">
                   <input type="text" name="Discount" id="Discount" value="{{ (@$data->Discount_Payment != NULL) ?number_format(@$data->Discount_Payment,0) : '' }}" class="form-control form-control-sm SizeText Boxcolor" maxlength="9" placeholder="0.00"/>
@@ -772,6 +809,15 @@
       $('#Cash').val(addCommas(Cash));
       $('#Discount').val(addCommas(Discount));
       $('#DateDue').val(DateDue);
+    });
+   
+    $('#TypePayment').on('change',function(){
+      var payType= $('#TypePayment').val();
+      if(payType=="เงินก้อนแรก(เงินโอน)" || payType=="ชำระผ่านโอน" ){
+          $("#BankIn").removeAttr('disabled'); 
+      }else{
+        $("#BankIn").attr('disabled','disabled');
+      }
     });
   </script>
 @endif

@@ -684,6 +684,7 @@ class LegisComproController extends Controller
           'Gold_Payment' => str_replace (",","",$request->Cash),
           'Discount_Payment' => str_replace (",","",$request->Discount),
           'Type_Payment' =>  $request->TypePayment,
+          'BankIn' =>  $request->BankIn,
           'Adduser_Payment' =>  $request->AdduserPayment,
           'Note_Payment' =>  $request->NotePayment,
           'Flag_Payment' =>  'Y',
@@ -828,6 +829,7 @@ class LegisComproController extends Controller
           $ItemPay->Gold_Payment = str_replace (",","",$request->Cash);
           $ItemPay->Discount_Payment = str_replace (",","",$request->Discount);
           $ItemPay->Type_Payment = $request->TypePayment;
+          $ItemPay->BankIn = $request->BankIn;
           $ItemPay->Note_Payment = $request->NotePayment;
         $ItemPay->update();
 

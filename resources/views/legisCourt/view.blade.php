@@ -43,10 +43,11 @@
                   <ul class="dropdown-menu" role="menu">
                     @if($type == 4)
                       <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{3}}">รายงาน ลูกหนี้ชั้นศาล</a></li>
-                      <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{6}}">รายงาน สรุปงานชั้นศาล</a></li>
+                      <li><a class="dropdown-item textSize-13" data-toggle="modal" data-target="#modal-lg" data-link="{{ route('MasterLegis.create') }}?type={{2}}&FlagTab={{6}}">รายงาน ลูกหนี้ทั้งหมด</a></li>
                     @elseif($type == 5)
                       <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{4}}">รายงาน ลูกหนี้ชั้นบังคับคดี</a></li>
                     @endif
+                    
                   </ul>
                 </div>
               </div>
@@ -1316,4 +1317,28 @@
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>One fine body…</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  //*************** Modal *************//
+  $(function () {
+        $("#modal-lg").on("show.bs.modal", function (e) {
+            var link = $(e.relatedTarget).data("link");
+            $("#modal-lg .modal-body").load(link, function(){
+            });
+        });
+    });
+
+  </script>
 @endsection

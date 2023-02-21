@@ -89,42 +89,42 @@ $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((2),($row+12),$Column
                 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow(($i-2),2,$month_year);
 
           /**นำข้อมูลเข้ารอฟ้อง**/
-          $countWaiting = DB::select("SELECT COUNT(Contract_legis) as Waiting , SUM(CAST(Pay_legis AS NUMERIC(19,2))) as amount  from legislations where FORMAT(CONVERT(date, Date_legis),'yyyy-MM') = '". $y_m."'");
+          $countWaiting = DB::select("SELECT COUNT(Contract_legis) as Waiting , SUM(CAST(Sumperiod_legis AS NUMERIC(19,2))) as amount  from legislations where FORMAT(CONVERT(date, Date_legis),'yyyy-MM') = '". $y_m."'");
           /**ลูกหนี้ ชั้นฟ้อง**/
-          $countlegis = DB::select("SELECT count(a.Contract_legis) as legis , SUM(CAST(capital_court AS NUMERIC(19,2))) as capital_all  FROM legislations a
+          $countlegis = DB::select("SELECT count(a.Contract_legis) as legis , SUM(CAST(a.Sumperiod_legis AS NUMERIC(19,2))) as capital_all  FROM legislations a
           left join legiscourts b on a.id = b.legislation_id where FORMAT(CONVERT(date, fillingdate_court),'yyyy-MM') = '". $y_m."'");
           /**ลูกหนี้ ชั้นสืบพยาน**/
-          $countExamine = DB::select("SELECT count(a.Contract_legis) as Examine , SUM(CAST( adjudicate_price AS  NUMERIC(19,2))) as adjudicate_all  FROM legislations a
+          $countExamine = DB::select("SELECT count(a.Contract_legis) as Examine , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as adjudicate_all  FROM legislations a
                           left join legiscourts b on a.id = b.legislation_id where FORMAT(CONVERT(date, examiday_court),'yyyy-MM') = '". $y_m."'");
           /**ลูกหนี้ ชั้นส่งคำบังคับ**/
-          $countOrder = DB::select("SELECT count(a.Contract_legis) as Orderall FROM legislations a
+          $countOrder = DB::select("SELECT count(a.Contract_legis) as Orderall , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as OrderallAM FROM legislations a
                           left join legiscourts b on a.id = b.legislation_id where FORMAT(CONVERT(date, orderday_court),'yyyy-MM') = '". $y_m."'");
           /**ลูกหนี้ ชั้นตรวจผลหมาย**/
-          $countCheckSend = DB::select("SELECT count(a.Contract_legis) as CheckSend FROM legislations a
+          $countCheckSend = DB::select("SELECT count(a.Contract_legis) as CheckSend , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as CheckSendAM FROM legislations a
                           left join legiscourts b on a.id = b.legislation_id where FORMAT(CONVERT(date, checkday_court),'yyyy-MM') = '". $y_m."'");
           /**ลูกหนี้ ชั้นตั้งเจ้าพนักงาน**/
-          $countSetOffice = DB::select("SELECT count(a.Contract_legis) as SetOffice FROM legislations a
+          $countSetOffice = DB::select("SELECT count(a.Contract_legis) as SetOffice , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as SetOfficeAM FROM legislations a
                           left join legiscourts b on a.id = b.legislation_id where FORMAT(CONVERT(date, setoffice_court),'yyyy-MM') = '". $y_m."'");
           /**ลูกหนี้ ชั้นตรวจผลหมายตั้ง**/
-          $countCheckOffice = DB::select("SELECT count(a.Contract_legis) as CheckOffice FROM legislations a
+          $countCheckOffice = DB::select("SELECT count(a.Contract_legis) as CheckOffice  , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as CheckOfficeAM FROM legislations a
                           left join legiscourts b on a.id = b.legislation_id where FORMAT(CONVERT(date, checkresults_court),'yyyy-MM') = '". $y_m."'");
                  
           /** คัดหนังสือรับรองคดีถึงที่สุด**/
-          $countCertificate = DB::select("SELECT count(a.Contract_legis) as Certi FROM legislations a
+          $countCertificate = DB::select("SELECT count(a.Contract_legis) as Certi  , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as CertiAM FROM legislations a
                           left join legiscourtcases b on a.id = b.legislation_id where FORMAT(CONVERT(date, b.dateCertificate_case),'yyyy-MM') = '". $y_m."'");
            /** สืบทรัพย์(บังคับคดี)**/
-           $countAsset = DB::select("SELECT count(a.Contract_legis) as Asset FROM legislations a
+           $countAsset = DB::select("SELECT count(a.Contract_legis) as Asset  , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as AssetAM FROM legislations a
                           left join legisassets b on a.id = b.legislation_id where FORMAT(CONVERT(date, b.Date_asset),'yyyy-MM') = '". $y_m."'");      
             /** คัดโฉนด/ถ่ายภาพ**/
-          $countPrepare = DB::select("SELECT count(a.Contract_legis) as Prepare FROM legislations a
+          $countPrepare = DB::select("SELECT count(a.Contract_legis) as Prepare  , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as PrepareAM FROM legislations a
                           left join legiscourtcases b on a.id = b.legislation_id where FORMAT(CONVERT(date, b.datepreparedoc_case),'yyyy-MM') = '". $y_m."'");     
           
             /** ตั้งเรื่องยึดทรัพย์ **/
-            $countSequester = DB::select("SELECT count(a.Contract_legis) as Sequester FROM legislations a
+            $countSequester = DB::select("SELECT count(a.Contract_legis) as Sequester  , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as SequesterAM FROM legislations a
                           left join legiscourtcases b on a.id = b.legislation_id where FORMAT(CONVERT(date, b.dateSequester_case),'yyyy-MM') = '". $y_m."'"); 
             
              /** ประกาศขายทอดตลลาด **/
-             $countSell = DB::select("SELECT count(a.Contract_legis) as Sell FROM legislations a
+             $countSell = DB::select("SELECT count(a.Contract_legis) as Sell  , SUM(CAST( a.Sumperiod_legis AS  NUMERIC(19,2))) as SellAM FROM legislations a
                           left join legis_publishsells b on a.id = b.legislation_id where FORMAT(CONVERT(date, b.Dateset_publish),'yyyy-MM') = '". $y_m."' ");
 
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+1),$countWaiting[0]->amount);
@@ -136,26 +136,31 @@ $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((2),($row+12),$Column
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+3),$countExamine[0]->adjudicate_all);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+3),$countExamine[0]->Examine);
 
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+4),"");
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+4),$countOrder[0]->OrderallAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+4),$countOrder[0]->Orderall);
 
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+5),"");
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+5),$countCheckSend[0]->CheckSendAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+5),$countCheckSend[0]->CheckSend);
 
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+6),"");
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+6),$countSetOffice[0]->SetOfficeAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+6),$countSetOffice[0]->SetOffice);
 
-        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+7),"");
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+7),$countCheckOffice[0]->CheckOfficeAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+7),$countCheckOffice[0]->CheckOffice);
-
+        
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+8),$countCertificate[0]->CertiAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+8),$countCertificate[0]->Certi);
 
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+9),$countAsset[0]->AssetAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+9),$countAsset[0]->Asset);
 
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+10),$countPrepare[0]->PrepareAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+10),$countPrepare[0]->Prepare);
 
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+11),$countSequester[0]->SequesterAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+11),$countSequester[0]->Sequester);
 
+        $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-2)),($row+12),$countSell[0]->SellAM);
         $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((($i-1)),($row+12),$countSell[0]->Sell);
                           
         $i=$i-1;

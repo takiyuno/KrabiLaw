@@ -343,6 +343,11 @@ class LegislationController extends Controller
         $FlagTab = $request->FlagTab;
         return view('LegisExhibit.Popup',compact('type','FlagTab'));
       }
+      elseif ($request->type == 2) {  //modal date report
+        $type = $request->type;
+        $FlagTab = $request->FlagTab;
+        return view('legisCourt.viewReport',compact('type','FlagTab'));
+      }
     }
 
     public function SearchData(Request $request, $type)
@@ -1580,41 +1585,42 @@ class LegislationController extends Controller
     public function Report(Request $request)
     {
       if ($request->type == 1) {        //รายงาน ลูกหนี้เตรียมฟ้อง
-        // $status = 'ลูกหนี้เตรียมฟ้อง';   
-        // $data = Legislation::where('Flag_Class','=', NULL)
-        //       ->where('Flag', 'Y')
-        //       ->get();
-        // Excel::create('รายงานลูกหนี้เตรียมฟ้อง', function ($excel) use($data,$status) {
-        //   $excel->sheet($status, function ($sheet) use($data,$status) {
-        //       $sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
-        //       $sheet->prependRow(2, array($status));
-        //       $sheet->cells('A3:W3', function($cells) {
-        //         $cells->setBackground('#FFCC00');
-        //       });
-        //       $row = 3;
-        //       $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ','งวด','วันที่รับงาน','สถานะ','วันที่ส่งงานทนาย','ผู้จัดเตรียม','หมายเหตุ'));
+        $status = 'ลูกหนี้เตรียมฟ้อง';   
+        $data = Legislation::where('Flag_Class','=', NULL)
+              ->where('Flag', 'Y')              
+              ->whereNull('Status_legis')
+              ->where('Flag_status', 1)
+              ->get();
+        Excel::create('รายงานลูกหนี้เตรียมฟ้อง', function ($excel) use($data,$status) {
+          $excel->sheet($status, function ($sheet) use($data,$status) {
+              $sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
+              $sheet->prependRow(2, array($status));
+              $sheet->cells('A3:W3', function($cells) {
+                $cells->setBackground('#FFCC00');
+              });
+              $row = 3;
+              $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ประเภทสัญญา',
+              'ชื่อ-สกุล', 'เบอร์ติดต่อ','ยอดเงิน','งวด','วันที่เข้าระบบ',
+              'สถานะ','หมายเหตุ'));
 
            
 
-        //       foreach ($data as $key => $value) {
-        //         $sheet->row(++$row, array(
-        //           $key+1,
-        //           $value->Contract_legis,
-        //           $value->Name_legis,
-        //           $value->Phone_legis,
-        //          '',
-        //           $value->Date_asset,
-        //           'ลูกหนี้เตรียมฟ้อง',
-        //           $SetTextCompro,
-        //           $value->DateStatus_legis,
-        //           number_format($value->PriceStatus_legis, 2),
-        //           number_format($value->txtStatus_legis, 2),
-        //           number_format($value->Discount_legis, 2),
-        //           $value->Note,
-        //         ));
-        //       }
-        //   });
-        // })->export('xlsx');
+              foreach ($data as $key => $value) {
+                $sheet->row(++$row, array(
+                  $key+1,
+                  $value->Contract_legis,
+                  $value->TypeCon_legis,
+                  $value->Name_legis,
+                  $value->Phone_legis,
+                  number_format($value->TopPrice_legis, 2),
+                  '',
+                  $value->DateCon_legis,
+                  'ลูกหนี้เตรียมฟ้อง',            
+                  $value->Note,
+                ));
+              }
+          });
+        })->export('xlsx');
       }
       elseif ($request->type == 2) {    //รายงาน ลูกหนี้ Non-Vat
         $data = DB::connection('ibmi')
@@ -1942,9 +1948,10 @@ class LegislationController extends Controller
               }
           });
         })->export('xlsx');
-      }elseif($request->type == 6){
-        $datefrom = "2022-01-01";
-        $dateto = "2022-10-31";
+      }
+      if($request->FlagTab == 6){
+        $datefrom = $request->Fdate ;//"2022-01-01";
+        $dateto = $request->Tdate;//"2023-02-28";
   
 
         return view('legisCourt.reportCourt', compact('datefrom','dateto'));

@@ -42,7 +42,11 @@ class Legislation extends Model
 
   public function Legisasset()
   {
-    return $this->hasOne(legisasset::class,'legislation_id','id');
+    return $this->hasOne(legisasset::class,'legislation_id','id')->latest();
+  }
+  public function LegisassetAll()
+  {
+    return $this->hasMany(legisasset::class,'legislation_id','id');
   }
 
   public function LegisImage()

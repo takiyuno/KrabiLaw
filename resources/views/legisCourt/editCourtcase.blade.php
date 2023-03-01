@@ -653,16 +653,23 @@
                                 <label for="test2" class="mr-sm-3 SizeText">ลูกหนี้ไม่มีทรัพย์</label>
                               </div>
                             </div>
+                            @php
+                              if(@$data->Legisasset->sequester_asset !=NULL && @$data->Legisasset->sendsequester_asset !='สืบทรัพย์ไม่เจอ'){
+                                $chkReadOnly = "readonly";
+                              }else{
+                                $chkReadOnly = "";
+                              }   
+                            @endphp
                             <div class="form-group row mb-0">
                               <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ครั้งแรก :</label>
                               <div class="col-sm-7">
-                                <input type="date" id="sequesterasset" name="sequesterasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->sequester_asset }}"/>
+                                <input type="date" id="sequesterasset" name="sequesterasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->sequester_asset }}" {{ $chkReadOnly}}/>
                               </div>
                             </div>
                             <div class="form-group row mb-0">
                               <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ใหม่ :</label>
                               <div class="col-sm-7">
-                                <input type="date" id="NewpursueDateasset" name="NewpursueDateasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->NewpursueDate_asset }}"/>
+                                <input type="date" id="NewpursueDateasset" name="NewpursueDateasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->NewpursueDate_asset }}" readonly/>
                               </div>
                             </div>
                             <div class="form-group row mb-0">
@@ -697,6 +704,37 @@
                               </div>
                           </div>
                         </div>
+                        @if(count(@$data->LegisassetAll)>1 && (@$data->LegisassetAll[0]->propertied_asset!="Y" || @$data->LegisassetAll[0]->propertied_asset==NULL ) && @$data->LegisassetAll[0]->Status_asset != NULL )
+                        <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">จำนวนครั้งสืบทรัพย์ </h6>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group row mb-0">
+                              <table id="table-payments" class="table table-striped table-bordered text-nowrap table-hover table-sm table-installments" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                      <th>ครั้งที่</th>
+                                      <th>วันที่สืบทรัพย์</th>
+                                      <th>วันที่สืบทรัพย์ใหม่</th>
+                                      <th>ผลสืบ</th>
+                                      <th>วันที่อับเดท</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach(@$data->LegisassetAll as $key=>$dataAsset)
+                                  <tr>
+                                    <td>{{@$key+1}}</td>
+                                    <td>{{@$dataAsset->sequester_asset}}</td>
+                                    <td>{{@$dataAsset->NewpursueDate_asset}}</td>
+                                    <td>{{@$dataAsset->sendsequester_asset}}</td>
+                                    <td>{{@$dataAsset->updated_at}}</td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        @endif
                       </div>
                       <div id="list-page3-list" class="container tab-pane {{ ($FlagTab === 3) ? 'active' : '' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">คัดโฉนด/ถ่ายภาพ/หนังสือประเมิณราคา <span class="textHeader">(30 วัน)</span></h6>

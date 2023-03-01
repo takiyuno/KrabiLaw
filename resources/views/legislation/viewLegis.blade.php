@@ -66,6 +66,7 @@
                     <th class="text-center">เลขที่สัญญา</th>
                     <th class="text-center">ชื่อ-สกุล</th>
                     <th class="text-center">งวด</th>
+                    <th class="text-center">ยอดค้าง</th>
                     <th class="text-center">วันรับงาน</th>
                     <th class="text-center">ระยะเวลา</th>
                     <th class="text-center">ผู้จัดเตรียม</th>
@@ -87,6 +88,7 @@
                         @endphp
                         {{$row->Realperiod_legis}}
                       </td>
+                      <td class="text-left"> {{number_format($row->Sumperiod_legis,2)}}</td>
                       <td class="text-center"> 
                       <span class="dateHide">{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span> 
                         {{date('d-m-Y', strtotime($row->Date_legis))}}</td>

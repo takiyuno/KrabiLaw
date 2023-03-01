@@ -1231,18 +1231,21 @@ class LegislationController extends Controller
         }
 
         $data = DB::table('legisassets')
-                  ->where('legislation_id', $id)->first();
+                  ->where('legislation_id', $id)->latest('id')->first();
+       // dd(($data == Null || (@$data->sendsequester_asset=='สืบทรัพย์ไม่เจอ' && @$data->sendsequester_asset != NULL)),@$data->sendsequester_asset);
+        if ($data == Null || (@$data->sendsequester_asset=='สืบทรัพย์ไม่เจอ'&& @$data->sendsequester_asset != NULL)) {
+          $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime($request->get('sequesterasset')))); 	
 
-        if ($data == Null) {
+          //dd($NewDate_asset);
             $LegisAsset = new legisasset([
               'legislation_id' => $id,
               'Date_asset' => $request->get('Dateasset'),
               'Status_asset' => $request->get('statusasset'),
               'propertied_asset' => $request->get('radio_propertied'),
               'sequester_asset' =>  $request->get('sequesterasset'),
-              'sendsequester_asset' => $request->get('sendsequesterasset'),
+              'sendsequester_asset' => '',
               'Dateresult_asset' => Null,
-              'NewpursueDate_asset' => $request->get('NewpursueDateasset'),
+              'NewpursueDate_asset' =>  $NewDate_asset,
               'Notepursue_asset' =>  $request->get('Notepursueasset'),
               'User_asset' =>  auth()->user()->name,
               'DateTakephoto_asset' =>  $request->get('Date_Takephoto'),
@@ -1263,14 +1266,15 @@ class LegislationController extends Controller
             }
           }
 
-          $LegisAsset = legisasset::where('legislation_id',$id)->first();
+          $LegisAsset = legisasset::where('legislation_id',$id)->latest('id')->first();
+            $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime($request->get('sequesterasset')))); 	
             $LegisAsset->Date_asset = $request->get('Dateasset');
             $LegisAsset->Status_asset = $request->get('statusasset');
             $LegisAsset->propertied_asset = $request->get('radio_propertied');
             $LegisAsset->sequester_asset = $request->get('sequesterasset');
             $LegisAsset->sendsequester_asset = $request->get('sendsequesterasset');
             $LegisAsset->Dateresult_asset = $Dateresult;
-            $LegisAsset->NewpursueDate_asset = $request->get('NewpursueDateasset');
+            $LegisAsset->NewpursueDate_asset =  $NewDate_asset;
             $LegisAsset->Notepursue_asset =  $request->get('Notepursueasset');
             $LegisAsset->DateTakephoto_asset =  $request->get('Date_Takephoto');
             $LegisAsset->DateGetphoto_asset =  $request->get('Date_Getphoto');

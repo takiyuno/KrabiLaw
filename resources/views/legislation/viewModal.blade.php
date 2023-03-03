@@ -116,11 +116,12 @@
                       }else {
                         $ActiveCompro = false;
                       }
+                      
                     @endphp
                     <select name="Status" id="Status" class="form-control form-control-sm SizeText" {{($type == 7) ?'readonly': '' }}>
                       <option value="" selected>--- ประเภทปิดบัญชี ---</option>
-                      <option value="ปิดบัญชี" {{($datalegis->Status_legis == 'ปิดบัญชี') ? 'selected' : ''}} {{(@$ActiveCompro == true) ? 'disabled' : ''}}>01. ปิดบัญชี</option>
-                      <option value="ปิดจบประนอม" {{($datalegis->Status_legis == 'ปิดจบประนอม') ? 'selected' : ''}} {{(@$ActiveCompro == true) ? 'disabled' : ''}}>02 .ปิดจบประนอม</option>
+                      <option value="ปิดบัญชี" {{($datalegis->Status_legis == 'ปิดบัญชี') ? 'selected' : ''}} {{(@$ActiveCompro == true) ? '' : 'disabled'}}>01. ปิดบัญชี</option>
+                      <option value="ปิดจบประนอม" {{($datalegis->Status_legis == 'ปิดจบประนอม') ? 'selected' : ''}} {{(@$ActiveCompro == true) ? '' : 'disabled'}}>02 .ปิดจบประนอม</option>
                       <option value="ปิดจบรถยึด" {{($datalegis->Status_legis == 'ปิดจบรถยึด') ? 'selected' : ''}}>03 .ปิดจบรถยึด</option>
                       <option value="ปิดจบถอนบังคับคดี" {{($datalegis->Status_legis == 'ปิดจบถอนบังคับคดี') ? 'selected' : ''}}>04. ปิดจบถอนบังคับคดี</option>
                     </select>

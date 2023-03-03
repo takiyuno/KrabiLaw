@@ -698,18 +698,18 @@ class LegisComproController extends Controller
         $LegisCompro = Legiscompromise::where('legislation_id',$id)
                                         ->where('Flag_Promise','Active')->first();
           if ($request->TypePayment == "เงินก้อนแรก(เงินสด)" or $request->TypePayment == "เงินก้อนแรก(เงินโอน)") {
-            $LegisCompro->Sum_FirstPromise += (str_replace (",","",$request->Cash));
+            $LegisCompro->Sum_FirstPromise += floatval(str_replace (",","",$request->Cash));
           }else {
-            $LegisCompro->Sum_DuePayPromise += (str_replace (",","",$request->Cash));
+            $LegisCompro->Sum_DuePayPromise += floatval(str_replace (",","",$request->Cash));
           }
 
           // เช็คส่วนลด
           if ($request->Discount != NULL) {
-            $LegisCompro->Discount_Promise = (str_replace (",","",$request->Discount));
+            $LegisCompro->Discount_Promise = floatval(str_replace (",","",$request->Discount));
           }
           // เช็คยอดคงเหลือ
           if ($LegisCompro->ComproTolegislation->TypeCon_legis == 'P01') {
-            $LegisCompro->Sum_Promise += (str_replace (",","",$request->Cash));
+            $LegisCompro->Sum_Promise += floatval(str_replace (",","",$request->Cash));
           }
           else {
             $Setpaid = (floatval(str_replace (",","",$LegisCompro->Sum_FirstPromise)) + floatval(str_replace (",","",$LegisCompro->Sum_DuePayPromise)) + floatval(str_replace (",","",$request->Discount))+floatval(str_replace (",","",$request->Cash)));

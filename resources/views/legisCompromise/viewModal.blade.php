@@ -315,8 +315,10 @@
                 <div class="col-sm-8">
                   <select id="TypePayment" name="TypePayment" class="form-control form-control-sm SizeText Boxcolor" required>
                     <option value="" selected>--- ประเภทชำระ ---</option>
+                    @if($data->legisCompromise->FirstManey_1 != 0 && $SetFirstMoney>0)
                     <option value="เงินก้อนแรก(เงินสด)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T01. เงินก้อนแรก(เงินสด)</option>
                     <option value="เงินก้อนแรก(เงินโอน)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T02. เงินก้อนแรก(เงินโอน)</option>
+                    @endif
                     <option value="ชำระเงินสด" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
                     <option value="ชำระผ่านโอน" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
                     {{-- <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option> --}}
@@ -419,6 +421,7 @@
           }else{
             var Setround = round;
           }
+          console.log(round);
           var DateDue = moment(DateDuePay).add(Setround, 'months').format('YYYY-MM-DD');
         }
 

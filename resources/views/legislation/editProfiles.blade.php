@@ -259,8 +259,8 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C') ? '' : 'disabled' }}" href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{1}}"><i class="fas fa-hand-holding-usd text-muted"></i>ลูกหนี้ ประนอมหนี้</a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{7}}"><i class="fas fa-folder-open text-muted"></i>เอกสาร ลูกหนี้</a>
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{1}}"><i class="fas fa-hand-holding-usd text-muted"></i>ลูกหนี้ ประนอมหนี้</a>
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{7}}"><i class="fas fa-folder-open text-muted"></i>เอกสาร ลูกหนี้</a>
                   <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterExpense.edit',[$data->id]) }}?type={{1}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
@@ -351,8 +351,9 @@
                         <div class="col-sm-8">
                           <select name="TypeCus_Flag" class="form-control form-control-sm SizeText Boxcolor" required>
                             <option value="" selected>--- ประเภทลูกหนี้ ---</option>
-                            <option value="Y" {{ ($data->Flag == 'Y') ? 'selected' : '' }}>1. ลูกหนี้งานฟ้อง</option>
-                            <option value="C" {{ ($data->Flag == 'C') ? 'selected' : '' }}>2. ลูกหนี้ประนอมหนี้/หลุดขายฝาก</option>
+                            <option value="W" {{ ($data->Flag == 'W') ? 'selected' : '' }}>1. ลูกหนี้เตรียมฟ้อง</option>
+                            <option value="Y" {{ ($data->Flag == 'Y') ? 'selected' : '' }}>2. ลูกหนี้งานฟ้อง</option>
+                            <option value="C" {{ ($data->Flag == 'C') ? 'selected' : '' }}>3. หลุดขายฝาก</option>
                           </select>
                         </div>
                       </div>

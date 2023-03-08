@@ -107,7 +107,9 @@ class LegisComproController extends Controller
            
             ->with('legisTrackings')
             ->get();
-
+            $dataEndcaseOld = Legislation::where('Status_legis', '=', 'ปิดจบประนอม') //ปิดจบงานประนอมเก่า
+                        ->where('Flag', 'Y')
+                        ->get();
             // dump($dataNormal);
 
           $Count1 = 0;
@@ -150,7 +152,7 @@ class LegisComproController extends Controller
           }
           $type = $request->type;
           $Flag = $request->Flag;
-          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dateSearch','NullData','Count1','Count1_1','Count1_2','Count1_3','Count1_4','CountNullData'));
+          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dateSearch','NullData','Count1','Count1_1','Count1_2','Count1_3','Count1_4','CountNullData','dataEndcaseOld'));
       }
       elseif ($request->type == 3) {   //ลูกหนี้ประนอมหนี้(เก่า)
         $lastday1 = date('Y-m-d', strtotime("-1 month"));

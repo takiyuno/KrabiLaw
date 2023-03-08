@@ -65,6 +65,7 @@
                   <tr>
                     <th class="text-center">เลขที่สัญญา</th>
                     <th class="text-center">ชื่อ-สกุล</th>
+                    <th class="text-center">สถานะลูกหนี้</th>
                     <th class="text-center">งวด</th>
                     <th class="text-center">ยอดค้าง</th>
                     <th class="text-center">วันรับงาน</th>
@@ -80,6 +81,8 @@
                     <tr>
                       <td class="text-center"> {{$row->Contract_legis}}</td>
                       <td class="text-left"> {{$row->Name_legis}}</td>
+                      <td class="text-left"> {{$Flag_Status[$row->Flag_status]}}</td>
+                      
                       <td class="text-center">
                         @php
                             $StrCon = explode("/",$row->Contract_legis);
@@ -131,7 +134,7 @@
                           @endif
                         @else
                           <span class="btn-success btn-sm hover-up textSize" title="วันส่งทนาย {{date('d-m-Y', strtotime($row->Datesend_Flag))}}">
-                            <i class="fas fa-user-check"></i> ส่งทนาย
+                            {{-- <i class="fas fa-user-check"></i>--}} {{$row->Flag_Class}} 
                           </span>
                         @endif
                       </td>

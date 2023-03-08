@@ -38,7 +38,7 @@ class LegislationController extends Controller
       $Tdate = NULL;
       $FlagTab = NULL;
       $dateSearch = NULL;
-
+      $Flag_Status = $arrayName = array('1' =>'เตรียมฟ้อง' ,'2'=>'ส่งฟ้อง','3'=>'ประนอมหนี้' );
       if ($request->get('dateSearch')) {
         $dateSearch = $request->dateSearch;
 
@@ -80,18 +80,18 @@ class LegislationController extends Controller
         }
 
         if ($dateSearch != NULL) {
-          $data = Legislation::where('Flag_status', $FlagStatus)
-            ->whereBetween('Date_legis',[$Fdate,$Tdate])
-            ->where('Flag', 'Y')
+          $data = Legislation:://where('Flag_status', $FlagStatus)
+            whereBetween('Date_legis',[$Fdate,$Tdate])
+            ->whereIn('Flag', array('Y','W'))
             ->get();
         }
         else{
-          $data = Legislation::where('Flag_status', 1)
-                  ->where('Flag', 'Y')->get();
+          $data = Legislation:: //where('Flag_status', 1)
+              whereIn('Flag',array('Y','W'))->get();
         }
 
         $type = $request->type;
-        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus'));
+        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status'));
       }
       elseif ($request->type == 4) {   // View-ลูกหนี้ชั้นศาล
        
@@ -133,7 +133,7 @@ class LegislationController extends Controller
 
         // dump($data1,$data2);
         $type = $request->type;
-        return view('legisCourt.view', compact('type','data1','data2','data3','data4','data5','data6','dateSearch','FlagTab'));
+        return view('legisCourt.view', compact('type','data1','data2','data3','data4','data5','data6','dateSearch','FlagTab','Flag_Status' ));
       }
       elseif ($request->type == 5) {   // View-ลูกหนี้ชั้นบังคับคดี
         $data1 = Legislation::where('Status_legis', NULL)
@@ -167,7 +167,7 @@ class LegislationController extends Controller
           ->get();
 
         $type = $request->type;
-        return view('legisCourt.view', compact('type','Flag','data1','data2','data3','data4','data5','dateSearch','FlagTab'));
+        return view('legisCourt.view', compact('type','Flag','data1','data2','data3','data4','data5','dateSearch','FlagTab','Flag_Status'));
       }
       elseif ($request->type == 6) {   // View-สืบทรัพย์
         $data1 = Legislation::where('Status_legis', NULL)
@@ -261,7 +261,7 @@ class LegislationController extends Controller
                   ->orderBy('ContractNo_legis', 'ASC')
                   ->get();
         $type = $request->type;
-        return view('legislation.view', compact('type','dataLand'));
+        return view('legislation.view', compact('type','dataLand','Flag_Status'));
       }
       elseif ($request->type == 20) {   //Main legislation
         //ลูกหนี้เตรียมฟ้อง
@@ -327,7 +327,7 @@ class LegislationController extends Controller
         }
 
         $type = $request->type;
-        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus'));
+        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status'));
       }
     }
 
@@ -704,7 +704,7 @@ class LegislationController extends Controller
         }
 
       //ประเภทลูกหนี้
-      if ($request->TypeCus_Flag == 'Y') {        //ลูกหนี้เตรียมฟ้อง
+      if ($request->TypeCus_Flag == 'Y' || $request->TypeCus_Flag=='W') {        //ลูกหนี้เตรียมฟ้อง
         $SetFalg = 1;
         $FlagAsset = true;
         $FlagCompro = false;
@@ -1087,6 +1087,9 @@ class LegislationController extends Controller
           $user->dateCutOff = $request->get('dateCutOff');         //ตัดหนี้ 0
 
           if ($request->get('TypeCus_Flag') == 'C') {
+            $user->Flag = $request->get('TypeCus_Flag');
+            $user->Flag_status = 3;
+          }elseif($request->get('TypeCus_Flag') == 'W' &&  $user->legisCompromise !=NULL ){
             $user->Flag = $request->get('TypeCus_Flag');
             $user->Flag_status = 3;
           }else {

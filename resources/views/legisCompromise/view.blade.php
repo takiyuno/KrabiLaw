@@ -73,7 +73,7 @@
                 <span class="text-right">
                   <i class="mr-3 text-muted"></i> 
                   @if($type == 2)
-                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $CountNullData}}</font></b> ราย )
+                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @elseif($type == 3)
                     รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @endif
@@ -152,8 +152,8 @@
                           @endif
                       </div>
                     </a> 
-                    @if($type == 3)
-                    <a class="list-group-item hover-up" data-toggle="tab" href="#list-page6-list">
+                    {{-- @if($type == 3) --}}
+                    <a class="list-group-item hover-up" data-toggle="tab" href="#list-page7-list">
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
                           <i class="fas fa-user-check mr-1 text-success"></i>
@@ -164,7 +164,7 @@
                           @endif
                       </div>
                     </a>
-                  @endif
+                  {{-- @endif --}}
                 </nav>
               </div>
             </div>
@@ -180,6 +180,7 @@
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
                             <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
@@ -202,6 +203,7 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>
                                  {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
@@ -259,6 +261,7 @@
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
                             <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
@@ -281,6 +284,7 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>  
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
@@ -334,6 +338,7 @@
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
                             <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
@@ -356,6 +361,7 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
@@ -410,6 +416,7 @@
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
                             <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
@@ -432,6 +439,7 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>   
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
@@ -486,6 +494,7 @@
                           <tr>
                             <th class="text-center">เลขที่สัญญา</th>
                             <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ค้างงวด</th>
                             <th class="text-center">ยอดประนอม</th>
@@ -509,6 +518,7 @@
                             <tr>
                               <td class="text-left"> {{$row->Contract_legis}}</td>
                               <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
@@ -590,6 +600,7 @@
                               <th class="text-center">เลขที่สัญญา</th>
                               <th class="text-center">ประเภทสัญญา</th>
                               <th class="text-center">ชื่อ-สกุล</th>
+                              <th class="text-center">การประนอม</th>
                               <th class="text-center">วันที่ประนอม</th>
                               <th class="text-center">สถานะ</th>
                               <th class="text-right" style="width: 30px"></th>
@@ -627,6 +638,7 @@
                                 <td class="text-left"> {{$row->Contract_legis}}</td>
                                 <td class="text-center"> {{$row->TypeCon_legis}}</td>
                                 <td class="text-left"> {{$row->Name_legis}} </td>
+                                <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                                 <td class="text-center"> 
                                   <p >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </p>    
                                   {{formatDateThai(@$row->legisCompromise->Date_Promise)}}
@@ -665,8 +677,8 @@
                           </tbody>
                         </table>
                     </div>
-                    @if($type == 3)
-                    <div id="list-page6-list" class="tab-pane fade">
+                    {{-- @if($type == 3) --}}
+                    <div id="list-page7-list" class="tab-pane fade">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ปิดจบประนอม  <span class="textHeader">(End Compounded)</span></h6>
                         <table class="table table-hover SizeText font12 dateHide" id="table66">
                           <thead>
@@ -674,6 +686,7 @@
                               <th class="text-center">ลำดับ</th>
                               <th class="text-center">เลขที่สัญญา</th>
                               <th class="text-center">ชื่อ-สกุล</th>
+                              <th class="text-center">การประนอม</th>
                               <th class="text-center">ยอดประนอม</th>
                               <th class="text-center">สถานะ</th>
                               <th class="text-center">วันที่ปิดจบ</th>
@@ -686,6 +699,7 @@
                                 <td class="text-center"> {{$key+1}}</td>
                                 <td class="text-center"> {{$row->Contract_legis}}</td>
                                 <td class="text-left"> {{$row->Name_legis}} </td>
+                                <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
                                 <td class="text-center"> {{ number_format(@$row->legisCompromise->Total_Promise, 2) }} </td>
                                 <td class="text-center">
                                   @if($row->Status_legis != NULL)
@@ -714,7 +728,7 @@
                           </tbody>
                         </table>
                     </div>
-                  @endif
+                  {{-- @endif --}}
                 </div>
               </div>
             </div>
@@ -763,6 +777,9 @@
       });
       $("#list-page6-list").on("click", function(){
           $("#flag").val(6);
+      });
+      $("#list-page7-list").on("click", function(){
+          $("#flag").val(7);
       });
     });
   </script>

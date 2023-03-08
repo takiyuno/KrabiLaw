@@ -120,8 +120,8 @@
                                             <div class="col-sm-8">
                                                 <select name="TypeCus_Flag" class="form-control form-control-sm SizeText Boxcolor" required>
                                                     <option value="" selected>--- ประเภทลูกหนี้ ---</option>
-                                                    <option value="Y" {{ (@$datalegis->Flag == 'Y') ? 'selected' : '' }}>ลูกหนี้งานฟ้อง</option>
-                                                    <option value="C" {{ (@$datalegis->Flag == 'C') ? 'selected' : '' }}>ลูกหนี้ประนอม/หลุดขายฝาก</option>
+                                                    <option value="Y" {{ (@$datalegis->Flag == 'W') ? 'selected' : '' }}>ลูกหนี้ก่อนฟ้อง</option>
+                                                    <option value="C" {{ (@$datalegis->Flag == 'C') ? 'selected' : '' }}>หลุดขายฝาก</option>
                                                 </select>
                                             </div>
                                         </div>

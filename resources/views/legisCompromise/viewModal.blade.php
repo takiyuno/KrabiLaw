@@ -87,19 +87,16 @@
                     <div class="form-group row mb-0">
                       <label class="col-sm-4 col-form-label text-right SizeText">ประเภทประนอมหนี้ :</label>
                       <div class="col-sm-8">
-                        @if ($data->legisCompromise != NULL)
+                     
                           <select id="TypePromise" name="TypePromise" class="form-control form-control-sm SizeText" required>
                             <option value="" selected>--- เลือกประนอม ---</option>
                             <option value="ประนอมที่ศาล" {{ ($data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
-                            <option value="ประนอมที่บริษัท" {{ ($data->legisCompromise->Type_Promise === 'ประนอมที่บริษัท') ? 'selected' : '' }}>02. ประนอมที่บริษัท</option>
+                            <option value="ประนอมที่บริษัท" {{ ($data->legisCompromise->Type_Promise === 'ประนอมที่บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
+                            <option value="จำนำทรัพย์" {{ ($data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
+                            <option value="หลุดขายฝาก" {{ ($data->legisCompromise->Type_Promise === 'หลุดขายฝาก') ? 'selected' : '' }}>04. หลุดขายฝาก</option>
+                            <option value="ประนอมหนี้หลังยึดทรัพย์" {{ ($data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
                           </select>
-                        @else
-                          <select id="TypePromise" name="TypePromise" class="form-control form-control-sm SizeText" required>
-                            <option value="" selected>--- เลือกประนอม ---</option>
-                            <option value="ประนอมที่ศาล">01. ประนอมที่ศาล</option>
-                            <option value="ประนอมที่บริษัท">02. ประนอมที่บริษัท</option>
-                          </select>
-                        @endif
+                        
                       </div>
                     </div>
                   </div>
@@ -299,15 +296,16 @@
               </div>
             </div>
             @php
-              $SetFirstMoney = NULL;
+              $SetFirstMoney = 0;
               if($data->legisCompromise != NULL){
-                if($data->legisCompromise->FirstManey_1 != 0){
-                  $SetFirstMoney = $data->legisCompromise->Sum_FirstPromise - $data->legisCompromise->FirstManey_1 ;
+                if($data->legisCompromise->FirstManey_1 > 0){
+                  $SetFirstMoney = floatval($data->legisCompromise->Sum_FirstPromise) - floatval($data->legisCompromise->FirstManey_1) ;
                 }
                 else{
-                  $SetFirstMoney = $data->legisCompromise->Sum_FirstPromise - $data->legisCompromise->Payall_Promise;
+                  $SetFirstMoney = floatval($data->legisCompromise->Sum_FirstPromise) - floatval($data->legisCompromise->Payall_Promise);
                 }
               }
+            
             @endphp
             <div class="col-6">
               <div class="form-group row mb-0">
@@ -315,7 +313,7 @@
                 <div class="col-sm-8">
                   <select id="TypePayment" name="TypePayment" class="form-control form-control-sm SizeText Boxcolor" required>
                     <option value="" selected>--- ประเภทชำระ ---</option>
-                    @if($data->legisCompromise->FirstManey_1 != 0 && $SetFirstMoney>0)
+                    @if( $SetFirstMoney<=0)
                     <option value="เงินก้อนแรก(เงินสด)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T01. เงินก้อนแรก(เงินสด)</option>
                     <option value="เงินก้อนแรก(เงินโอน)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T02. เงินก้อนแรก(เงินโอน)</option>
                     @endif

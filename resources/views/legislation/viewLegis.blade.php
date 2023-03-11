@@ -66,7 +66,7 @@
                     <th class="text-center">เลขที่สัญญา</th>
                     <th class="text-center">ชื่อ-สกุล</th>
                     <th class="text-center">สถานะลูกหนี้</th>
-                    <th class="text-center">งวด</th>
+                    {{-- <th class="text-center">งวด</th> --}}
                     <th class="text-center">ยอดค้าง</th>
                     <th class="text-center">วันรับงาน</th>
                     <th class="text-center">ระยะเวลา</th>
@@ -82,15 +82,15 @@
                       <td class="text-center"> {{$row->Contract_legis}}</td>
                       <td class="text-left"> {{$row->Name_legis}}</td>
                       <td class="text-left"> {{$Flag_Status[$row->Flag_status]}}</td>
-                      
-                      <td class="text-center">
-                        @php
+                       @php
                             $StrCon = explode("/",$row->Contract_legis);
                             @$SetStr1 = $StrCon[0];
                             @$SetStr2 = $StrCon[1];
                         @endphp
+                      {{-- <td class="text-center">
+                       
                         {{$row->Realperiod_legis}}
-                      </td>
+                      </td> --}}
                       <td class="text-left"> {{number_format($row->Sumperiod_legis,2)}}</td>
                       <td class="text-center"> 
                       <span class="dateHide">{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span> 

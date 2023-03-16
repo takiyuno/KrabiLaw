@@ -87,7 +87,7 @@ class LegislationController extends Controller
         }
         else{
           $data = Legislation:: //where('Flag_status', 1)
-              whereIn('Flag',array('Y','W'))->get();
+              whereIn('Flag',array('Y'))->get();
         }
 
         $type = $request->type;

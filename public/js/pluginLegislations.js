@@ -74,7 +74,12 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
           "autoWidth": false,
           "ordering": true,
           "lengthChange": true,
-          "order": [[ 0, "asc" ]]
+          "order": [[ 0, "asc" ]],
+       
+          "dom": 'Blfrtip',
+          "buttons": [
+              'excel', 'print', 
+          ] 
       });
       $('#tableD').DataTable( {
         columnDefs: [
@@ -84,7 +89,12 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         "autoWidth": false,
         "ordering": true,
         "lengthChange": true,
-        "order": [[ 0, "desc" ]]
+        "order": [[ 0, "desc" ]],
+       
+        "dom": 'Blfrtip',
+        "buttons": [
+            'excel', 'print', 
+        ] 
       });
       $('#table1,#table2').DataTable( {
       
@@ -108,7 +118,12 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         "ordering": true,
         "lengthChange": true,
         "pageLength": 6,
-        "order": [[ 0, "asc" ]]
+        "order": [[ 0, "asc" ]],
+       
+        "dom": 'Blfrtip',
+        "buttons": [
+            'excel', 'print', 
+        ] 
       });
       $('#table111,#table222').DataTable( {
         columnDefs: [
@@ -119,7 +134,12 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         "ordering": true,
         "lengthChange": true,
         "pageLength": 50,
-        "order": [[ 0, "asc" ]]
+        "order": [[ 0, "asc" ]],
+       
+        "dom": 'Blfrtip',
+        "buttons": [
+            'excel', 'print', 
+        ] 
       });
   });
 

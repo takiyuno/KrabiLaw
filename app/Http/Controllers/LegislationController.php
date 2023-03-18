@@ -81,13 +81,19 @@ class LegislationController extends Controller
 
         if ($dateSearch != NULL) {
           $data = Legislation:://where('Flag_status', $FlagStatus)
-            whereBetween('Date_legis',[$Fdate,$Tdate])
-            ->whereIn('Flag', array('Y','W'))
-            ->get();
+                when(!empty($Fdate)  && !empty($Tdate) , function ($q) use ($Fdate, $Tdate) {
+                    return $q->whereBetween('Date_legis', [$Fdate, $Tdate]);
+                })
+                ->when(!empty($FlagStatus), function ($q) use ($FlagStatus) {
+                    return $q->where('Flag_status', $FlagStatus);
+                })
+                  // whereBetween('Date_legis',[$Fdate,$Tdate])
+                  // ->whereIn('Flag', array('Y','W'))
+                  ->get();
         }
         else{
           $data = Legislation:: //where('Flag_status', 1)
-              whereIn('Flag',array('Y'))->get();
+              whereIn('Flag',array('W'))->get();
         }
 
         $type = $request->type;

@@ -219,9 +219,14 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
       timePicker24Hour: true,
       timePickerIncrement: 30,
       locale: {
-          format: 'DD-MM-YYYY'
-      }
+          format: 'DD-MM-YYYY',
+          cancelLabel: 'Clear'
+      },
+      
     });
+    $('#dateSearch').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+  });
   });
 
 //-------- Flag Tabs -----------------

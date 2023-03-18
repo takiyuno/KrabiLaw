@@ -28,6 +28,8 @@
                     <option selected value="">-------- สถานะ -------</option>
                     <option value="1" {{ ($FlagStatus == '1') ? 'selected' : '' }}>ลูกหนี้เตรียมฟ้อง</option>
                     <option value="2" {{ ($FlagStatus == '2') ? 'selected' : '' }}>ลูกหนี้ส่งฟ้อง</option>
+                    <option value="3" {{ ($FlagStatus == '3') ? 'selected' : '' }}>ประนอมหนี้</option>
+                    
                   </select>
                   
                   <label for="text" class="mr-sm-2 ml-sm-2">วันที่ : </label>

@@ -28,7 +28,7 @@
             <div class="col-8">
               <div class="form-inline">
                 @if($type == 2)
-                  <h5>ลูกหนี้ประนอมใหม่ <small class="textHeader">(New Compounding Debt)</small></h5>
+                  <h5>ลูกหนี้ประนอม <small class="textHeader">(Compounding Debt)</small></h5>
                 @elseif($type == 3)
                   <h5>ลูกหนี้ประนอมเก่า <small class="textHeader">(Old Compounding Debt)</small></h5>
                 @endif
@@ -73,7 +73,7 @@
                 <span class="text-right">
                   <i class="mr-3 text-muted"></i> 
                   @if($type == 2)
-                    รวมประนอมใหม่ ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
+                    รวมประนอม ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @elseif($type == 3)
                     รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @endif
@@ -182,6 +182,7 @@
                             <th class="text-center">ชื่อ-สกุล</th>
                             <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
+                            <th class="text-center">ค้างงวด</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
                             <th class="text-center">วันที่ชำระล่าสุด</th>
@@ -207,6 +208,31 @@
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>
                                  {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                                 <td class="text-center"> 
+                                  @php
+                                    if ($row->legispayments != NULL){
+                                      if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
+                                        $DateDue = date_create($row->legispayments->DateDue_Payment);
+                                        $Date = date_create(date('Y-m-d'));
+                                        $Datediff = date_diff($DateDue,$Date);
+                                        
+                                        if($Datediff->y != NULL) {
+                                          $SetYear = ($Datediff->y * 12);
+                                        }else{
+                                          $SetYear = 0;
+                                        }
+                                        $DueCus = ($SetYear + $Datediff->m);
+                                      }
+                                      else{
+                                        $DueCus = 0;
+                                      }
+                                    }
+                                    else{
+                                      $DueCus = 0;
+                                    }
+                                  @endphp
+                                  {{ $DueCus }} 
+                                </td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center" >
@@ -263,6 +289,8 @@
                             <th class="text-center">ชื่อ-สกุล</th>
                             <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
+                            <th class="text-center">ค้างงวด</th>
+                            <th class="text-center">ยอดค้าง</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
                             <th class="text-center">วันที่ชำระล่าสุด</th>
@@ -288,6 +316,37 @@
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>  
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                                @php
+                                  if ($row->legispayments != NULL){
+                                    if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
+                                      $DateDue = date_create($row->legispayments->DateDue_Payment);
+                                      $Date = date_create(date('Y-m-d'));
+                                      $Datediff = date_diff($DateDue,$Date);
+                                      
+                                      if($Datediff->y != NULL) {
+                                        $SetYear = ($Datediff->y * 12);
+                                      }else{
+                                        $SetYear = NULL;
+                                      }
+                                      $DueCus = ($SetYear + $Datediff->m);
+                                    }
+                                    else{
+                                      $DueCus = NULL;
+                                    }
+                                  }
+                                  else{
+                                    $DueCus = NULL;
+                                  }
+                                  if(@$row->TypeCon_legis=='P01'){
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                  }else{
+                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                  }
+                                @endphp
+                                {{ $DueCus }} 
+                              </td>
+                              <td class="text-right">{{number_format($kangSum, 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center"> <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
@@ -340,6 +399,8 @@
                             <th class="text-center">ชื่อ-สกุล</th>
                             <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
+                            <th class="text-center">ค้างงวด</th>
+                            <th class="text-center">ยอดค้าง</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
                             <th class="text-center">วันที่ชำระล่าสุด</th>
@@ -365,6 +426,37 @@
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                                @php
+                                  if ($row->legispayments != NULL){
+                                    if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
+                                      $DateDue = date_create($row->legispayments->DateDue_Payment);
+                                      $Date = date_create(date('Y-m-d'));
+                                      $Datediff = date_diff($DateDue,$Date);
+                                      
+                                      if($Datediff->y != NULL) {
+                                        $SetYear = ($Datediff->y * 12);
+                                      }else{
+                                        $SetYear = NULL;
+                                      }
+                                      $DueCus = ($SetYear + $Datediff->m);
+                                    }
+                                    else{
+                                      $DueCus = NULL;
+                                    }
+                                  }
+                                  else{
+                                    $DueCus = NULL;
+                                  }
+                                  if(@$row->TypeCon_legis=='P01'){
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                  }else{
+                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                  }
+                                @endphp
+                                {{ $DueCus }} 
+                              </td>
+                              <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
@@ -418,6 +510,8 @@
                             <th class="text-center">ชื่อ-สกุล</th>
                             <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
+                            <th class="text-center">ค้างงวด</th>
+                            <th class="text-center">ยอดค้าง</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
                             <th class="text-center">วันที่ชำระล่าสุด</th>
@@ -443,6 +537,37 @@
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>   
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                              <td class="text-center"> 
+                                @php
+                                  if ($row->legispayments != NULL){
+                                    if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
+                                      $DateDue = date_create($row->legispayments->DateDue_Payment);
+                                      $Date = date_create(date('Y-m-d'));
+                                      $Datediff = date_diff($DateDue,$Date);
+                                      
+                                      if($Datediff->y != NULL) {
+                                        $SetYear = ($Datediff->y * 12);
+                                      }else{
+                                        $SetYear = NULL;
+                                      }
+                                      $DueCus = ($SetYear + $Datediff->m);
+                                    }
+                                    else{
+                                      $DueCus = NULL;
+                                    }
+                                  }
+                                  else{
+                                    $DueCus = NULL;
+                                  }
+                                  if(@$row->TypeCon_legis=='P01'){
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                  }else{
+                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                  }
+                                @endphp
+                                {{ $DueCus }} 
+                              </td>
+                              <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
@@ -497,6 +622,7 @@
                             <th class="text-center">การประนอม</th>
                             <th class="text-center">เริ่มประนอม</th>
                             <th class="text-center">ค้างงวด</th>
+                            <th class="text-center">ยอดค้าง</th>
                             <th class="text-center">ยอดประนอม</th>
                             <th class="text-center">ยอดคงเหลือ</th>
                             <th class="text-center">วันที่ชำระล่าสุด</th>
@@ -544,9 +670,15 @@
                                   else{
                                     $DueCus = NULL;
                                   }
+                                  if(@$row->TypeCon_legis=='P01'){
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                  }else{
+                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                  }
                                 @endphp
                                 {{ $DueCus }} 
                               </td>
+                              <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>

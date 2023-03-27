@@ -91,7 +91,7 @@ class LegisComproController extends Controller
           $lastday3 = date('Y-m-d', strtotime("-3 month"));
           $lastday4 = date('Y-m-d', strtotime("-4 month"));
 
-          $dataNormal = Legislation::where('Flag', 'Y')
+          $dataNormal = Legislation::where('Flag_status',3)
             ->where('Status_legis', NULL)
             // ->Wherehas('legispayments',function ($query) {
             //   return $query->where('Flag_Payment', 'Y');
@@ -108,7 +108,7 @@ class LegisComproController extends Controller
             ->with('legisTrackings')
             ->get();
             $dataEndcaseOld = Legislation::where('Status_legis', '=', 'ปิดจบประนอม') //ปิดจบงานประนอมเก่า
-                        ->where('Flag', 'Y')
+                        ->where('Flag_status',3)
                         ->get();
             // dump($dataNormal);
 

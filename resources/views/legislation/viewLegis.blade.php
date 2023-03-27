@@ -23,6 +23,7 @@
             <form method="get" action="{{ route('MasterLegis.index') }}">
               <div class="card-tools d-inline float-right btn-page">
                 <div class="input-group form-inline">
+                  <input type="hidden" name="searchButton" value="1">
                   <label for="text" class="mr-sm-1">สถานะ : </label>
                   <select name="FlagStatus" id="text" class="form-control form-control-sm textSize">
                     <option selected value="">-------- สถานะ -------</option>
@@ -51,7 +52,7 @@
                   </ul>
                 </div>
               </div>
-              <input type="hidden" name="type" value="3"/>
+              <input type="hidden" name="type" value="{{$type}}"/>
             </form>
           </div>
         </div>
@@ -73,6 +74,8 @@
                     <th class="text-center">วันรับงาน</th>
                     <th class="text-center">ระยะเวลา</th>
                     <th class="text-center">ผู้จัดเตรียม</th>
+                    <th class="text-center">วันหยุดรับรู้รายได้</th>
+                    <th class="text-center">วันตัดหนี้ศูนย์</th>
                     <th class="text-center">หมายเหตุ</th>
                     <th class="text-center" style="width: 80px">สถานะ</th>
                     <th class="text-center" style="width: 80px">ตัวเลือก</th>
@@ -122,7 +125,16 @@
                         @endif
                       </td>
                       <td class="text-center"> {{ $row->UserSend2_legis }}</td>
+                      <td class="text-left" title="{{ @$row->dateStopRev }}">
+                        <span class="dateHide">{{ $row->dateStopRev!=NULL?date_format(date_create(@$row->dateStopRev), 'Ymd'):''}} </span> 
+                        {{$row->dateStopRev!=NULL?date('d-m-Y', strtotime($row->dateStopRev)):''}}
+                      </td>
+                      <td class="text-left" title="{{ @$row->dateCutOff }}">
+                        <span class="dateHide">{{ @$row->dateCutOff!=NULL?date_format(date_create(@$row->dateCutOff), 'Ymd'):''}} </span> 
+                        {{@$row->dateCutOff!=NULL?date('d-m-Y', strtotime($row->dateCutOff)):''}}
+                      </td>
                       <td class="text-left" title="{{ $row->Noteby_legis }}"> {{ str_limit($row->Noteby_legis,30) }} </td>
+                      
                       <td class="text-center">
                         @if($row->Flag_status == '1')
                           @if($row->legisCompromise != NULL)
@@ -144,6 +156,7 @@
                         <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{3}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
                           <i class="far fa-edit"></i>
                         </a>
+                        @if(auth::user()->position=="Admin")
                         <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                         {{csrf_field()}}
                           <input type="hidden" name="type" value="1" />
@@ -152,6 +165,7 @@
                             <i class="far fa-trash-alt"></i>
                           </button>
                         </form>
+                        @endif
                       </td>
                     </tr>
                   @endforeach

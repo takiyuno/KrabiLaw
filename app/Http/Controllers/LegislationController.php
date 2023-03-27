@@ -75,11 +75,12 @@ class LegislationController extends Controller
       }
       elseif ($request->type == 3) {   // View-ลูกหนี้เตรียมฟ้อง
         $FlagStatus = '';
+        
         if ($request->get('FlagStatus')){
           $FlagStatus = $request->get('FlagStatus');
         }
 
-        if ($dateSearch != NULL) {
+        if ($request->searchButton == 1 ) {
           $data = Legislation:://where('Flag_status', $FlagStatus)
                 when(!empty($Fdate)  && !empty($Tdate) , function ($q) use ($Fdate, $Tdate) {
                     return $q->whereBetween('Date_legis', [$Fdate, $Tdate]);
@@ -88,8 +89,8 @@ class LegislationController extends Controller
                     return $q->where('Flag_status', $FlagStatus);
                 })
                   // whereBetween('Date_legis',[$Fdate,$Tdate])
-                  // ->whereIn('Flag', array('Y','W'))
-                  ->get();
+                ->whereIn('Flag', array('Y','W'))
+                ->get();
         }
         else{
           $data = Legislation:: //where('Flag_status', 1)
@@ -321,15 +322,19 @@ class LegislationController extends Controller
           $FlagStatus = $request->get('FlagStatus');
         }
 
-        if ($dateSearch != NULL) {
-          $data = Legislation::where('Flag_status', $FlagStatus)
-            ->whereBetween('Date_legis',[$Fdate,$Tdate])
-            ->where('Flag', 'C')
-            ->get();
+        if ($request->searchButton == 1 ) {
+          $data = Legislation:: when(!empty($Fdate)  && !empty($Tdate) , function ($q) use ($Fdate, $Tdate) {
+                return $q->whereBetween('Date_legis', [$Fdate, $Tdate]);
+                })
+                ->when(!empty($FlagStatus), function ($q) use ($FlagStatus) {
+                    return $q->where('Flag_status', $FlagStatus);
+                })
+                ->where('Flag', 'C')
+                ->get();
         }
         else{
-          $data = Legislation::where('Flag_status', 1)
-                  ->where('Flag', 'C')->get();
+          $data = Legislation::
+                  where('Flag', 'C')->get();
         }
 
         $type = $request->type;

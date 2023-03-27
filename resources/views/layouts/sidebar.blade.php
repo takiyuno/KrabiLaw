@@ -178,12 +178,12 @@
                   <p>ลูกหนี้ประนอม</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{ route('MasterCompro.index') }}?type={{3}}" class="nav-link SizeText @if(isset($SetCompro3)) {{($SetCompro3 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>
                   <p>หลุดขายฝาก</p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="{{ route('MasterCompro.index') }}?type={{5}}" class="nav-link SizeText @if(isset($SetCompro5)) {{($SetCompro5 == true) ? 'active' : '' }} @endif">
                   <i class="far fa-dot-circle nav-icon"></i>

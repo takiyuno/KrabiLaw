@@ -231,7 +231,7 @@
                                       $DueCus = 0;
                                     }
                                   @endphp
-                                  {{ $DueCus }} 
+                                  {{ @$row->legispayments->monthdiff<0?0:0 }} 
                                 </td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
@@ -344,7 +344,7 @@
                                     $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
                                   }
                                 @endphp
-                                {{ $DueCus }} 
+                                {{ @$row->legispayments->monthdiff }} 
                               </td>
                               <td class="text-right">{{number_format($kangSum, 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
@@ -454,7 +454,7 @@
                                     $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
                                   }
                                 @endphp
-                                {{ $DueCus }} 
+                                {{ @$row->legispayments->monthdiff }} 
                               </td>
                               <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
@@ -560,12 +560,12 @@
                                     $DueCus = NULL;
                                   }
                                   if(@$row->TypeCon_legis=='P01'){
-                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*@$row->legispayments->monthdiff);
                                   }else{
-                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff);
                                   }
                                 @endphp
-                                {{ $DueCus }} 
+                                {{ @$row->legispayments->monthdiff }} 
                               </td>
                               <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
@@ -671,12 +671,12 @@
                                     $DueCus = NULL;
                                   }
                                   if(@$row->TypeCon_legis=='P01'){
-                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*@$row->legispayments->monthdiff);
                                   }else{
-                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff);
                                   }
                                 @endphp
-                                {{ $DueCus }} 
+                                {{ @$row->legispayments->monthdiff }} 
                               </td>
                               <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>

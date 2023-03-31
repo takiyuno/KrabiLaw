@@ -277,7 +277,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item active hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="#">
+                  <a class="list-group-item active hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="#">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-balance-scale text-muted"></i>
@@ -288,7 +288,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{5}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{5}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-link text-muted"></i>
@@ -299,7 +299,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{6}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{6}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-search-location text-muted"></i>
@@ -312,9 +312,9 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C') ? '' : 'disabled' }}" href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{1}}"><i class="fas fa-hand-holding-usd text-muted"></i>ลูกหนี้ ประนอมหนี้</a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{7}}"><i class="fas fa-folder-open text-muted"></i>เอกสาร ลูกหนี้</a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterExpense.edit',[$data->id]) }}?type={{1}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 3 or $data->Flag == 'C' or $data->Flag == 'Y' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{1}}"><i class="fas fa-hand-holding-usd text-muted"></i>ลูกหนี้ ประนอมหนี้</a>
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 3 or $data->Flag == 'C' or $data->Flag == 'Y' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{7}}"><i class="fas fa-folder-open text-muted"></i>เอกสาร ลูกหนี้</a>
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 3) ? '' : 'disabled' }}" href="{{ route('MasterExpense.edit',[$data->id]) }}?type={{1}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-money-check-alt text-muted"></i>
@@ -407,7 +407,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่ฟ้อง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="fillingdatecourt" name="fillingdatecourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->fillingdate_court) }}"/>
+                                  <input type="date" id="fillingdatecourt" name="fillingdatecourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->fillingdate_court) }}"/>
                                 </div>
 
                                 <label class="col-sm-4 col-form-label text-right SizeText">ศาล :</label>

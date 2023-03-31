@@ -173,8 +173,8 @@ class ComposerStaticInit9cc93bf5f35022b43a1877dab144f0be
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Yajra\\DataTables\\' => 
         array (
@@ -326,8 +326,8 @@ class ComposerStaticInit9cc93bf5f35022b43a1877dab144f0be
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Container\\' => 
         array (
@@ -554,6 +554,7 @@ class ComposerStaticInit9cc93bf5f35022b43a1877dab144f0be
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\TB_Billcoll' => __DIR__ . '/../..' . '/app/TB_Billcoll.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\intensive_Holdcars' => __DIR__ . '/../..' . '/app/intensive_Holdcars.php',
         'App\\legisUpload_lat_long' => __DIR__ . '/../..' . '/app/legisUpload_lat_long.php',

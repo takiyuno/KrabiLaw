@@ -52,6 +52,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\TB_Billcoll' => $baseDir . '/app/TB_Billcoll.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\intensive_Holdcars' => $baseDir . '/app/intensive_Holdcars.php',
     'App\\legisUpload_lat_long' => $baseDir . '/app/legisUpload_lat_long.php',

@@ -219,12 +219,12 @@
                         <i class="fas fa-user-tag mr-1 text-muted"></i>
                         <div class="d-inline-block font-weight-medium text-uppercase">ลูกหนี้ เตรียมฟ้อง</div>
                       </div>
-                      @if($data->Flag_status == 2)
+                      @if($data->Flag == 'Y')
                         <i class="far fa-check-square sub-target"></i>
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{4}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status >1 && $data->Flag != 'W'  ) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{4}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-balance-scale text-muted"></i>
@@ -235,7 +235,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{5}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{5}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-link text-muted"></i>
@@ -246,7 +246,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{6}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{6}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-search-location text-muted"></i>
@@ -259,9 +259,9 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{1}}"><i class="fas fa-hand-holding-usd text-muted"></i>ลูกหนี้ ประนอมหนี้</a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2 or $data->Flag == 'C' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{7}}"><i class="fas fa-folder-open text-muted"></i>เอกสาร ลูกหนี้</a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status == 2) ? '' : 'disabled' }}" href="{{ route('MasterExpense.edit',[$data->id]) }}?type={{1}}">
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 3 or $data->Flag == 'C' or $data->Flag == 'Y' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{1}}"><i class="fas fa-hand-holding-usd text-muted"></i>ลูกหนี้ ประนอมหนี้</a>
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 3 or $data->Flag == 'C' or $data->Flag == 'Y' or $data->Flag == 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{7}}"><i class="fas fa-folder-open text-muted"></i>เอกสาร ลูกหนี้</a>
+                  <a class="list-group-item hover-up {{ ($data->Flag_status == 3) ? '' : 'disabled' }}" href="{{ route('MasterExpense.edit',[$data->id]) }}?type={{1}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-money-check-alt text-muted"></i>
@@ -367,6 +367,20 @@
                             <option value="1" {{ ($data->Flag_status == 1) ? 'selected' : '' }}>เตรียมฟ้อง</option>
                             <option value="2" {{ ($data->Flag_status == 2) ? 'selected' : '' }}>ส่งฟ้อง</option>
                             <option value="3" {{ ($data->Flag_status == 3) ? 'selected' : '' }}>ประนอมหนี้</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">BILLCOLL :</label>
+                        <div class="col-sm-8">
+                          <select class="form-control form-control-sm SizeText" name="BILLCOLL" >
+                            <option value="" selected>--- BILLCOLL ---</option>
+                            @foreach($billcoll as $bill)
+                            <option value="{{$bill->BILLCOLL}}}" {{ ($data->BILLCOLL == $bill->BILLCOLL) ? 'selected' : '' }}>{{$bill->BILLCOLL}}</option>
+                            @endforeach
+                           
                           </select>
                         </div>
                       </div>

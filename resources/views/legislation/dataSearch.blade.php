@@ -126,6 +126,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group row mb-0">
+                                        <label class="col-sm-4 col-form-label text-right SizeText text-red">* BILLCOLL :</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control form-control-sm SizeText" name="BILLCOLL" >
+                                                    <option value="" selected>--- BILLCOLL ---</option>
+                                                    @foreach(@$billcoll as $bill)
+                                                    <option value="{{@$bill->BILLCOLL}}}">{{@$bill->BILLCOLL}}</option>
+                                                    @endforeach
+                                                   
+                                                  </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <br>

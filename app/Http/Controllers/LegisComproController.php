@@ -93,11 +93,12 @@ class LegisComproController extends Controller
 
           $dataNormal = Legislation::where('Flag_status',3)
             ->where('Status_legis', NULL)
+           
             // ->Wherehas('legispayments',function ($query) {
             //   return $query->where('Flag_Payment', 'Y');
             // })
             ->with(['legispayments' => function ($query) {
-              return $query->where('Flag_Payment', 'Y');
+              return $query->where('Flag_Payment', 'Y')->selectRaw('*,DATEDIFF(month,  DateDue_Payment ,CONVERT (Date, GETDATE())) as monthdiff');
             }])
             ->Wherehas('legisCompromise',function ($query) use($Fdate, $Tdate) {
               return $query->when(!empty($Fdate) && !empty($Tdate), function($q) use($Fdate, $Tdate) {
@@ -124,30 +125,71 @@ class LegisComproController extends Controller
           $data1_3 = [];
           $data1_4 = []; 
           $NullData = [];  
-          for($j= 0; $j < count($dataNormal); $j++){
+$numDue = 0;
 
+          for($j= 0; $j < count($dataNormal); $j++){
+            
             //if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
-            if ($dataNormal[$j]->legispayments != NULL) {  
-              if(@$dataNormal[$j]->legispayments->DateDue_Payment >= date('Y-m-d') or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1) {
-                $Count1 += 1;
-                $data1[] = $dataNormal[$j];
-              }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday2){
-                $Count1_1 += 1;
-                $data1_1[] = $dataNormal[$j];
-              }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday2 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3){
-                $Count1_2 += 1;
-                $data1_2[] = $dataNormal[$j];
-              }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday4){
-                $Count1_3 += 1;
-                $data1_3[] = $dataNormal[$j];
-              }else{
-                $Count1_4 += 1;
-                $data1_4[] = $dataNormal[$j];
-              }
-            } else {
-              $CountNullData += 1;
-              $NullData[] = $dataNormal[$j];
-            }
+             // @link http://www.php.net/manual/en/class.datetime.php
+                $d1 = date_create(@$dataNormal[$j]->legispayments->DateDue_Payment );
+                $d2 = date_create(date('Y-m-d'));
+               
+                // @link http://www.php.net/manual/en/class.dateinterval.php
+                $interval = date_diff($d1,$d2);
+              
+                $numMonth = $interval->format('%m');
+                $numYear = $interval->format('%y');
+                // if( $numYear>0){
+                //   $numDue = (intval($numYear)*12)+intval($numMonth);
+                // }else{
+                //   $numDue = intval($numMonth);
+                // }
+             
+              $numDue = @$dataNormal[$j]->legispayments->monthdiff;
+                if ($dataNormal[$j]->legispayments != NULL) {  
+                  
+                  if($numDue>3) {
+                    $Count1_4 += 1;
+                    $data1_4[] = $dataNormal[$j];                    
+                  }elseif($numDue>2){  
+                    $Count1_3 += 1;
+                    $data1_3[] = $dataNormal[$j];
+                    
+                  }elseif($numDue>1){
+                    $Count1_2 += 1;
+                    $data1_2[] = $dataNormal[$j];
+                  }elseif($numDue>0){
+                  $Count1_1 += 1;
+                    $data1_1[] = $dataNormal[$j];
+                  }else{
+                    $Count1 += 1;
+                    $data1[] = $dataNormal[$j];
+                  }
+                } else {
+                  $CountNullData += 1;
+                  $NullData[] = $dataNormal[$j];
+                }
+            // if ($dataNormal[$j]->legispayments != NULL) {  
+            //   if(@$dataNormal[$j]->legispayments->DateDue_Payment >= date('Y-m-d') or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1) {
+            //     $Count1 += 1;
+            //     $data1[] = $dataNormal[$j];
+            //   }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday2){
+            //     $Count1_1 += 1;
+            //     $data1_1[] = $dataNormal[$j];
+            //   }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday2 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3){
+            //     $Count1_2 += 1;
+            //     $data1_2[] = $dataNormal[$j];
+            //   }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday4){
+            //     $Count1_3 += 1;
+            //     $data1_3[] = $dataNormal[$j];
+            //   }else{
+            //     $Count1_4 += 1;
+            //     $data1_4[] = $dataNormal[$j];
+            //   }
+            // } else {
+            //   $CountNullData += 1;
+            //   $NullData[] = $dataNormal[$j];
+            // }
             //}
           }
           $type = $request->type;
@@ -616,6 +658,7 @@ class LegisComproController extends Controller
 
         $dataPay = legispayment::where('legislation_id',$id)
                     ->where('Count_Promis',NULL)->get();
+         // dd($id,$dataPay);
         $dataTrack = LegisTrackings::where('legislation_id',$id)->get();
         
         $type = $request->type;

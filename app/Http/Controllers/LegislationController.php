@@ -24,7 +24,7 @@ use App\Legisexhibit;
 use App\Legisland;
 use App\Content;
 use App\LegisPublishsell;
-
+use App\TB_Billcoll;
 class LegislationController extends Controller
 {
     /**
@@ -71,7 +71,8 @@ class LegislationController extends Controller
               ->first();
 
         $type = $request->type;
-        return response()->view('legislation.dataSearch', compact('data','type'));
+        $billcoll = TB_Billcoll::get();
+        return response()->view('legislation.dataSearch', compact('data','type','billcoll'));
       }
       elseif ($request->type == 3) {   // View-ลูกหนี้เตรียมฟ้อง
         $FlagStatus = '';
@@ -89,12 +90,13 @@ class LegislationController extends Controller
                     return $q->where('Flag_status', $FlagStatus);
                 })
                   // whereBetween('Date_legis',[$Fdate,$Tdate])
-                ->whereIn('Flag', array('Y','W'))
+                ->whereIn('Flag', array('Y','W',))
+                
                 ->get();
         }
         else{
           $data = Legislation:: //where('Flag_status', 1)
-              whereIn('Flag',array('W'))->get();
+              whereIn('Flag',array('W'))->where('Flag_status','<>',3)->get();
         }
 
         $type = $request->type;
@@ -338,6 +340,7 @@ class LegislationController extends Controller
         }
 
         $type = $request->type;
+       
         return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status'));
       }
     }
@@ -459,8 +462,8 @@ class LegislationController extends Controller
         // }
 
         $datalegis = Legislation::where('Contract_legis',$Contract)->first();
-
-        return response()->view('legislation.dataSearch', compact('data','datalegis','SetRealty','DB_type','Contract','type'));
+        $billcoll = TB_Billcoll::get();
+        return response()->view('legislation.dataSearch', compact('data','datalegis','SetRealty','DB_type','Contract','type','billcoll'));
       }
     }
 
@@ -719,7 +722,7 @@ class LegislationController extends Controller
         $SetFalg = 1;
         $FlagAsset = true;
         $FlagCompro = false;
-      }elseif ($request->TypeCus_Flag == 'C') {   //ประนอมหนี้
+      }elseif ($request->TypeCus_Flag == 'C') {   //ขายฝาก
         $SetFalg = 1;
         $FlagAsset = false;
         $FlagCompro = false;
@@ -763,6 +766,7 @@ class LegislationController extends Controller
           'Sumperiod_legis' => $data->BALANC - $data->SMPAY,
           'Flag' => $request->TypeCus_Flag,
           'Phone_legis' => (iconv('Tis-620','utf-8',$data->TELP)),
+          'BILLCOLL' => $request->BILLCOLL,
           'Flag_status' => $SetFalg,
           'UserSend1_legis' => auth()->user()->name,
         ]);
@@ -804,6 +808,7 @@ class LegislationController extends Controller
           'Realperiod_legis' => (@$data->HLDNO != NULL ?@$data->HLDNO : NULL),                  //จำนวนงวดที่ค้างจริง
           'Sumperiod_legis' => (@$data->TOTPRC != NULL && @$data->SMPAY != NULL ?(@$data->TOTPRC - @$data->SMPAY) : NULL), //เหลือเป็นจำนวนเงิน
           'Flag' => $request->TypeCus_Flag,
+          'BILLCOLL' => $request->BILLCOLL,
           'Flag_status' => $SetFalg,
           'UserSend1_legis' => auth()->user()->name,
         ]);
@@ -886,9 +891,9 @@ class LegislationController extends Controller
 
       if ($request->type == 3) {      //ลูกหนี้เตรียมฟ้อง
         $data = Legislation::find($id);
-
+        $billcoll = TB_Billcoll::get();
         $type = $request->type;
-        return view('legislation.editProfiles',compact('data','id','type'));
+        return view('legislation.editProfiles',compact('data','id','type','billcoll'));
       }
       elseif ($request->type == 4) {  //ลูกหนี้ชั้นศาล
         $data = Legislation::find($id);
@@ -1095,7 +1100,8 @@ class LegislationController extends Controller
           $user->Notice_list = $request->get('Noticelist');                           //หนังสือโนติสผู้ซื้อ - ผู้ค้ำ
           $user->AcceptTwoNotice_list = $request->get('AcceptTwoNoticelist');         //ใบตอบรับโนติสผู้ซื้อ - ผู้ค้ำ
           $user->dateStopRev = $request->get('dateStopRev');         //หยุดรับรู้รายได้
-          $user->dateCutOff = $request->get('dateCutOff');         //ตัดหนี้ 0
+          $user->dateCutOff = $request->get('dateCutOff');    //ตัดหนี้ 0
+          $user->BILLCOLL = $request->get('BILLCOLL');         
 
           if ($request->get('TypeCus_Flag') == 'C') {
             $user->Flag = $request->get('TypeCus_Flag');

@@ -339,9 +339,9 @@
                                     $DueCus = NULL;
                                   }
                                   if(@$row->TypeCon_legis=='P01'){
-                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*@$row->legispayments->monthdiff );
                                   }else{
-                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff );
                                   }
                                 @endphp
                                 {{ @$row->legispayments->monthdiff }} 
@@ -449,9 +449,9 @@
                                     $DueCus = NULL;
                                   }
                                   if(@$row->TypeCon_legis=='P01'){
-                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->DuePay_Promise*@$row->legispayments->monthdiff );
                                   }else{
-                                    $kangSum = (@$row->legisCompromise->Due_1*$DueCus);
+                                    $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff );
                                   }
                                 @endphp
                                 {{ @$row->legispayments->monthdiff }} 

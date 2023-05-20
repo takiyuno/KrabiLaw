@@ -317,8 +317,8 @@
                     <option value="เงินก้อนแรก(เงินสด)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T01. เงินก้อนแรก(เงินสด)</option>
                     <option value="เงินก้อนแรก(เงินโอน)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T02. เงินก้อนแรก(เงินโอน)</option>
                     @endif
-                    <option value="ชำระเงินสด" {{ ($SetFirstMoney == 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
-                    <option value="ชำระผ่านโอน" {{ ($SetFirstMoney == 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
+                    <option value="ชำระเงินสด" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
+                    <option value="ชำระผ่านโอน" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
                     {{-- <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option> --}}
                   </select>
                 </div>

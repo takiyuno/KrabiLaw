@@ -371,13 +371,21 @@ class LegislationController extends Controller
         $Contract = $request->get('Contno');
 
         if ($DB_type == 1) {       //ลูกหนี้เช่าซื้อ
+
           $data = DB::connection('ibmi2')
-          
               ->table('RSFHP.ARMAST')
               //->leftJoin('RSFHP.INVTRAN','RSFHP.ARMAST.STRNO','=','RSFHP.INVTRAN.STRNO')     
               ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
               ->where('RSFHP.ARMAST.CONTNO','=',$Contract)
               ->first();
+          if( $data==NULL){            
+            $data = DB::connection('ibmi2')
+            ->table('RSFHP.HARMAST')
+            //->leftJoin('RSFHP.INVTRAN','RSFHP.ARMAST.STRNO','=','RSFHP.INVTRAN.STRNO')     
+            ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.HARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
+            ->where('RSFHP.HARMAST.CONTNO','=',$Contract)
+            ->first();
+          }
          // dd($data);
           $dataGT = DB::connection('ibmi2')
               ->table('RSFHP.VIEW_ARMGAR')
@@ -390,6 +398,13 @@ class LegislationController extends Controller
               ->join('RSFHP.AROTHGAR','RSFHP.ARMAST.CONTNO','=','RSFHP.AROTHGAR.CONTNO')
               ->where('RSFHP.ARMAST.CONTNO','=', $Contract)
               ->first();
+            if( $dataAro==NULL){
+              $dataAro = DB::connection('ibmi2')
+              ->table('RSFHP.HARMAST')
+              ->join('RSFHP.AROTHGAR','RSFHP.HRMAST.CONTNO','=','RSFHP.AROTHGAR.CONTNO')
+              ->where('RSFHP.HARMAST.CONTNO','=', $Contract)
+              ->first();
+            }
           
           if ($dataAro != NULL) {
             $SetRealty = 'มีทรัพย์';
@@ -425,6 +440,14 @@ class LegislationController extends Controller
               ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
               ->where('PSFHP.ARMAST.CONTNO','=', $Contract)
               ->first();
+            if($data==NULL){
+              $data = DB::connection('ibmi2')
+              ->table('PSFHP.HARMAST')
+              ->join('PSFHP.HINVTRAN','PSFHP.HARMAST.CONTNO','=','PSFHP.HINVTRAN.CONTNO')
+              ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+              ->where('PSFHP.HARMAST.CONTNO','=', $Contract)
+              ->first();
+            }
               
           $dataGT = DB::connection('ibmi2')
               ->table('PSFHP.VIEW_ARMGAR')
@@ -665,6 +688,14 @@ class LegislationController extends Controller
           ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
           ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
+          if($data==NULL){
+            $data = DB::connection('ibmi2')
+          ->table('PSFHP.HARMAST')
+          ->join('PSFHP.HINVTRAN','PSFHP.HARMAST.CONTNO','=','PSFHP.HINVTRAN.CONTNO')
+          ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+          ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
+          ->first();
+          }
 
         // query ทรัพย์
         $dataAro = DB::connection('ibmi2')
@@ -672,6 +703,13 @@ class LegislationController extends Controller
           ->join('PSFHP.AROTHGAR','PSFHP.ARMAST.CONTNO','=','PSFHP.AROTHGAR.CONTNO')
           ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
+          if( $dataAro==NULL){
+            $dataAro = DB::connection('ibmi2')
+            ->table('PSFHP.HARMAST')
+            ->join('PSFHP.AROTHGAR','PSFHP.HARMAST.CONTNO','=','PSFHP.AROTHGAR.CONTNO')
+            ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
+            ->first();
+          }
         
         $dataGT = DB::connection('ibmi2')
           ->table('PSFHP.VIEW_ARMGAR')
@@ -710,6 +748,14 @@ class LegislationController extends Controller
             ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
             ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
             ->first();
+          if($data==NULL){
+            $data = DB::connection('ibmi2')
+            ->table('PSFHP.HARMAST')
+            ->join('PSFHP.HINVTRAN','PSFHP.HARMAST.CONTNO','=','PSFHP.HINVTRAN.CONTNO')
+            ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+            ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
+            ->first();
+          }
 
           $dataGT = DB::connection('ibmi2')
             ->table('PSFHP.VIEW_ARMGAR')

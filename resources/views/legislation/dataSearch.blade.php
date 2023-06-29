@@ -320,7 +320,7 @@
                                             @elseif($data->Flag == 'C')
                                                 <label class="col-sm-5 col-form-label text-right SizeText">วันที่ประนอม :</label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control form-control-sm SizeText" value="{{ ($data->legisCompromise->Date_Promise != NULL) ?FormatDatethai($data->legisCompromise->Date_Promise) : '-' }}" style="border:none;"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?FormatDatethai($data->legisCompromise->Date_Promise) : '-' }}" style="border:none;"/>
                                                 </div>
                                             @endif
                                         </div>

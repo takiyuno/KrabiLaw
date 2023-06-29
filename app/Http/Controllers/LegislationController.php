@@ -91,13 +91,19 @@ class LegislationController extends Controller
                     return $q->where('Flag_status', $FlagStatus);
                 })
                   // whereBetween('Date_legis',[$Fdate,$Tdate])
-                ->whereIn('Flag', array('Y','W',))
+                ->where('Status_legis','=',NULL)
+                ->whereIn('Flag', array('Y','W'))
                 
                 ->get();
+               
         }
         else{
           $data = Legislation:: //where('Flag_status', 1)
-              whereIn('Flag',array('W'))->where('Flag_status','<>',3)->get();
+              whereNULL('Datesend_Flag')
+              ->where('Status_legis','=',NULL)
+              ->whereIn('Flag', array('Y','W'))
+              //->where('Flag_status','<>',3)
+              ->get();
         }
 
         $type = $request->type;
@@ -333,6 +339,7 @@ class LegislationController extends Controller
                     return $q->where('Flag_status', $FlagStatus);
                 })
                 ->where('Flag', 'C')
+                ->where('Status_legis','=',NULL)
                 ->get();
         }
         else{
@@ -2096,7 +2103,7 @@ class LegislationController extends Controller
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
                 $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
-                $sheet->row($row, array('ลำดับ','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                $sheet->row($row, array('ลำดับ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
@@ -2179,6 +2186,7 @@ class LegislationController extends Controller
                   }
                   $sheet->row(++$row, array(
                     $key+1,
+                    @$value->DateCon_legis,
                     @$Flag[@$value->Flag],
                     @$Flag_Status[@$value->Flag_status],
                     @$value->legisCompromise->Type_Promise,
@@ -2284,7 +2292,7 @@ class LegislationController extends Controller
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
                 $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
-                $sheet->row($row, array('ลำดับ','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                $sheet->row($row, array('ลำดับ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
@@ -2367,13 +2375,14 @@ class LegislationController extends Controller
                   }
                   $sheet->row(++$row, array(
                     $key+1,
+                    @$value->DateCon_legis,
                     @$Flag[@$value->Flag],
                     @$Flag_Status[@$value->Flag_status],
                     @$value->legisCompromise->Type_Promise,
                     @$value->Contract_legis,
                     @$value->Name_legis,
                     @$value->Phone_legis,
-                    $SetStatus,
+                    @$SetStatus,
                     @$value->legiscourt->User_court,
                     @$value->legiscourt->law_court,
                     @$value->legiscourt->bnumber_court,

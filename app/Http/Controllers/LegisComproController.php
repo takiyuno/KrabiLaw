@@ -1461,7 +1461,7 @@ $numDue = 0;
                       $value->legisCompromise->Period_1,
                       $SetDuePrice,
                       ($value->legisCompromise->Sum_FirstPromise + $value->legisCompromise->Sum_DuePayPromise),
-                      $value->legisCompromise->Sum_Promise,
+                      floatval($value->legisCompromise->Total_Promise)- (floatval($value->legisCompromise->Sum_FirstPromise) + floatval($value->legisCompromise->Sum_DuePayPromise)),
                       @$value->legispayments->Date_Payment,
                       @$value->legispayments->Gold_Payment, //ยอดชำระงวดล่าสุด
                       @$dataPay, //ยอดชำระสะสมในเดือน

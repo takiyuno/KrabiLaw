@@ -124,6 +124,7 @@
                       <option value="ปิดจบประนอม" {{($datalegis->Status_legis == 'ปิดจบประนอม') ? 'selected' : ''}} {{(@$ActiveCompro == true) ? '' : 'disabled'}}>02 .ปิดจบประนอม</option>
                       <option value="ปิดจบรถยึด" {{($datalegis->Status_legis == 'ปิดจบรถยึด') ? 'selected' : ''}}>03 .ปิดจบรถยึด</option>
                       <option value="ปิดจบถอนบังคับคดี" {{($datalegis->Status_legis == 'ปิดจบถอนบังคับคดี') ? 'selected' : ''}}>04. ปิดจบถอนบังคับคดี</option>
+                      <option value="ปิดจบขาย" {{($datalegis->Status_legis == 'ปิดจบขาย') ? 'selected' : ''}}>05. ปิดจบขาย</option>
                     </select>
                   </div>
                 </div>

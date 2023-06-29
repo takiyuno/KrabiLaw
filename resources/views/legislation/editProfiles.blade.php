@@ -349,12 +349,16 @@
                       <div class="form-group row mb-0">
                         <label class="col-sm-4 col-form-label text-right SizeText text-red">ประเภทลูกหนี้ :</label>
                         <div class="col-sm-8">
+                          @if(auth::user()->position=="Admin")
                           <select name="TypeCus_Flag" class="form-control form-control-sm SizeText Boxcolor" required>
                             <option value="" selected>--- ประเภทลูกหนี้ ---</option>
-                            <option value="W" {{ ($data->Flag == 'W') ? 'selected' : '' }}>1. ลูกหนี้เตรียมฟ้อง</option>
+                            <option value="W" {{ ($data->Flag == 'W') ? 'selected' : '' }}>1. ลูกหนี้ก่อนฟ้อง</option>
                             <option value="Y" {{ ($data->Flag == 'Y') ? 'selected' : '' }}>2. ลูกหนี้งานฟ้อง</option>
-                            <option value="C" {{ ($data->Flag == 'C') ? 'selected' : '' }}>3. หลุดขายฝาก</option>
+                            <option value="C" {{ ($data->Flag == 'C') ? 'selected' : '' }}>3. ลูกหนี้หลุดขายฝาก</option>
                           </select>
+                          @else 
+                            <input type="text"  value="{{$Flag[$data->Flag]}}" class="form-control form-control-sm" readonly>
+                          @endif
                         </div>
                       </div>
                     </div>
@@ -362,12 +366,16 @@
                       <div class="form-group row mb-0">
                         <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะลูกหนี้ :</label>
                         <div class="col-sm-8">
+                          @if(auth::user()->position=="Admin")
                           <select class="form-control form-control-sm SizeText" readonly>
                             <option value="" selected>--- สถานะลูกหนี้ ---</option>
-                            <option value="1" {{ ($data->Flag_status == 1) ? 'selected' : '' }}>เตรียมฟ้อง</option>
-                            <option value="2" {{ ($data->Flag_status == 2) ? 'selected' : '' }}>ส่งฟ้อง</option>
+                            <option value="1" {{ ($data->Flag_status == 1) ? 'selected' : '' }}>ไม่ประนอมหนี้</option>
+                            <option value="2" {{ ($data->Flag_status == 2) ? 'selected' : '' }}>ไม่ประนอมหนี้</option>
                             <option value="3" {{ ($data->Flag_status == 3) ? 'selected' : '' }}>ประนอมหนี้</option>
                           </select>
+                          @else 
+                          <input type="text"  value="{{$Flag_Status[$data->Flag_status]}}" class="form-control form-control-sm" readonly>
+                        @endif
                         </div>
                       </div>
                     </div>

@@ -38,7 +38,8 @@ class LegislationController extends Controller
       $Tdate = NULL;
       $FlagTab = NULL;
       $dateSearch = NULL;
-      $Flag_Status = $arrayName = array('1' =>'เตรียมฟ้อง' ,'2'=>'ส่งฟ้อง','3'=>'ประนอมหนี้' );
+      $Flag = $arrayName = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
+      $Flag_Status = $arrayName = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
       if ($request->get('dateSearch')) {
         $dateSearch = $request->dateSearch;
 
@@ -100,7 +101,7 @@ class LegislationController extends Controller
         }
 
         $type = $request->type;
-        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status'));
+        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status','Flag'));
       }
       elseif ($request->type == 4) {   // View-ลูกหนี้ชั้นศาล
        
@@ -142,7 +143,7 @@ class LegislationController extends Controller
 
         // dump($data1,$data2);
         $type = $request->type;
-        return view('legisCourt.view', compact('type','data1','data2','data3','data4','data5','data6','dateSearch','FlagTab','Flag_Status' ));
+        return view('legisCourt.view', compact('type','data1','data2','data3','data4','data5','data6','dateSearch','FlagTab','Flag_Status','Flag' ));
       }
       elseif ($request->type == 5) {   // View-ลูกหนี้ชั้นบังคับคดี
         $data1 = Legislation::where('Status_legis', NULL)
@@ -176,7 +177,7 @@ class LegislationController extends Controller
           ->get();
 
         $type = $request->type;
-        return view('legisCourt.view', compact('type','Flag','data1','data2','data3','data4','data5','dateSearch','FlagTab','Flag_Status'));
+        return view('legisCourt.view', compact('type','Flag','data1','data2','data3','data4','data5','dateSearch','FlagTab','Flag_Status','Flag'));
       }
       elseif ($request->type == 6) {   // View-สืบทรัพย์
         $data1 = Legislation::where('Status_legis', NULL)
@@ -336,12 +337,14 @@ class LegislationController extends Controller
         }
         else{
           $data = Legislation::
-                  where('Flag', 'C')->get();
+                  where('Flag', 'C')
+                  ->where('Status_legis','=',NULL)->get();
         }
 
         $type = $request->type;
-       
-        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status'));
+
+      
+        return view('legislation.viewLegis', compact('type', 'data','dateSearch','FlagStatus','Flag_Status','Flag'));
       }
     }
 
@@ -401,7 +404,7 @@ class LegislationController extends Controller
             if( $dataAro==NULL){
               $dataAro = DB::connection('ibmi2')
               ->table('RSFHP.HARMAST')
-              ->join('RSFHP.AROTHGAR','RSFHP.HRMAST.CONTNO','=','RSFHP.AROTHGAR.CONTNO')
+              ->join('RSFHP.AROTHGAR','RSFHP.HARMAST.CONTNO','=','RSFHP.AROTHGAR.CONTNO')
               ->where('RSFHP.HARMAST.CONTNO','=', $Contract)
               ->first();
             }
@@ -743,10 +746,10 @@ class LegislationController extends Controller
           $SetTypeConn = 'P01';
 
           $data = DB::connection('ibmi2')
-            ->table('PSFHP.ARMAST')
-            ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')
-            ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
-            ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
+            ->table('P132SFHP.ARMAST')
+            ->join('P132SFHP.INVTRAN','P132SFHP.ARMAST.CONTNO','=','P132SFHP.INVTRAN.CONTNO')
+            ->join('P132SFHP.VIEW_CUSTMAIL','P132SFHP.ARMAST.CUSCOD','=','P132SFHP.VIEW_CUSTMAIL.CUSCOD')
+            ->where('P132SFHP.ARMAST.CONTNO','=', $SetStrConn)
             ->first();
           if($data==NULL){
             $data = DB::connection('ibmi2')
@@ -763,14 +766,17 @@ class LegislationController extends Controller
             ->first();
         }
 
-      //ประเภทลูกหนี้
+      //ประเภทลูกหนี้ 
+      if($dataAro!=NULL){
+          $FlagAsset = true;
+        }else{
+          $FlagAsset = false;
+        }
       if ($request->TypeCus_Flag == 'Y' || $request->TypeCus_Flag=='W') {        //ลูกหนี้เตรียมฟ้อง
-        $SetFalg = 1;
-        $FlagAsset = true;
+        $SetFalg = 2;
         $FlagCompro = false;
       }elseif ($request->TypeCus_Flag == 'C') {   //ขายฝาก
-        $SetFalg = 1;
-        $FlagAsset = false;
+        $SetFalg = 2;
         $FlagCompro = false;
       }
 
@@ -778,7 +784,7 @@ class LegislationController extends Controller
         if (@$dataGT != Null) {
           $SetGTAddress = (iconv('TIS-620', 'utf-8', str_replace(" ","",$dataGT->ADDRES))." ต.".iconv('TIS-620', 'utf-8', str_replace(" ","",$dataGT->TUMB))." อ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$dataGT->AUMPDES))." จ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$dataGT->PROVDES))."  ".iconv('TIS-620', 'utf-8', str_replace(" ","",$dataGT->ZIP)));
         }
-
+       
         $dataLegis = new Legislation([
           'TypeDB_Legis' => @$SetTypeDB,
           'Date_legis' => date('Y-m-d'),
@@ -919,7 +925,8 @@ class LegislationController extends Controller
       $dateSearch = NULL;
       $Fdate = NULL;
       $Tdate = NULL;
-
+      $Flag = $arrayName = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
+      $Flag_Status = $arrayName = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
       if ($request->get('FlagTab')) {
         $FlagTab = $request->get('FlagTab');
         $FlagPage = $request->get('FlagPage');
@@ -939,7 +946,7 @@ class LegislationController extends Controller
         $data = Legislation::find($id);
         $billcoll = TB_Billcoll::get();
         $type = $request->type;
-        return view('legislation.editProfiles',compact('data','id','type','billcoll'));
+        return view('legislation.editProfiles',compact('data','id','type','billcoll','Flag_Status','Flag'));
       }
       elseif ($request->type == 4) {  //ลูกหนี้ชั้นศาล
         $data = Legislation::find($id);
@@ -961,7 +968,7 @@ class LegislationController extends Controller
         }
 
         $type = $request->type;
-        return view('legisCourt.editCourt',compact('data','id','type','FlagTab','FlagPage','dateSearch'));
+        return view('legisCourt.editCourt',compact('data','id','type','FlagTab','FlagPage','dateSearch','Flag_Status','Flag'));
       }
       elseif ($request->type == 5) {  //ลูกหนี้ชั้นบังคับคดี
         $data = Legislation::find($id);
@@ -989,7 +996,7 @@ class LegislationController extends Controller
         }
 
         $type = $request->type;
-        return view('legisCourt.editCourtcase',compact('data','dataPublish','dataImages','id','type','FlagTab','FlagPage','dateSearch','lat','long'));
+        return view('legisCourt.editCourtcase',compact('data','dataPublish','dataImages','id','type','FlagTab','FlagPage','dateSearch','lat','long','Flag_Status','Flag'));
       }
       elseif ($request->type == 6) {  //ชั้นสืบทรัพย์ //รูปโฉนด-แผนที่
         if ($request->has('flag')) {
@@ -1017,7 +1024,7 @@ class LegislationController extends Controller
 
         $type = $request->type;
         $Flag = $request->Flag;
-        return view('legisAsset.editAsset',compact('data','id','type','Flag','dataImages','lat','long','lat2','long2'));
+        return view('legisAsset.editAsset',compact('data','id','type','Flag','dataImages','lat','long','lat2','long2','Flag_Status','Flag'));
 
       }
       elseif ($request->type == 7) {   //เอกสารประกอบ
@@ -1161,7 +1168,7 @@ class LegislationController extends Controller
               $user->Flag_status = 2;
             }else {
               $user->Flag = $request->get('TypeCus_Flag');
-              $user->Flag_status = 1;
+              $user->Flag_status = 2;
             }
           }
         $user->update();
@@ -1794,7 +1801,7 @@ class LegislationController extends Controller
 
           Excel::create('รายงานลูกหนี้งานกฏหมาย', function ($excel) use($data,$status) {
             $excel->sheet($status, function ($sheet) use($data,$status) {
-                $sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
+                //$sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
                 $sheet->prependRow(2, array($status));
                 $sheet->cells('A3:Z3', function($cells) {
                   $cells->setBackground('#FFCC00');
@@ -1804,7 +1811,7 @@ class LegislationController extends Controller
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
-                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ'));
+                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
   
                 foreach ($data as $key => $value) {
                   //วันสืบพยาน
@@ -1910,6 +1917,8 @@ class LegislationController extends Controller
                     number_format(@$value->txtStatus_legis, 2),
                     number_format(@$value->Discount_legis, 2),
                     @$value->Note,
+                    @$value->dateStopRev,
+                    @$value->dateCutOff,
                   ));
                 }
             });
@@ -2019,6 +2028,372 @@ class LegislationController extends Controller
           });
         })->export('xlsx');
       }
+      elseif ($request->type == 7) {    //รายงาน ลูกหนี้ทั้งหมด
+        // $data = Legislation::where('Status_legis', NULL)
+        //   ->where('Flag', 'Y')
+        //   ->where(function ($query) {
+        //     return $query->where('Flag_Class', 'สถานะส่งฟ้อง')
+        //     ->orwhere('Flag_Class', 'สถานะส่งสืบพยาน')
+        //     ->orwhere('Flag_Class', 'สถานะส่งคำบังคับ')
+        //     ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมาย')
+        //     ->orwhere('Flag_Class', 'สถานะส่งตั้งเจ้าพนักงาน')
+        //     ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมายตั้ง');
+        //   })
+        //   ->get();
+        
+        // $status = 'ลูกหนี้ชั้นศาล';
+        // Excel::create('รายงานลูกหนี้ชั้นศาล', function ($excel) use($data,$status) {
+        //   $excel->sheet($status, function ($sheet) use($data,$status) {
+        //       $sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
+        //       $sheet->prependRow(2, array($status));
+        //       $sheet->cells('A3:F3', function($cells) {
+        //         $cells->setBackground('#FFCC00');
+        //       });
+        //       $row = 3;
+        //       $sheet->row($row, array('ลำดับ','เลขที่สัญญา','ชื่อ-สกุล','เบอร์ติดต่อ','ชั้นลูกหนี้','หมายเหตุ'));
+
+        //       foreach ($data as $key => $value) {
+        //         $sheet->row(++$row, array(
+        //           $key+1,
+        //           $value->Contract_legis,
+        //           $value->Name_legis,
+        //           $value->Phone_legis,
+        //           $value->Flag_Class,
+        //           $value->Note,
+        //         ));
+        //       }
+        //   });
+        // })->export('xlsx');
+
+          $data = Legislation::where('Status_legis','=', NULL)
+              ->where('Flag', 'Y')
+              // ->where(function ($query) {
+              //       return $query->where('Flag_Class', 'สถานะส่งฟ้อง')
+              //       ->orwhere('Flag_Class', 'สถานะส่งสืบพยาน')
+              //       ->orwhere('Flag_Class', 'สถานะส่งคำบังคับ')
+              //       ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมาย')
+              //       ->orwhere('Flag_Class', 'สถานะส่งตั้งเจ้าพนักงาน')
+              //       ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมายตั้ง');
+              //     })
+              // ->Wherehas('legiscourt',function ($query) {
+              //   return $query->where('fillingdate_court','!=', NULL);
+              // })
+              ->with('legiscourt')
+              ->with('legiscourtCase')
+              ->with('legisCompromise')
+              ->with('Legisasset')
+              ->get();
+          $status = 'ลูกหนี้ชั้นศาล';
+          // dd($data[0]);
+
+          Excel::create('รายงานลูกหนี้งานกฏหมาย', function ($excel) use($data,$status) {
+            $excel->sheet($status, function ($sheet) use($data,$status) {
+                //$sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
+                $sheet->prependRow(2, array($status));
+                $sheet->cells('A3:Z3', function($cells) {
+                  $cells->setBackground('#FFCC00');
+                });
+                $row = 3;
+                $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
+                    'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
+                    'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
+                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
+  
+                foreach ($data as $key => $value) {
+                  //วันสืบพยาน
+                  if (@$value->legiscourt->fuzzy_court != NULL) {
+                    $Setexamiday = @$value->legiscourt->fuzzy_court;
+                  }else {
+                    $Setexamiday = @$value->legiscourt->examiday_court;
+                  }
+                  //วันส่งคำบังคับ
+                  if (@$value->legiscourt->ordersend_court != NULL) {
+                    $Setordersend = @$value->legiscourt->ordersend_court;
+                  }else {
+                    $Setordersend = @$value->legiscourt->orderday_court;
+                  }
+                  //วันตรวจผลหมาย
+                  if (@$value->legiscourt->checksend_court != NULL) {
+                    $Setchecksend = @$value->legiscourt->checksend_court;
+                  }else {
+                    $Setchecksend = @$value->legiscourt->checkday_court;
+                  }
+                  //วันตั้งเจ้าพนักงาน
+                  if (@$value->legiscourt->sendoffice_court != NULL) {
+                    $Setsendoffice = @$value->legiscourt->sendoffice_court;
+                  }else {
+                    $Setsendoffice = @$value->legiscourt->setoffice_court;
+                  }
+                  //วันตรวจผลหมายตั้ง
+                  if (@$value->legiscourt->sendcheckresults_court != NULL) {
+                    $Setsendcheckresults = @$value->legiscourt->sendcheckresults_court;
+                  }else {
+                    $Setsendcheckresults = @$value->legiscourt->checkresults_court;
+                  }
+                  //สถานะลูกหนี้
+                  if (@$value->Status_legis != NULL) {
+                    $SetStatus = @$value->Status_legis;
+                  }else {
+                    if ($value->Flag_Class != NULL) {
+                      $SetStatus = @$value->Flag_Class;
+                    }
+                  }
+                  //สถานะสืบทรัพย์
+                  if (@$value->Legisasset->propertied_asset == "Y") {
+                    $SetTextAsset = "มีทรัพย์";
+                  }elseif (@$value->Legisasset->propertied_asset == "N") {
+                    $SetTextAsset = "ไม่มีทรัพย์";
+                  }else {
+                    $SetTextAsset = "ไม่มีข้อมูล";
+                  }
+                  //สถานะประนอมหนี้
+                  if (@$value->Legisasset->Date_Promise != NULL) {
+                    $SetTextCompro = "ประนอมหนี้";
+                  }else {
+                    $SetTextCompro = "ไม่มีข้อมูล";
+                  }
+                  //ยอดตั้งฟ้อง
+                  if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court != NULL){
+                    $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court + @$value->legiscourt->pricelawyer_court;
+                  }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court == NULL){
+                    $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court;
+                  }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court == NULL and @$value->legiscourt->pricelawyer_court == NULL){
+                    $SetCourtPrice = @$value->legiscourt->capital_court;
+                  }else{
+                    $SetCourtPrice = 0;
+                  }
+                  //ยอดค่าฟ้อง
+                  if(@$value->legiscourt->indictment_court != NULL){
+                    $SetPrice = @$value->legiscourt->indictment_court;
+                  }else{
+                    $SetPrice = 0;
+                  }
+                  //ยอดศาลสั่ง
+                  if(@$value->legiscourt->adjudicate_price != NULL){
+                    $SetPriceAdjud = @$value->legiscourt->adjudicate_price;
+                  }else{
+                    $SetPriceAdjud = 0;
+                  }
+                  $sheet->row(++$row, array(
+                    $key+1,
+                    @$value->Contract_legis,
+                    @$value->Name_legis,
+                    @$value->Phone_legis,
+                    $SetStatus,
+                    @$value->legiscourt->User_court,
+                    @$value->legiscourt->law_court,
+                    @$value->legiscourt->bnumber_court,
+                    @$value->legiscourt->rnumber_court,
+                    @$value->legiscourt->fillingdate_court,
+                    number_format(@$value->Sumperiod_legis, 2),
+                    number_format(@$SetCourtPrice, 2),
+                    number_format(@$SetPrice, 2),
+                    number_format(@$SetPriceAdjud, 2),
+                    
+                    $Setexamiday,
+                    $Setordersend,
+                    $Setchecksend,
+                    $Setsendoffice,
+                    $Setsendcheckresults,
+                    @$value->Date_asset,
+                    $SetTextAsset,
+                    $SetTextCompro,
+                    @$value->DateStatus_legis,
+                    number_format(floatval(@$value->PriceStatus_legis), 2),
+                    @$value->txtStatus_legis,
+                    number_format(floatval(@$value->Discount_legis), 2),
+                    @$value->Note,
+                    @$value->dateStopRev,
+                    @$value->dateCutOff,
+                  ));
+                }
+            });
+          })->export('xlsx');
+      }
+      elseif ($request->type == 8) {    //รายงาน ลูกหนี้ทั้งหมด
+        // $data = Legislation::where('Status_legis', NULL)
+        //   ->where('Flag', 'Y')
+        //   ->where(function ($query) {
+        //     return $query->where('Flag_Class', 'สถานะส่งฟ้อง')
+        //     ->orwhere('Flag_Class', 'สถานะส่งสืบพยาน')
+        //     ->orwhere('Flag_Class', 'สถานะส่งคำบังคับ')
+        //     ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมาย')
+        //     ->orwhere('Flag_Class', 'สถานะส่งตั้งเจ้าพนักงาน')
+        //     ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมายตั้ง');
+        //   })
+        //   ->get();
+        
+        // $status = 'ลูกหนี้ชั้นศาล';
+        // Excel::create('รายงานลูกหนี้ชั้นศาล', function ($excel) use($data,$status) {
+        //   $excel->sheet($status, function ($sheet) use($data,$status) {
+        //       $sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
+        //       $sheet->prependRow(2, array($status));
+        //       $sheet->cells('A3:F3', function($cells) {
+        //         $cells->setBackground('#FFCC00');
+        //       });
+        //       $row = 3;
+        //       $sheet->row($row, array('ลำดับ','เลขที่สัญญา','ชื่อ-สกุล','เบอร์ติดต่อ','ชั้นลูกหนี้','หมายเหตุ'));
+
+        //       foreach ($data as $key => $value) {
+        //         $sheet->row(++$row, array(
+        //           $key+1,
+        //           $value->Contract_legis,
+        //           $value->Name_legis,
+        //           $value->Phone_legis,
+        //           $value->Flag_Class,
+        //           $value->Note,
+        //         ));
+        //       }
+        //   });
+        // })->export('xlsx');
+
+          $data = Legislation::where('Status_legis','=', NULL)
+              ->where('Flag', 'C')
+              // ->where(function ($query) {
+              //       return $query->where('Flag_Class', 'สถานะส่งฟ้อง')
+              //       ->orwhere('Flag_Class', 'สถานะส่งสืบพยาน')
+              //       ->orwhere('Flag_Class', 'สถานะส่งคำบังคับ')
+              //       ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมาย')
+              //       ->orwhere('Flag_Class', 'สถานะส่งตั้งเจ้าพนักงาน')
+              //       ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมายตั้ง');
+              //     })
+              // ->Wherehas('legiscourt',function ($query) {
+              //   return $query->where('fillingdate_court','!=', NULL);
+              // })
+              ->with('legiscourt')
+              ->with('legiscourtCase')
+              ->with('legisCompromise')
+              ->with('Legisasset')
+              ->get();
+          $status = 'ลูกหนี้ชั้นศาล';
+          // dd($data[0]);
+
+          Excel::create('รายงานลูกหนี้งานกฏหมาย', function ($excel) use($data,$status) {
+            $excel->sheet($status, function ($sheet) use($data,$status) {
+                //$sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
+                $sheet->prependRow(2, array($status));
+                $sheet->cells('A3:Z3', function($cells) {
+                  $cells->setBackground('#FFCC00');
+                });
+                $row = 3;
+                $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
+                    'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
+                    'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
+                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
+  
+                foreach ($data as $key => $value) {
+                  //วันสืบพยาน
+                  if (@$value->legiscourt->fuzzy_court != NULL) {
+                    $Setexamiday = @$value->legiscourt->fuzzy_court;
+                  }else {
+                    $Setexamiday = @$value->legiscourt->examiday_court;
+                  }
+                  //วันส่งคำบังคับ
+                  if (@$value->legiscourt->ordersend_court != NULL) {
+                    $Setordersend = @$value->legiscourt->ordersend_court;
+                  }else {
+                    $Setordersend = @$value->legiscourt->orderday_court;
+                  }
+                  //วันตรวจผลหมาย
+                  if (@$value->legiscourt->checksend_court != NULL) {
+                    $Setchecksend = @$value->legiscourt->checksend_court;
+                  }else {
+                    $Setchecksend = @$value->legiscourt->checkday_court;
+                  }
+                  //วันตั้งเจ้าพนักงาน
+                  if (@$value->legiscourt->sendoffice_court != NULL) {
+                    $Setsendoffice = @$value->legiscourt->sendoffice_court;
+                  }else {
+                    $Setsendoffice = @$value->legiscourt->setoffice_court;
+                  }
+                  //วันตรวจผลหมายตั้ง
+                  if (@$value->legiscourt->sendcheckresults_court != NULL) {
+                    $Setsendcheckresults = @$value->legiscourt->sendcheckresults_court;
+                  }else {
+                    $Setsendcheckresults = @$value->legiscourt->checkresults_court;
+                  }
+                  //สถานะลูกหนี้
+                  if (@$value->Status_legis != NULL) {
+                    $SetStatus = @$value->Status_legis;
+                  }else {
+                    if ($value->Flag_Class != NULL) {
+                      $SetStatus = @$value->Flag_Class;
+                    }
+                  }
+                  //สถานะสืบทรัพย์
+                  if (@$value->Legisasset->propertied_asset == "Y") {
+                    $SetTextAsset = "มีทรัพย์";
+                  }elseif (@$value->Legisasset->propertied_asset == "N") {
+                    $SetTextAsset = "ไม่มีทรัพย์";
+                  }else {
+                    $SetTextAsset = "ไม่มีข้อมูล";
+                  }
+                  //สถานะประนอมหนี้
+                  if (@$value->Legisasset->Date_Promise != NULL) {
+                    $SetTextCompro = "ประนอมหนี้";
+                  }else {
+                    $SetTextCompro = "ไม่มีข้อมูล";
+                  }
+                  //ยอดตั้งฟ้อง
+                  if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court != NULL){
+                    $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court + @$value->legiscourt->pricelawyer_court;
+                  }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court == NULL){
+                    $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court;
+                  }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court == NULL and @$value->legiscourt->pricelawyer_court == NULL){
+                    $SetCourtPrice = @$value->legiscourt->capital_court;
+                  }else{
+                    $SetCourtPrice = 0;
+                  }
+                  //ยอดค่าฟ้อง
+                  if(@$value->legiscourt->indictment_court != NULL){
+                    $SetPrice = @$value->legiscourt->indictment_court;
+                  }else{
+                    $SetPrice = 0;
+                  }
+                  //ยอดศาลสั่ง
+                  if(@$value->legiscourt->adjudicate_price != NULL){
+                    $SetPriceAdjud = @$value->legiscourt->adjudicate_price;
+                  }else{
+                    $SetPriceAdjud = 0;
+                  }
+                  $sheet->row(++$row, array(
+                    $key+1,
+                    @$value->Contract_legis,
+                    @$value->Name_legis,
+                    @$value->Phone_legis,
+                    $SetStatus,
+                    @$value->legiscourt->User_court,
+                    @$value->legiscourt->law_court,
+                    @$value->legiscourt->bnumber_court,
+                    @$value->legiscourt->rnumber_court,
+                    @$value->legiscourt->fillingdate_court,
+                    number_format(@$value->Sumperiod_legis, 2),
+                    number_format(@$SetCourtPrice, 2),
+                    number_format(@$SetPrice, 2),
+                    number_format(@$SetPriceAdjud, 2),
+                    
+                    $Setexamiday,
+                    $Setordersend,
+                    $Setchecksend,
+                    $Setsendoffice,
+                    $Setsendcheckresults,
+                    @$value->Date_asset,
+                    $SetTextAsset,
+                    $SetTextCompro,
+                    @$value->DateStatus_legis,
+                    number_format(floatval(@$value->PriceStatus_legis), 2),
+                    @$value->txtStatus_legis,
+                    number_format(floatval(@$value->Discount_legis), 2),
+                    @$value->Note,
+                    @$value->dateStopRev,
+                    @$value->dateCutOff,
+                  ));
+                }
+            });
+          })->export('xlsx');
+      }
       if($request->FlagTab == 6){
         $datefrom = $request->Fdate ;//"2022-01-01";
         $dateto = $request->Tdate;//"2023-02-28";
@@ -2026,6 +2401,7 @@ class LegislationController extends Controller
 
         return view('legisCourt.reportCourt', compact('datefrom','dateto'));
     }
+
     }
 
     public function download(Request $request,$file)

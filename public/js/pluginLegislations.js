@@ -70,12 +70,15 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
         columnDefs: [
           { type: 'date-uk', targets: 0 }
          ],
-          "responsive": true,
-          "autoWidth": false,
-          "ordering": true,
-          "lengthChange": true,
+         
+         responsive: false,
+         autoWidth: false,
+         ordering: true,
+         lengthChange: true,
           "order": [[ 0, "asc" ]],
-       
+          scrollY: "600px",
+          scrollX: true,
+          scrollCollapse: true,
           "dom": 'Blfrtip',
           "buttons": [
               'excel', 'print', 

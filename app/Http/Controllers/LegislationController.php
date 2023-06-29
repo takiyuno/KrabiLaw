@@ -38,8 +38,8 @@ class LegislationController extends Controller
       $Tdate = NULL;
       $FlagTab = NULL;
       $dateSearch = NULL;
-      $Flag = $arrayName = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
-      $Flag_Status = $arrayName = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+      $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
+      $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
       if ($request->get('dateSearch')) {
         $dateSearch = $request->dateSearch;
 
@@ -2064,9 +2064,9 @@ class LegislationController extends Controller
         //       }
         //   });
         // })->export('xlsx');
-
+       
           $data = Legislation::where('Status_legis','=', NULL)
-              ->where('Flag', 'Y')
+              ->whereIn('Flag', ['Y','W'])
               // ->where(function ($query) {
               //       return $query->where('Flag_Class', 'สถานะส่งฟ้อง')
               //       ->orwhere('Flag_Class', 'สถานะส่งสืบพยาน')
@@ -2094,7 +2094,9 @@ class LegislationController extends Controller
                   $cells->setBackground('#FFCC00');
                 });
                 $row = 3;
-                $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
+                $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+                $sheet->row($row, array('ลำดับ','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
@@ -2177,6 +2179,9 @@ class LegislationController extends Controller
                   }
                   $sheet->row(++$row, array(
                     $key+1,
+                    @$Flag[@$value->Flag],
+                    @$Flag_Status[@$value->Flag_status],
+                    @$value->legisCompromise->Type_Promise,
                     @$value->Contract_legis,
                     @$value->Name_legis,
                     @$value->Phone_legis,
@@ -2277,7 +2282,9 @@ class LegislationController extends Controller
                   $cells->setBackground('#FFCC00');
                 });
                 $row = 3;
-                $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
+                $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+                $sheet->row($row, array('ลำดับ','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
@@ -2360,6 +2367,9 @@ class LegislationController extends Controller
                   }
                   $sheet->row(++$row, array(
                     $key+1,
+                    @$Flag[@$value->Flag],
+                    @$Flag_Status[@$value->Flag_status],
+                    @$value->legisCompromise->Type_Promise,
                     @$value->Contract_legis,
                     @$value->Name_legis,
                     @$value->Phone_legis,

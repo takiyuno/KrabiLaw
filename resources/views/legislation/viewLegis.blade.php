@@ -75,10 +75,11 @@
                     <th class="text-center">ยอดค้าง</th>
                     <th class="text-center">วันรับงาน</th>
                     <th class="text-center">ระยะเวลา</th>
-                    <th class="text-center">ผู้จัดเตรียม</th>
+                    
                     <th class="text-center">วันหยุดรับรู้รายได้</th>
                     <th class="text-center">วันตัดหนี้ศูนย์</th>
                     <th class="text-center">หมายเหตุ</th>
+                    <th class="text-center">ผู้จัดเตรียม</th>
                     <th class="text-center" style="width: 80px">สถานะ</th>
                     <th class="text-center" style="width: 80px">ตัวเลือก</th>
                   </tr>
@@ -127,7 +128,7 @@
                           </span>
                         @endif
                       </td>
-                      <td class="text-center"> {{ $row->UserSend2_legis }}</td>
+                      
                       <td class="text-left" title="{{ @$row->dateStopRev }}">
                         <span class="dateHide">{{ $row->dateStopRev!=NULL?date_format(date_create(@$row->dateStopRev), 'Ymd'):''}} </span> 
                         {{$row->dateStopRev!=NULL?date('d-m-Y', strtotime($row->dateStopRev)):''}}
@@ -136,6 +137,7 @@
                         <span class="dateHide">{{ @$row->dateCutOff!=NULL?date_format(date_create(@$row->dateCutOff), 'Ymd'):''}} </span> 
                         {{@$row->dateCutOff!=NULL?date('d-m-Y', strtotime($row->dateCutOff)):''}}
                       </td>
+                      <td class="text-center"> {{ $row->UserSend2_legis }}</td>
                       <td class="text-left" title="{{ $row->Noteby_legis }}"> {{ str_limit($row->Noteby_legis,30) }} </td>
                       
                       <td class="text-center">

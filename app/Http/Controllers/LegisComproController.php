@@ -447,6 +447,9 @@ $numDue = 0;
         $dataCompro = Legiscompromise::where('legislation_id',$request->id)
                                         ->where('Flag_Promise','=','Active')->first();
         if ($dataCompro == NULL) {
+            $user = Legislation::find($request->id);
+            $user->Flag_status = 3;
+            $user->update();
           $LegisCompro = new Legiscompromise([
             'legislation_id' => $request->id,
             'Flag_Promise' => 'Active',
@@ -478,6 +481,9 @@ $numDue = 0;
           ]);
           $LegisCompro->save();
         }else {
+          $user = Legislation::find($request->id);
+          $user->Flag_status = 3;
+          $user->update();
           $LegisCompro = Legiscompromise::where('legislation_id',$request->id)->first();
             if ($LegisCompro->Flag_Promise == NULL) {
               $LegisCompro->Flag_Promise = 'Active';

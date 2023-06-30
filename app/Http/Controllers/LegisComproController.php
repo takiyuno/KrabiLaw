@@ -42,7 +42,7 @@ class LegisComproController extends Controller
       if ($request->type == 1) {       //หน้าหลัก ประนอมหนี้
           $dataNew = DB::table('legislations')
               ->join('Legiscompromises','legislations.id','=','Legiscompromises.legisPromise_id')
-              ->where('Legiscompromises.Date_Promise','!=', null)
+              ->where('legislations.Flag_status','=', '3')
               ->where('legislations.Flag','!=', 'C')
               ->get();
 
@@ -1414,10 +1414,10 @@ $numDue = 0;
                       $SetDuePrice = $value->legisCompromise->DuePay_Promise;
                     }
   
-                    if($value->Flag == 'Y'){
-                      $SetComproType = 'ประนอมใหม่';
-                    }elseif($value->Flag == 'C'){
-                      $SetComproType = 'ประนอมเก่า';
+                    if(($value->Flag == 'Y' || $value->Flag == "W") && $value->Flag_status ==3  ){
+                      $SetComproType = 'ประนอม';
+                    }elseif($value->Flag == 'C'  && $value->Flag_status ==3 ){
+                      $SetComproType = 'ประนอมขายฝาก';
                     }
 
                     if (@$value->legisTrackings->Status_Track != 'Y') {
@@ -1448,7 +1448,7 @@ $numDue = 0;
                     }
   
                     $sheet->row(++$row, array(
-                      $SetComproType,
+                      $value->legisCompromise->Type_Promise,
                       $value->Contract_legis,
                       $value->Name_legis,
                       @$value->legiscourt->fillingdate_court,

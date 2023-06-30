@@ -32,7 +32,7 @@ class Legislation extends Model
 
   public function legisCompromise()
   {
-    return $this->hasOne(Legiscompromise::class,'legislation_id','id');
+    return $this->hasOne(Legiscompromise::class,'legislation_id','id')->latest();
   }
 
   public function legispayments()

@@ -163,7 +163,7 @@
             </div>
             <div class="col-4">
               <div class="card-tools d-inline float-right">
-                @if($data->Flag_status == 1)
+                @if($data->Flag_status == 2 && $data->Datesend_Flag == NULL)
                   <button type="button" class="delete-modal btn btn-info btn-sm SizeText hover-up" data-toggle="modal" data-target="#modal-Popup" data-link="{{ route('MasterLegis.show',$id) }}?type={{1}}">
                     <i class="fas fa-share-square"></i> ยื่นฟ้อง
                   </button>
@@ -171,9 +171,9 @@
                 <button type="submit" class="btn btn-success btn-sm SizeText hover-up">
                   <i class="fas fa-save"></i> บันทึก
                 </button>
-                <a href="{{ route('MasterLegis.edit',$id) }}?type={{13}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up DeleteCompro" title="ลบรายการ">
+                {{-- <a href="{{ route('MasterLegis.edit',$id) }}?type={{13}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up DeleteCompro" title="ลบรายการ">
                   <i class="far fa-trash-alt"></i> ลบ
-                </a>
+                </a> --}}
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status >1 && $data->Flag != 'W'  ) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{4}}">
+                  <a class="list-group-item hover-up {{ ($data->Datesend_Flag != NULL ) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{4}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-balance-scale text-muted"></i>
@@ -235,7 +235,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{5}}">
+                  <a class="list-group-item hover-up {{ ( $data->Datesend_Flag != NULL ) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{5}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-link text-muted"></i>
@@ -246,7 +246,7 @@
                       @endif
                     </div>
                   </a>
-                  <a class="list-group-item hover-up {{ ($data->Flag_status >1  && $data->Flag != 'W') ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{6}}">
+                  <a class="list-group-item hover-up {{ ($data->Datesend_Flag != NULL ) ? '' : 'disabled' }}" href="{{ route('MasterLegis.edit',[$data->id]) }}?type={{6}}">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-search-location text-muted"></i>

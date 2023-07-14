@@ -242,8 +242,12 @@
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>
                                 {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
-                              <td class="text-right">
-                                @if(@$row->legisCompromise->FirstManey_1 != 0)
+                              <td class="text-center">
+                                <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                  {{@$row->Flag_Class}}
+                                </button>
+                               
+                                {{-- @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
                                     <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
                                       <i class="fas fa-hands-helping prem"></i>
@@ -267,7 +271,7 @@
                                   <button data-toggle="tooltip" type="button" class="btn btn-warning btn-sm hover-up" title="ยังไม่คีย์เงินก้อนแรก">
                                     <i class="fas fa-comment-dollar prem"></i>
                                   </button>
-                                @endif
+                                @endif --}}
 
                               </td>
                               <td class="text-right">
@@ -353,8 +357,11 @@
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>  
                                  {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
-                              <td class="text-right">
-                                @if(@$row->legisCompromise->FirstManey_1 != 0)
+                              <td class="text-center">
+                                <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                  {{@$row->Flag_Class}}
+                                </button>
+                                {{-- @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
                                     <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
                                       <i class="fas fa-hands-helping prem"></i>
@@ -378,7 +385,7 @@
                                   <button data-toggle="tooltip" type="button" class="btn btn-warning btn-sm hover-up" title="ยังไม่คีย์เงินก้อนแรก">
                                     <i class="fas fa-comment-dollar prem"></i>
                                   </button>
-                                @endif
+                                @endif --}}
                               </td>
                               <td class="text-right">
                                 <a href="{{ route('MasterCompro.edit',[$row->id]) }}?type={{$type}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
@@ -463,8 +470,11 @@
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span> 
                                 {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
-                              <td class="text-right">
-                                @if(@$row->legisCompromise->FirstManey_1 != 0)
+                              <td class="text-center">
+                                <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                  {{@$row->Flag_Class}}
+                                </button>
+                                {{-- @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
                                     <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
                                       <i class="fas fa-hands-helping prem"></i>
@@ -488,7 +498,7 @@
                                   <button data-toggle="tooltip" type="button" class="btn btn-warning btn-sm hover-up" title="ยังไม่คีย์เงินก้อนแรก">
                                     <i class="fas fa-comment-dollar prem"></i>
                                   </button>
-                                @endif
+                                @endif --}}
 
                               </td>
                               <td class="text-right">
@@ -574,8 +584,11 @@
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>  
                                 {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
-                              <td class="text-right">
-                                @if(@$row->legisCompromise->FirstManey_1 != 0)
+                              <td class="text-center">
+                                <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                  {{@$row->Flag_Class}}
+                                </button>
+                                {{-- @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
                                     <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
                                       <i class="fas fa-hands-helping prem"></i>
@@ -599,7 +612,7 @@
                                   <button data-toggle="tooltip" type="button" class="btn btn-warning btn-sm hover-up" title="ยังไม่คีย์เงินก้อนแรก">
                                     <i class="fas fa-comment-dollar prem"></i>
                                   </button>
-                                @endif
+                                @endif --}}
 
                               </td>
                               <td class="text-right">
@@ -685,8 +698,11 @@
                               <td class="text-center"> 
                               <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>    
                               {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
-                              <td class="text-right">
-                                @if(@$row->legisCompromise->FirstManey_1 != 0)
+                              <td class="text-center">
+                                <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                  {{@$row->Flag_Class}}
+                                </button>
+                                {{-- @if(@$row->legisCompromise->FirstManey_1 != 0)
                                   @if($row->legisCompromise->Sum_FirstPromise >= str_replace (",","",@$row->legisCompromise->FirstManey_1))
                                     <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" title="ครบชำระเงินก้อนแรก">
                                       <i class="fas fa-hands-helping prem"></i>
@@ -710,7 +726,7 @@
                                   <button data-toggle="tooltip" type="button" class="btn btn-warning btn-sm hover-up" title="ยังไม่คีย์เงินก้อนแรก">
                                     <i class="fas fa-comment-dollar prem"></i>
                                   </button>
-                                @endif
+                                @endif --}}
 
                               </td>
                               <td class="text-right">
@@ -735,6 +751,7 @@
                               <th class="text-center">การประนอม</th>
                               <th class="text-center">วันที่ประนอม</th>
                               <th class="text-center">สถานะ</th>
+                              <th class="text-center">ชั้นศาล</th>
                               <th class="text-right" style="width: 30px"></th>
                             </tr>
                           </thead>
@@ -798,7 +815,11 @@
                                     <span class="textSize text-green">{{$DateShow}}</span>
                                   @endif
                                 </td>
-
+                                <td class="text-center">
+                                  <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                    {{@$row->Flag_Class}}
+                                  </button>
+                                </td>
                                 <td class="text-right">
                                   <a href="{{ route('MasterCompro.edit',[$row->id]) }}?type={{$type}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
                                     <i class="far fa-edit"></i>

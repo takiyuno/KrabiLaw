@@ -116,7 +116,7 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
            { type: 'date-uk', targets: 0 }
           ],
     
-        "responsive": true,
+        "responsive": false,
         "autoWidth": false,
         "ordering": true,
         "lengthChange": true,

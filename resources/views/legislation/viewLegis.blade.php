@@ -141,21 +141,29 @@
                       <td class="text-left" title="{{ $row->Noteby_legis }}"> {{ str_limit($row->Noteby_legis,30) }} </td>
                       
                       <td class="text-center">
-                        @if($row->Flag_status == '1')
-                          @if($row->legisCompromise != NULL)
+                        @if($row->Flag== 'W')
+                         
                             <span class="btn-warning btn-sm hover-up textSize" title="ประนอม">
                               <i class="fas fa-hand-holding-usd prem"></i>
                             </span>
+                        
+                        @elseif($row->Flag== 'Y')
+                          <span class="btn-success btn-sm hover-up textSize" title="วันส่งทนาย {{date('d-m-Y', strtotime($row->Datesend_Flag))}}">
+                            {{-- <i class="fas fa-user-check"></i>--}} {{$row->Flag_Class !=NULL ? $row->Flag_Class :'เตรียมเอกสาร'}} 
+                          </span>
+                        @elseif($row->Flag== 'C')
+                          @if($row->legisCompromise != NULL)
+                            <span class="btn-warning btn-sm hover-up textSize" title="ประนอม">
+                              <i class="fas fa-hand-holding-usd prem"></i>ประนอมหลุดขายฝาก
+                            </span>
                           @else
-                            <span class="btn-danger btn-sm hover-up textSize" title="เตรียมเอกสาร">
-                              <i class="fas fa-file-signature pr-1"></i> เตรียม 
+                            <span class="btn-danger btn-sm hover-up textSize" title="หลุดขายฝาก">
+                              <i class="fas fa-file-signature pr-1"></i> หลุดขายฝาก 
                             </span>
                           @endif
-                        @else
-                          <span class="btn-success btn-sm hover-up textSize" title="วันส่งทนาย {{date('d-m-Y', strtotime($row->Datesend_Flag))}}">
-                            {{-- <i class="fas fa-user-check"></i>--}} {{$row->Flag_Class}} 
-                          </span>
                         @endif
+
+                       
                       </td>
                       <td class="text-center">
                         <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{3}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">

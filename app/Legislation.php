@@ -63,6 +63,11 @@ class Legislation extends Model
   {
     return $this->hasOne(LegisPublishsell::class,'legislation_id','id');
   }
+  public function LegisPublishLast()
+  {
+    return $this->hasOne(LegisPublishsell::class,'legislation_id','id')
+    ->where('Dateset_publish','>',date('Y-m-d'))->where('Flag_publish','=','NOW')->oldest();
+  }
   
   public function legisTrackings()
   {

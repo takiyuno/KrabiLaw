@@ -1125,7 +1125,7 @@ class LegislationController extends Controller
 
       if ($request->type == 1) {      //Modal-ยื่นฟ้อง (หน้าลูกหนี้เตรียมฟ้อง)
         $user = Legislation::find($id);
-          $user->Flag_status = 2;
+          $user->Flag_status = 3;
           $user->Flag_Class = "สถานะส่งฟ้อง";
           $user->UserSend2_legis = auth()->user()->name;
           $user->Datesend_Flag = date('Y-m-d');

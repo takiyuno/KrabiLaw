@@ -644,7 +644,7 @@
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">สืบทรัพย์(บังคับคดี) <span class="textHeader">(15-30 วัน)</span></h6>
                         <div class="row">
                           <div class="col-md-7">
-                            <div class="form-group row mb-0">
+                            {{-- <div class="form-group row mb-0">
                               <label class="col-sm-4 col-form-label text-right SizeText">สถานะทรัพย์ :</label>
                               <div class="col-sm-8">
                                 <input type="radio" id="test1" name="radio_propertied" value="Y" {{ (@$data->Legisasset->propertied_asset === 'Y') ? 'checked' : '' }} />
@@ -652,9 +652,9 @@
                                 <input type="radio" id="test2" name="radio_propertied" value="N" {{ (@$data->Legisasset->propertied_asset === 'N') ? 'checked' : '' }}/>
                                 <label for="test2" class="mr-sm-3 SizeText">ลูกหนี้ไม่มีทรัพย์</label>
                               </div>
-                            </div>
+                            </div> --}}
                             @php
-                              if(@$data->Legisasset->sequester_asset !=NULL && @$data->Legisasset->sendsequester_asset !='สืบทรัพย์ไม่เจอ'){
+                              if( @$data->Legisasset->sendsequester_asset =='สืบทรัพย์เจอ'){
                                 $chkReadOnly = "readonly";
                               }else{
                                 $chkReadOnly = "";
@@ -679,8 +679,8 @@
                                   <option value="" selected>--- เลือกผล ---</option>
                                   <option value="สืบทรัพย์เจอ" {{ (@$data->Legisasset->sendsequester_asset === 'สืบทรัพย์เจอ') ? 'selected' : '' }}>สืบทรัพย์เจอ</option>
                                   <option value="สืบทรัพย์ไม่เจอ" {{ (@$data->Legisasset->sendsequester_asset === 'สืบทรัพย์ไม่เจอ') ? 'selected' : '' }}>สืบทรัพย์ไม่เจอ</option>
-                                  <option value="หมดอายุความคดี" {{ (@$data->Legisasset->sendsequester_asset === 'หมดอายุความคดี') ? 'selected' : '' }}>หมดอายุความคดี</option>
-                                  <option value="จบงานสืบทรัพย์" {{ (@$data->Legisasset->sendsequester_asset === 'จบงานสืบทรัพย์') ? 'selected' : '' }}>จบงานสืบทรัพย์</option>
+                                  {{-- <option value="หมดอายุความคดี" {{ (@$data->Legisasset->sendsequester_asset === 'หมดอายุความคดี') ? 'selected' : '' }}>หมดอายุความคดี</option>
+                                  <option value="จบงานสืบทรัพย์" {{ (@$data->Legisasset->sendsequester_asset === 'จบงานสืบทรัพย์') ? 'selected' : '' }}>จบงานสืบทรัพย์</option> --}}
                                 </select>
                               </div>
                             </div>
@@ -974,26 +974,26 @@
                                   </div>
                                 </div>
                               </div>
-                              @if(@$data->legiscourtCase->resultsell_case == 'ไม่เต็มจำนวน')
-                              <div id="ShowSellDetail2">
-                              @else
-                              <div id="ShowSellDetail2" style="display:none;">
-                              @endif
-                                <div class="form-group row mb-0">
-                                  <label class="col-sm-4 col-form-label text-right SizeText">จำนวนเงิน :</label>
-                                  <div class="col-sm-7">
-                                    <input type="text" id="Amountsequester" name="Amountsequester" class="form-control form-control-sm SizeText" value="{{number_format(@$data->legiscourtCase->amountsequester_case,0)}}" />
+                                @if(@$data->legiscourtCase->resultsell_case == 'ไม่เต็มจำนวน')
+                                <div id="ShowSellDetail2">
+                                @else
+                                <div id="ShowSellDetail2" style="display:none;">
+                                @endif
+                                  <div class="form-group row mb-0">
+                                    <label class="col-sm-4 col-form-label text-right SizeText">จำนวนเงิน :</label>
+                                    <div class="col-sm-7">
+                                      <input type="text" id="Amountsequester" name="Amountsequester" class="form-control form-control-sm SizeText" value="{{number_format(@$data->legiscourtCase->amountsequester_case,0)}}" />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
 
-                              @if(@$data->legiscourtCase->resultsequester_case == 'ขายไม่ได้')
-                              <div id="ShowDetail1">
-                              @else
-                              <div id="ShowDetail1" style="display:none;">
-                              @endif
+                                  @if(@$data->legiscourtCase->resultsequester_case == 'ขายไม่ได้')
+                                  <div id="ShowDetail1">
+                                  @else
+                                  <div id="ShowDetail1" style="display:none;">
+                                  @endif
                                 <div class="form-group row mb-0">
-                                  <label class="col-sm-4 col-form-label text-right SizeText">วันที่จ่ายเงิน :</label>
+                                  <label class="col-sm-4 col-form-label text-right SizeText">วันที่ค่าใช้จ่าย:</label>
                                   <div class="col-sm-7">
                                     <input type="date" id="DatenextSequester" name="DatenextSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->datenextsequester_case}}" />
                                   </div>
@@ -1232,7 +1232,7 @@
           $('#ShowSellDetail2').hide();
         }
         else if(value == 'ไม่เต็มจำนวน'){
-          $('#ShowSellDetail1').hide();
+          $('#ShowSellDetail1').show();
           $('#ShowSellDetail2').show();
         }
         else{
@@ -1241,6 +1241,10 @@
           $('#ShowSellDetail2').hide();
           $('#ShowSellDetail2').val('');
         }
+    });
+
+    $('#sequesterasset').change(function(){
+        $('#sendsequesterasset').val('');
     });
   </script>
 

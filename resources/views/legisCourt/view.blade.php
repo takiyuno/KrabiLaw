@@ -282,14 +282,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{4}}&dateSearch={{$dateSearch}}&FlagPage={{4}}&FlagTab={{1}}" class="btn btn-warning btn-sm hover-up hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit" data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -374,14 +374,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{4}}&dateSearch={{$dateSearch}}&FlagPage={{4}}&FlagTab={{2}}" class="btn btn-warning btn-sm hover-up hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit"  data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -472,14 +472,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{4}}&dateSearch={{$dateSearch}}&FlagPage={{4}}&FlagTab={{3}}" class="btn btn-warning btn-sm hover-up hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit"  data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -570,14 +570,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{4}}&dateSearch={{$dateSearch}}&FlagPage={{4}}&FlagTab={{4}}" class="btn btn-warning btn-sm hover-up hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit"  data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top"  title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -668,14 +668,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{4}}&dateSearch={{$dateSearch}}&FlagPage={{4}}&FlagTab={{5}}" class="btn btn-warning btn-sm hover-up hover-up" data-toggle="tooltip" data-placement="top"  title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit"  data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -766,14 +766,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{4}}&dateSearch={{$dateSearch}}&FlagPage={{4}}&FlagTab={{6}}" class="btn btn-warning btn-sm hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit"  data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -862,14 +862,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{5}}&dateSearch={{$dateSearch}}&FlagPage={{5}}&FlagTab={{1}}" class="btn btn-warning btn-sm hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit" data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -885,6 +885,8 @@
                         <th class="text-center">ชื่อ-สกุล</th>
                         <th class="text-center">วันที่สืบทรัพย์</th>
                         <th class="text-center">สถานะทรัพย์</th>
+                        <th class="text-center">วันที่สืบทรัพย์ใหม่</th>
+                        {{-- <th class="text-center">สสถานะการชำระ</th> --}}
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
                       </tr>
@@ -893,12 +895,9 @@
                       @foreach($data2 as $key => $row)
                         @php
                           $SetDate = NULL;
-                          if($row->Legisasset->sequester_asset != NULL && $row->Legisasset->NewpursueDate_asset == NULL){
-                            $SetDate = $row->Legisasset->sequester_asset;
-                          }
-                          elseif($row->Legisasset->sequester_asset != NULL && $row->Legisasset->NewpursueDate_asset != NULL){
-                            $SetDate = $row->Legisasset->NewpursueDate_asset;
-                          }
+                          
+                            $SetDate = @$row->Legisasset->NewpursueDate_asset;
+                        
 
                           if($SetDate >= date('Y-m-d')) {
                             $DateDue = date_create($SetDate);
@@ -934,8 +933,8 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center"> 
-                          <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span>    
-                          {{ ($SetDate != NULL) ?FormatDatethai($SetDate): 'ยังไม่ระบุวันที่' }} </td>
+                          <span class="dateHide">{{ date_format(date_create(@ $row->Legisasset->sequester_asset), 'Ymd')}} </span>    
+                          {{ ( @$row->Legisasset->sequester_asset != NULL) ?FormatDatethai(@$row->Legisasset->sequester_asset): 'ยังไม่ระบุวันที่' }} </td>
                           <td class="text-center">
                             @php
                               if($row->Legisasset->propertied_asset=='Y'){
@@ -948,6 +947,11 @@
                             @endphp  
                             {{$assetText}}
                           </td>
+                          <td class="text-left">
+                            <span class="dateHide">{{ date_format(date_create(@$row->Legisasset->NewpursueDate_asset), 'Ymd')}}</span>
+                            {{ (@$row->Legisasset->NewpursueDate_asset != NULL) ?FormatDatethai(@$row->Legisasset->NewpursueDate_asset): 'ยังไม่ระบุวันที่' }}
+                            </td>
+                          {{-- <td class="text-left"> ค้าง </td> --}}
                           <td class="text-left">
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -979,14 +983,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{5}}&dateSearch={{$dateSearch}}&FlagPage={{5}}&FlagTab={{2}}" class="btn btn-warning btn-sm hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit" data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -1185,14 +1189,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{5}}&dateSearch={{$dateSearch}}&FlagPage={{5}}&FlagTab={{2}}" class="btn btn-warning btn-sm hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit" data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach
@@ -1207,20 +1211,29 @@
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
                         <th class="text-center">วันที่ประกาศขาย</th>
+                        <th class="text-center">สถานะการขาย</th>
+                        <th class="text-center">วันที่จ่ายล่าสุด</th>
+                        <th class="text-center">สถานะประนอม</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
                       </tr>
                     </thead>
                     <tbody>
+                      @php
+                       $lastday1 = date('Y-m-d', strtotime("-1 month"));
+                        $lastday2 = date('Y-m-d', strtotime("-2 month"));
+                        $lastday3 = date('Y-m-d', strtotime("-3 month"));
+                        $lastday4 = date('Y-m-d', strtotime("-4 month"));   
+                      @endphp
                       @foreach($data5 as $key => $row)
                         @php
                           $SetDate = NULL;
-                          if($row->legiscourtCase->datePublicsell_case != NULL) {
-                            $SetDate = $row->legiscourtCase->datePublicsell_case;
-                          }else{
-                            $SetDate = $row->legiscourtCase->datePublicsell_case;
-                          }
-
+                          // if($row->legiscourtCase->datePublicsell_case != NULL) {
+                          //   $SetDate = $row->legiscourtCase->datePublicsell_case;
+                          // }else{
+                          //   $SetDate = $row->legiscourtCase->datePublicsell_case;
+                          // }
+                          $SetDate = @$row->LegisPublishLast->Dateset_publish;
                           if($SetDate >= date('Y-m-d')) {
                             $DateDue = date_create($SetDate);
                             $NowDate = date_create(date('Y-m-d'));
@@ -1233,7 +1246,7 @@
                               $DateShow = 'รอดำเนินการ';
                             }
                           }
-                          else if(@$row->legiscourtCase->datePublicsell_case == NULL){
+                          else if(@$row->LegisPublishLast->Dateset_publish == NULL){
                             $Tag = 'Unknow';
                             $DateShow = 'ไม่พบข้อมูล';
                           }
@@ -1241,6 +1254,20 @@
                             $Tag = 'Closest';
                             $DateShow = 'เลยกำหนดการ';
                           }
+
+                          $SetStatus = "ไม่มีการประนอม";
+                          // if (@$value->legisTrackings->Status_Track != 'Y') {
+                            if(@$row->legispayments->DateDue_Payment >= date('Y-m-d') or @$row->legispayments->DateDue_Payment > $lastday1) {
+                              $SetStatus = 'ชำระปกติ';
+                            }elseif(@$row->legispayments->DateDue_Payment > $lastday1 or @$row->legispayments->DateDue_Payment > $lastday2){
+                              $SetStatus = 'ขาดชำระ 1 งวด';
+                            }elseif(@$row->legispayments->DateDue_Payment > $lastday2 or @$row->legispayments->DateDue_Payment > $lastday3){
+                              $SetStatus = 'ขาดชำระ 2 งวด';
+                            }elseif(@$row->legispayments->DateDue_Payment > $lastday3 or @$row->legispayments->DateDue_Payment > $lastday4){
+                              $SetStatus = 'ขาดชำระ 3 งวด';
+                            }else{
+                              $SetStatus = 'ขาดชำระกว่า 3 งวด';
+                            }
                         @endphp
                         <tr>
                           <td class="text-center">
@@ -1255,8 +1282,29 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">
-                          <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->datePublicsell_case), 'Ymd')}} </span>   
-                          {{($row->legiscourtCase->datePublicsell_case != NULL) ?FormatDatethai($row->legiscourtCase->datePublicsell_case): 'ยังไม่ระบุวันที่' }}</td>
+                            <span class="dateHide">{{ date_format(date_create(@$row->LegisPublishLast->Dateset_publish), 'Ymd')}} </span>   
+                            {{(@$row->LegisPublishLast->Dateset_publish != NULL) ?FormatDatethai(@$row->LegisPublishLast->Dateset_publish): 'ยังไม่ระบุวันที่' }}
+                          </td>
+                          <td class="text-left">
+                            @php
+                                  $setPublish = "-";
+                                  if(@$row->LegisPublish!=NULL){
+                                      if(@$row->legiscourtCase->datesoldout_case!=NULL){
+                                        $setPublish = "ขายได้";
+                                        $textStatus = "text-green";
+                                      }else{
+                                        $setPublish = "ขายไม่ได้";
+                                        $textStatus = "text-red";
+                                      }
+                                  }
+                            @endphp
+                           <span class="textSize {{@$textStatus}}"> {{$setPublish}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="dateHide">{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>   
+                            {{(@$row->legispayments->Date_Payment != NULL) ?FormatDatethai(@$row->legispayments->Date_Payment): 'ยังไม่ระบุวันที่' }}
+                          </td>
+                          <td class="text-left"> {{@$SetStatus}} </td>
                           <td class="text-left">
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -1288,14 +1336,14 @@
                             <a href="{{ route('MasterLegis.edit',[$row->id]) }}?type={{5}}&dateSearch={{$dateSearch}}&FlagPage={{5}}&FlagTab={{2}}" class="btn btn-warning btn-sm hover-up" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ">
                               <i class="far fa-edit"></i>
                             </a>
-                            <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
+                            {{-- <form method="post" class="delete_form" action="{{ route('MasterLegis.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
                               <input type="hidden" name="_method" value="DELETE" />
                               <button type="submit" data-name="{{ $row->Contract_legis }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up" data-toggle="tooltip" data-placement="top" title="ลบรายการ">
                                 <i class="far fa-trash-alt"></i>
                               </button>
-                            </form>
+                            </form> --}}
                           </td>
                         </tr>
                       @endforeach

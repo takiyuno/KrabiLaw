@@ -70,7 +70,7 @@
                     <th class="text-center">เลขที่สัญญา</th>
                     <th class="text-center">ชื่อ-สกุล</th>
                     <th class="text-center">ประเภทลูกหนี้</th>
-                    <th class="text-center">สสถานะลูกหนี้</th>
+                    <th class="text-center">สสถานะประนอม</th>
                     {{-- <th class="text-center">งวด</th> --}}
                     <th class="text-center">ยอดค้าง</th>
                     <th class="text-center">วันรับงาน</th>

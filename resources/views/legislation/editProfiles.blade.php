@@ -358,13 +358,14 @@
                           </select>
                           @else 
                             <input type="text"  value="{{$Flag[$data->Flag]}}" class="form-control form-control-sm" readonly>
+                            <input type="hidden" name="TypeCus_Flag"  value="{{$data->Flag}}" class="form-control form-control-sm" >
                           @endif
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row mb-0">
-                        <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะลูกหนี้ :</label>
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะประนอม :</label>
                         <div class="col-sm-8">
                           @if(auth::user()->position=="Admin")
                           <select class="form-control form-control-sm SizeText" readonly>
@@ -375,6 +376,7 @@
                           </select>
                           @else 
                           <input type="text"  value="{{$Flag_Status[$data->Flag_status]}}" class="form-control form-control-sm" readonly>
+                          
                         @endif
                         </div>
                       </div>
@@ -386,7 +388,7 @@
                           <select class="form-control form-control-sm SizeText" name="BILLCOLL" >
                             <option value="" selected>--- BILLCOLL ---</option>
                             @foreach($billcoll as $bill)
-                            <option value="{{$bill->BILLCOLL}}}" {{ ($data->BILLCOLL == $bill->BILLCOLL) ? 'selected' : '' }}>{{$bill->BILLCOLL}}</option>
+                            <option value="{{$bill->BILLCOLL}}" {{ ($data->BILLCOLL == $bill->BILLCOLL) ? 'selected' : '' }}>{{$bill->BILLCOLL}}</option>
                             @endforeach
                            
                           </select>

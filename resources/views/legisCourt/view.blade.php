@@ -1107,12 +1107,20 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">วันที่จ่ายล่าสุด</th>
+                        <th class="text-center">สถานะประนอม</th>
                         <th class="text-center">วันที่ตั้งยึดทรัพย์</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
                       </tr>
                     </thead>
                     <tbody>
+                      @php
+                      $lastday1 = date('Y-m-d', strtotime("-1 month"));
+                       $lastday2 = date('Y-m-d', strtotime("-2 month"));
+                       $lastday3 = date('Y-m-d', strtotime("-3 month"));
+                       $lastday4 = date('Y-m-d', strtotime("-4 month"));   
+                     @endphp
                       @foreach($data4 as $key => $row)
                         @php
                           $SetDate = NULL;
@@ -1142,7 +1150,25 @@
                             $Tag = 'Closest';
                             $DateShow = 'เลยกำหนดการ';
                           }
+                          $SetStatus = "ไม่มีการประนอม";
+                          // if (@$value->legisTrackings->Status_Track != 'Y') {
+                            if(@$row->legispayments->DateDue_Payment >= date('Y-m-d') or @$row->legispayments->DateDue_Payment > $lastday1) {
+                              $SetStatus = 'ชำระปกติ';
+                            }elseif(@$row->legispayments->DateDue_Payment > $lastday1 or @$row->legispayments->DateDue_Payment > $lastday2){
+                              $SetStatus = 'ขาดชำระ 1 งวด';
+                            }elseif(@$row->legispayments->DateDue_Payment > $lastday2 or @$row->legispayments->DateDue_Payment > $lastday3){
+                              $SetStatus = 'ขาดชำระ 2 งวด';
+                            }elseif(@$row->legispayments->DateDue_Payment > $lastday3 or @$row->legispayments->DateDue_Payment > $lastday4){
+                              $SetStatus = 'ขาดชำระ 3 งวด';
+                            }else{
+                              $SetStatus = 'ขาดชำระกว่า 3 งวด';
+                            }
                         @endphp
+                        <td class="text-center">
+                          <span class="dateHide">{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>   
+                          {{(@$row->legispayments->Date_Payment != NULL) ?FormatDatethai(@$row->legispayments->Date_Payment): 'ยังไม่ระบุวันที่' }}
+                        </td>
+                         <td class="text-left"> {{@$SetStatus}} </td>
                         <tr>
                           <td class="text-center">
                             @if($row->legisCompromise != NULL)
@@ -1269,6 +1295,7 @@
                               $SetStatus = 'ขาดชำระกว่า 3 งวด';
                             }
                         @endphp
+                        
                         <tr>
                           <td class="text-center">
                             @if($row->legisCompromise != NULL)

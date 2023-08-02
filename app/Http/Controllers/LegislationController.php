@@ -1131,11 +1131,24 @@ class LegislationController extends Controller
           $user->Datesend_Flag = date('Y-m-d');
         $user->update();
         
+       $orderdatecourt = date('Y-m-d', strtotime(' +45 days', strtotime($user->Date_legis)));
+        $orderexamiday  = date('Y-m-d', strtotime(' +75 days', strtotime($user->Date_legis)));
+        $orderdaycourt  = date('Y-m-d', strtotime(' +120 days', strtotime($user->Date_legis)));
+        $checkdaycourt  = date('Y-m-d', strtotime(' +165 days', strtotime($user->Date_legis)));
+        $setofficecourt  = date('Y-m-d', strtotime(' +220 days', strtotime($user->Date_legis)));
+        $checkresultscourt  = date('Y-m-d', strtotime(' +265 days', strtotime($user->Date_legis)));
+
         // ชั้นศาล
         $Legiscourt = new Legiscourt([
           'legislation_id' => $id,
           'fillingdate_court' => $request->DateCourt,
           'User_court' => $request->Plaintiff,
+          'orderdatecourt' =>$orderdatecourt, 
+          'orderexamiday' =>$orderexamiday, 
+          'orderday_court' =>$orderdaycourt, 
+          'checkday_court' =>$checkdaycourt, 
+          'setoffice_court' =>$setofficecourt,
+          'checkresults_court' =>$checkresultscourt,
         ]);
         $Legiscourt->save();
 
@@ -1232,8 +1245,10 @@ class LegislationController extends Controller
               $SetDateCourtCase = $request->checkresultscourt;
             }
             if ($SetFlagClass == 'สถานะคัดหนังสือรับรองคดี' and $Legislation->legiscourtCase == NULL) {
+              $orderDateCer  = date('Y-m-d', strtotime(' +310 days', strtotime($Legislation->Date_legis)));
               $Legiscourtcase = new Legiscourtcase([
                 'legislation_id' => $id,
+                'orderDateCer' => $orderDateCer,
                 'datepreparedoc_case' => date('Y-m-d', strtotime($SetDateCourtCase. '+45 days')),
               ]);
                 $Legiscourtcase->save();

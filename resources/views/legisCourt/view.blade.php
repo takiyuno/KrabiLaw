@@ -216,6 +216,7 @@
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
                         <th class="text-center">วันที่นำข้อมูลเข้า</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วันฟ้อง</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -224,8 +225,10 @@
                     <tbody>
                       @foreach($data1 as $key => $row)
                         @php
-                          if($row->legiscourt->fillingdate_court >= date('Y-m-d')) {
-                            $DateDue = date_create($row->legiscourt->fillingdate_court);
+                         
+                         $DateFixcourt =  (@$data->legiscourt->orderdatecourt == NULL ? date('Y-m-d', strtotime(' +45 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderdatecourt );
+                          if($row->DateFixcourt >= date('Y-m-d')) {
+                            $DateDue = date_create($DateFixcourt);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -253,9 +256,14 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}}</td>
                           <td class="text-left"> 
-                          <span class="dateHide">{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span> 
+                            <span class="dateHide">{{ date_format(date_create(@$row->Date_legis), 'Ymd')}} </span> 
+                              
+                              {{ ($row->Date_legis != NULL) ?formatDateThai($row->Date_legis): 'ไม่พบข้อมูล' }}
+                            </td>
+                          <td class="text-left"> 
+                          <span class="dateHide">{{ date_format(date_create($DateFixcourt), 'Ymd')}} </span> 
                             
-                            {{ ($row->Date_legis != NULL) ?formatDateThai($row->Date_legis): 'ไม่พบข้อมูล' }}
+                            {{ ($DateFixcourt != NULL) ?formatDateThai($DateFixcourt): 'ไม่พบข้อมูล' }}
                           </td>
                           <td class="text-center"> 
                           <span class="dateHide">{{ date_format(date_create(@$row->legiscourt->fillingdate_court), 'Ymd')}} </span>   
@@ -303,6 +311,7 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วันสืบพยาน</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -311,14 +320,16 @@
                     <tbody>
                       @foreach($data2 as $key => $row)
                         @php
+                         $orderexamiday =  (@$data->legiscourt->orderexamiday == NULL ? date('Y-m-d', strtotime(' +75 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderexamiday );
+                        
                           $SetDate = NULL;
                           if($row->legiscourt->fuzzy_court != NULL) {
                             $SetDate = $row->legiscourt->fuzzy_court;
                           }else{
                             $SetDate = $row->legiscourt->examiday_court;
                           }
-                          if($SetDate >= date('Y-m-d')) {
-                            $DateDue = date_create($SetDate);
+                          if($orderexamiday >= date('Y-m-d')) {
+                            $DateDue = date_create($orderexamiday);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -345,6 +356,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
+                          <td class="text-center">
+                            <span class="dateHide">{{ date_format(date_create(@$orderexamiday), 'Ymd')}} </span> 
+                            {{($orderexamiday !== NULL) ? formatDateThai($orderexamiday) : '-' }}</td>
                           <td class="text-center">
                           <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
                           {{($SetDate !== NULL) ? formatDateThai($SetDate) : '-' }}</td>
@@ -395,6 +409,7 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วันส่งคำบังคับ</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -403,6 +418,8 @@
                     <tbody>
                       @foreach($data3 as $key => $row)
                         @php
+                         $orderday_court =  (@$data->legiscourt->orderday_court == NULL ? date('Y-m-d', strtotime(' +120 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderday_court );
+
                           $SetDate = NULL;
                           if($row->legiscourt->ordersend_court != NULL) {
                             $SetDate = $row->legiscourt->ordersend_court;
@@ -410,8 +427,8 @@
                             $SetDate = $row->legiscourt->orderday_court;
                           }
 
-                          if($SetDate >= date('Y-m-d')) {
-                            $DateDue = date_create($SetDate);
+                          if($orderday_court >= date('Y-m-d')) {
+                            $DateDue = date_create($orderday_court);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -438,6 +455,14 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
+                          <td class="text-center">
+                            @if( $orderday_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@ $orderday_court), 'Ymd')}} </span> 
+                              {{ formatDateThai( $orderday_court) }}
+                            @else
+                              <i class="text-secondary">ไม่พบข้อมูล</i>
+                            @endif
+                          </td>
                           <td class="text-center">
                             @if($SetDate != NULL)
                             <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
@@ -493,6 +518,7 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วันตรวจผล</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -501,6 +527,8 @@
                     <tbody>
                       @foreach($data4 as $key => $row)
                         @php
+                         $checkday_court =  (@$data->legiscourt->checkday_court == NULL ? date('Y-m-d', strtotime(' +165 days', strtotime($row->Date_legis))) : @$data->legiscourt->checkday_court );
+
                           $SetDate = NULL;
                           if($row->legiscourt->checksend_court != NULL) {
                             $SetDate = $row->legiscourt->checksend_court;
@@ -508,8 +536,8 @@
                             $SetDate = $row->legiscourt->checkday_court;
                           }
 
-                          if($SetDate >= date('Y-m-d')) {
-                            $DateDue = date_create($SetDate);
+                          if($checkday_court >= date('Y-m-d')) {
+                            $DateDue = date_create($checkday_court);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -536,6 +564,14 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
+                          <td class="text-center">
+                            @if($orderday_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$orderday_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($orderday_court) }}
+                            @else
+                              <i class="text-secondary">ไม่พบข้อมูล</i>
+                            @endif
+                          </td>
                           <td class="text-center">
                             @if($SetDate != NULL)
                             <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
@@ -591,6 +627,7 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วัน ต.พนักงาน</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -599,15 +636,17 @@
                     <tbody>
                       @foreach($data5 as $key => $row)
                         @php
+                         $setoffice_court =  (@$data->legiscourt->setoffice_court == NULL ? date('Y-m-d', strtotime(' +220 days', strtotime($row->Date_legis))) : @$data->legiscourt->setoffice_court );
+
                           $SetDate = NULL;
                           if($row->legiscourt->sendoffice_court != NULL) {
                             $SetDate = @$row->legiscourt->sendoffice_court;
                           }else{
-                            $SetDate = @$row->legiscourt->setoffice_court;
+                            $SetDate = @$setoffice_court;
                           }
 
-                          if($SetDate >= date('Y-m-d')) {
-                            $DateDue = date_create($SetDate);
+                          if($setoffice_court >= date('Y-m-d')) {
+                            $DateDue = date_create($setoffice_court);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -634,6 +673,14 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
+                          <td class="text-center">                         
+                            @if($setoffice_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$setoffice_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($setoffice_court) }}
+                            @else
+                              <i class="text-secondary">ไม่พบข้อมูล</i>
+                            @endif
+                          </td>
                           <td class="text-center">                         
                             @if($SetDate != NULL)
                             <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
@@ -689,6 +736,7 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วัน ต.ผลหมายตั้ง</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -697,6 +745,8 @@
                     <tbody>
                       @foreach($data6 as $key => $row)
                         @php
+                         $checkresults_court =  (@$data->legiscourt->checkresults_court == NULL ? date('Y-m-d', strtotime(' +265 days', strtotime($row->Date_legis))) : @$data->legiscourt->checkresults_court );
+
                           $SetDate = NULL;
                           if($row->legiscourt->sendcheckresults_court != NULL) {
                             $SetDate = $row->legiscourt->sendcheckresults_court;
@@ -704,8 +754,8 @@
                             $SetDate = $row->legiscourt->checkresults_court;
                           }
 
-                          if($SetDate >= date('Y-m-d')) {
-                            $DateDue = date_create($SetDate);
+                          if($checkresults_court >= date('Y-m-d')) {
+                            $DateDue = date_create($checkresults_court);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -732,6 +782,14 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
+                          <td class="text-center"> 
+                            @if($checkresults_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$checkresults_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($checkresults_court) }}
+                            @else
+                              <i class="text-secondary">ไม่พบข้อมูล</i>
+                            @endif
+                          </td>
                           <td class="text-center"> 
                             @if($SetDate != NULL)
                             <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
@@ -790,6 +848,7 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
+                        <th class="text-center">กำหนดการ</th>
                         <th class="text-center">วันคัดหนังสือรองรับ</th>
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
@@ -798,9 +857,11 @@
                     <tbody>
                       @foreach($data1 as $key => $row)
                         @php
+                         $orderDateCer =  (@$data->legiscourt->orderDateCer == NULL ? date('Y-m-d', strtotime(' +310 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderDateCer );
+
                           $SetDate = NULL;
-                          if(@$row->legiscourtCase->dateCertificate_case >= date('Y-m-d')) {
-                            $DateDue = date_create(@$row->legiscourtCase->dateCertificate_case);
+                          if(@$orderDateCer >= date('Y-m-d')) {
+                            $DateDue = date_create(@$orderDateCer);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
@@ -833,8 +894,13 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">
+                            <span class="dateHide">{{ date_format(date_create(@$orderDateCer), 'Ymd')}} </span>   
+                            {{ (@$orderDateCer != NULL) ?FormatDatethai(@$orderDateCer): 'ยังไม่ระบุวันที่' }}
+                            </td>
+                          <td class="text-center">
                           <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->dateCertificate_case), 'Ymd')}} </span>   
-                          {{ (@$row->legiscourtCase->dateCertificate_case != NULL) ?FormatDatethai(@$row->legiscourtCase->dateCertificate_case): 'ยังไม่ระบุวันที่' }}</td>
+                          {{ (@$row->legiscourtCase->dateCertificate_case != NULL) ?FormatDatethai(@$row->legiscourtCase->dateCertificate_case): 'ยังไม่ระบุวันที่' }}
+                          </td>
                           <td class="text-left"> 
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -936,7 +1002,9 @@
                           <span class="dateHide">{{ date_format(date_create(@ $row->Legisasset->sequester_asset), 'Ymd')}} </span>    
                           {{ ( @$row->Legisasset->sequester_asset != NULL) ?FormatDatethai(@$row->Legisasset->sequester_asset): 'ยังไม่ระบุวันที่' }} </td>
                           <td class="text-center">
-                            @php
+
+                            {{@$row->Legisasset->sendsequester_asset}}
+                            {{-- @php
                               if($row->Legisasset->propertied_asset=='Y'){
                                 $assetText = 'ลูกหนี้มีทรัพย์';
                               }else if($row->Legisasset->propertied_asset=='N'){
@@ -945,7 +1013,7 @@
                                 $assetText = '';
                               }
                             @endphp  
-                            {{$assetText}}
+                            {{$assetText}} --}}
                           </td>
                           <td class="text-left">
                             <span class="dateHide">{{ date_format(date_create(@$row->Legisasset->NewpursueDate_asset), 'Ymd')}}</span>

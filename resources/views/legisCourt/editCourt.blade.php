@@ -405,10 +405,11 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันที่ฟ้อง :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการฟ้อง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="fillingdatecourt" name="fillingdatecourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->fillingdate_court) }}"/>
-                                </div>
+                                  <input type="date" id="orderdatecourt" name="orderdatecourt" class="form-control form-control-sm SizeText"  
+                                  value="{{ (@$data->legiscourt->orderdatecourt == NULL ? date('Y-m-d', strtotime(' +45 days', strtotime($data->Date_legis))) : @$data->legiscourt->orderdatecourt ) }}" readonly/>
+                                </div>                               
 
                                 <label class="col-sm-4 col-form-label text-right SizeText">ศาล :</label>
                                 <div class="col-sm-8">
@@ -442,6 +443,10 @@
                             </div>
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
+                                <label class="col-sm-4 col-form-label text-right SizeText">วันที่ฟ้อง :</label>
+                                <div class="col-sm-8">
+                                  <input type="date" id="fillingdatecourt" name="fillingdatecourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->fillingdate_court) }}"/>
+                                </div>
                                 <label class="col-sm-4 col-form-label text-right SizeText">เลขคดีดำ :</label>
                                 <div class="col-sm-8">
                                   <input type="text" name="bnumbercourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->bnumber_court) }}" />
@@ -482,10 +487,11 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบพยาน :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการสืบ :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="examidaycourt" name="examidaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->examiday_court) }}" oninput="CourtDate();" />
+                                  <input type="date" id="orderexamiday" name="orderexamiday" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->orderexamiday == NULL ? date('Y-m-d', strtotime(' +75 days', strtotime($data->Date_legis))) : @$data->legiscourt->orderexamiday ) }}" readonly/>
                                 </div>
+                              
                               </div>
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">ศาลสั่งจ่าย :</label>
@@ -496,10 +502,14 @@
                             </div>
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันเลือน :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบพยาน :</label>
+                                <div class="col-sm-8">
+                                  <input type="date" id="examidaycourt" name="examidaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->examiday_court) }}" oninput="CourtDate();" />
+                                </div>
+                                {{-- <label class="col-sm-4 col-form-label text-right SizeText">วันเลือน :</label>
                                 <div class="col-sm-8">
                                   <input type="date" id="fuzzycourt" name="fuzzycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->fuzzy_court) }}" oninput="CourtDate();" />
-                                </div>
+                                </div> --}}
                               </div>
                             </div>
                             <div class="col-md-4">
@@ -537,9 +547,10 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันที่จากระบบ :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการส่ง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="orderdaycourt" name="orderdaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->orderday_court) }}" readonly/>
+                                  <input type="date" id="orderdaycourt" name="orderdaycourt" class="form-control form-control-sm SizeText" 
+                                  value="{{ (@$data->legiscourt->orderday_court == NULL ? date('Y-m-d', strtotime(' +120 days', strtotime($data->Date_legis))) : @$data->legiscourt->orderday_court ) }}" readonly/>
                                 </div>
                               </div>                              
                             </div>
@@ -583,9 +594,9 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันที่ตรวจ :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการตรวจ :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="checkdaycourt" name="checkdaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->checkday_court) }}" oninput="CourtDate2();" readonly/>
+                                  <input type="date" id="checkdaycourt" name="checkdaycourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->checkday_court == NULL ? date('Y-m-d', strtotime(' +165 days', strtotime($data->Date_legis))) : @$data->legiscourt->checkday_court ) }}" oninput="CourtDate2();" readonly/>
                                 </div>
                               </div>
 
@@ -660,9 +671,9 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันทีจากระบบ :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการ :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="setofficecourt" name="setofficecourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->setoffice_court }}" readonly/>
+                                  <input type="date" id="setofficecourt" name="setofficecourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->setoffice_court == NULL ? date('Y-m-d', strtotime(' +220 days', strtotime($data->Date_legis))) : @$data->legiscourt->setoffice_court ) }}" readonly/>
                                 </div>
                               </div>
                             </div>
@@ -699,9 +710,9 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">วันทีจากระบบ :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการตรวจ :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="checkresultscourt" name="checkresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->checkresults_court }}" readonly/>
+                                  <input type="date" id="checkresultscourt" name="checkresultscourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->checkresults_court == NULL ? date('Y-m-d', strtotime(' +265 days', strtotime($data->Date_legis))) : @$data->legiscourt->checkresults_court ) }}" readonly/>
                                 </div>
                                 <label class="col-sm-4 mb-3 col-form-label text-right SizeText">ผลตรวจ :</label>
                                 <div class="col-sm-8">

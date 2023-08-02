@@ -1196,11 +1196,27 @@ class LegislationController extends Controller
         return redirect()->back()->with('success','บันทึกข้อมูลเรียบร้อย');
       }
       elseif ($request->type == 4) { //ชั้นศาล(หน้าลูกหนี้ชั้นศาล)
+        $legis = Legislation::find($id);
+
+        $orderdatecourt = date('Y-m-d', strtotime(' +45 days', strtotime($legis->Date_legis)));
+        $orderexamiday  = date('Y-m-d', strtotime(' +75 days', strtotime($legis->Date_legis)));
+        $orderdaycourt  = date('Y-m-d', strtotime(' +120 days', strtotime($legis->Date_legis)));
+        $checkdaycourt  = date('Y-m-d', strtotime(' +165 days', strtotime($legis->Date_legis)));
+        $setofficecourt  = date('Y-m-d', strtotime(' +220 days', strtotime($legis->Date_legis)));
+        $checkresultscourt  = date('Y-m-d', strtotime(' +265 days', strtotime($legis->Date_legis)));
+
+
         $Legiscourt = Legiscourt::where('legislation_id',$id)->first();
           $Legiscourt->fillingdate_court = $request->get('fillingdatecourt');
           $Legiscourt->law_court = $request->get('lawcourt');                  
           $Legiscourt->bnumber_court = $request->get('bnumbercourt');
           $Legiscourt->rnumber_court = $request->get('rnumbercourt');
+           $Legiscourt->orderdatecourt =$orderdatecourt; 
+           $Legiscourt->orderexamiday =$orderexamiday; 
+           $Legiscourt->orderday_court =$orderdaycourt; 
+           $Legiscourt->checkday_court =$checkdaycourt; 
+           $Legiscourt->setoffice_court =$setofficecourt;
+           $Legiscourt->checkresults_court =$checkresultscourt;
           $Legiscourt->capital_court = floatval($request->get('capitalcourt') == NULL ? 0 : str_replace (",","",$request->get('capitalcourt')));
           $Legiscourt->indictment_court = floatval($request->get('indictmentcourt') == NULL ? 0 : str_replace (",","",$request->get('indictmentcourt')));
           $Legiscourt->pricelawyer_court = floatval($request->get('pricelawyercourt') == NULL ? 0 : str_replace (",","",$request->get('pricelawyercourt')));

@@ -1152,6 +1152,13 @@ class LegislationController extends Controller
         ]);
         $Legiscourt->save();
 
+        $orderDateCer  = date('Y-m-d', strtotime(' +310 days', strtotime($checkresultscourt)));
+        $Legiscourtcase = new Legiscourtcase([
+                'legislation_id' => $id,
+                'orderDateCer' => $orderDateCer
+              ]);
+                $Legiscourtcase->save();
+
         return redirect()->back()->with('success','ยื่นฟ้องเรียบร้อย');
       }
       elseif ($request->type == 3) {  //เตรียมฟ้อง
@@ -1265,13 +1272,13 @@ class LegislationController extends Controller
               $Legiscourtcase = new Legiscourtcase([
                 'legislation_id' => $id,
                 'orderDateCer' => $orderDateCer,
-                'datepreparedoc_case' => date('Y-m-d', strtotime($SetDateCourtCase. '+45 days')),
+               // 'datepreparedoc_case' => date('Y-m-d', strtotime($SetDateCourtCase. '+45 days')),
               ]);
                 $Legiscourtcase->save();
             }
             elseif ($SetFlagClass == 'สถานะคัดหนังสือรับรองคดี' and $Legislation->legiscourtCase != NULL) {
               $Legiscourtcase = Legiscourtcase::where('legislation_id',$id)->first();
-                $Legiscourtcase->datepreparedoc_case = date('Y-m-d', strtotime($SetDateCourtCase. '+45 days'));
+             //   $Legiscourtcase->datepreparedoc_case = date('Y-m-d', strtotime($SetDateCourtCase. '+45 days'));
               $Legiscourtcase->update();
             }
           }
@@ -1280,11 +1287,15 @@ class LegislationController extends Controller
         return redirect()->back()->with('success','บันทึกเรียบร้อย');
       }
       elseif ($request->type == 5) { //ชั้นบังคับคดี
+        $legis = Legislation::find($id);
+        $orderDateCer  = date('Y-m-d', strtotime(' +310 days', strtotime($legis->Date_legis)));
         $Legiscourtcase = Legiscourtcase::where('legislation_id',$id)->first();
           $Legiscourtcase->dateCertificate_case = $request->get('dateCertificate'); //วันที่คัดหนังสือรับรองคดีที่สุด
           $Legiscourtcase->datePredict_case = $request->get('Date_predict'); //วันที่ทำหนังสือประเมิณ
           $Legiscourtcase->pricePredict_case = $request->get('Price_predict'); //ราคาประเมิณ
+         
           $Legiscourtcase->datepreparedoc_case = $request->get('datepreparedoc');
+          $Legiscourtcase->orderDateCer = $orderDateCer;
           // $Legiscourtcase->datesetsequester_case = $request->get('DateSequester');
           $Legiscourtcase->datePublicsell_case = $request->get('datePublicsell');
           $Legiscourtcase->dateSequester_case = $request->get('dateSequester');
@@ -1390,6 +1401,19 @@ class LegislationController extends Controller
             $LegisAsset->DateTakephoto_asset =  $request->get('Date_Takephoto');
             $LegisAsset->DateGetphoto_asset =  $request->get('Date_Getphoto');
           $LegisAsset->update();
+          
+          $Legiscourtcase = Legiscourtcase::where('legislation_id',$id)->first();
+          if ($request->get('sendsequesterasset') == "สืบทรัพย์เจอ" && $Legiscourtcase->orderDatepreparedoc == NULL){
+            
+              $orderDatepreparedoc  = date('Y-m-d', strtotime(' +30 days', strtotime($request->get('sequesterasset'))));
+              $ordeDateSequester  = date('Y-m-d', strtotime(' +30 days', strtotime( $orderDateCer)));
+              $orderDatePublish  = date('Y-m-d', strtotime(' +15 days', strtotime( $ordeDateSequester)));
+              $Legiscourtcase->orderDatepreparedoc = $orderDatepreparedoc;
+              $Legiscourtcase->ordeDateSequester =  $ordeDateSequester;
+              $Legiscourtcase->orderDatePublish =  $orderDatePublish;
+            $Legiscourtcase->update();
+          }
+          
         }
 
         return redirect()->back()->with('success','บันทึกเรียบร้อย');
@@ -2128,49 +2152,49 @@ class LegislationController extends Controller
             $excel->sheet($status, function ($sheet) use($data,$status) {
                 //$sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
                 $sheet->prependRow(2, array($status));
-                $sheet->cells('A3:Z3', function($cells) {
+                $sheet->cells('A3:AM3', function($cells) {
                   $cells->setBackground('#FFCC00');
                 });
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
                 $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
-                $sheet->row($row, array('ลำดับ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
-                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
-                    'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
+                $sheet->row($row, array('ลำดับ','วันที่เข้าระบบ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
+                    'กำหนดวันสืบพยาน','วันสืบพยาน','กำหนดวันส่งคำบังคับ', 'วันส่งคำบังคับ','กำหนดวันตรวจ',  'วันตรวจผลหมาย','กำหนดวันตั้งเจ้าพนักงาน', 'วันตั้งเจ้าพนักงาน','กำหนดวันตรวจหมายตั้ง', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
                     'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
   
                 foreach ($data as $key => $value) {
                   //วันสืบพยาน
-                  if (@$value->legiscourt->fuzzy_court != NULL) {
-                    $Setexamiday = @$value->legiscourt->fuzzy_court;
-                  }else {
+                  // if (@$value->legiscourt->fuzzy_court != NULL) {
+                  //   $Setexamiday = @$value->legiscourt->fuzzy_court;
+                  // }else {
                     $Setexamiday = @$value->legiscourt->examiday_court;
-                  }
+                  //}
                   //วันส่งคำบังคับ
-                  if (@$value->legiscourt->ordersend_court != NULL) {
-                    $Setordersend = @$value->legiscourt->ordersend_court;
-                  }else {
-                    $Setordersend = @$value->legiscourt->orderday_court;
-                  }
+                  // if (@$value->legiscourt->ordersend_court != NULL) {
+                     $Setordersend = @$value->legiscourt->ordersend_court;
+                  // }else {
+                  //  $Setordersend = @$value->legiscourt->orderday_court;
+                  //}
                   //วันตรวจผลหมาย
-                  if (@$value->legiscourt->checksend_court != NULL) {
-                    $Setchecksend = @$value->legiscourt->checksend_court;
-                  }else {
-                    $Setchecksend = @$value->legiscourt->checkday_court;
-                  }
+                  // if (@$value->legiscourt->checksend_court != NULL) {
+                     $Setchecksend = @$value->legiscourt->checksend_court;
+                  // }else {
+                  //  $Setchecksend = @$value->legiscourt->checkday_court;
+                 // }
                   //วันตั้งเจ้าพนักงาน
-                  if (@$value->legiscourt->sendoffice_court != NULL) {
+                 //if (@$value->legiscourt->sendoffice_court != NULL) {
                     $Setsendoffice = @$value->legiscourt->sendoffice_court;
-                  }else {
-                    $Setsendoffice = @$value->legiscourt->setoffice_court;
-                  }
+                  // }else {
+                  //   $Setsendoffice = @$value->legiscourt->setoffice_court;
+                  // }
                   //วันตรวจผลหมายตั้ง
-                  if (@$value->legiscourt->sendcheckresults_court != NULL) {
+                  //if (@$value->legiscourt->sendcheckresults_court != NULL) {
                     $Setsendcheckresults = @$value->legiscourt->sendcheckresults_court;
-                  }else {
-                    $Setsendcheckresults = @$value->legiscourt->checkresults_court;
-                  }
+                  // }else {
+                  //   $Setsendcheckresults = @$value->legiscourt->checkresults_court;
+                  // }
                   //สถานะลูกหนี้
                   if (@$value->Status_legis != NULL) {
                     $SetStatus = @$value->Status_legis;
@@ -2217,6 +2241,7 @@ class LegislationController extends Controller
                   }
                   $sheet->row(++$row, array(
                     $key+1,
+                    @$value->Date_legis,
                     @$value->DateCon_legis,
                     @$Flag[@$value->Flag],
                     @$Flag_Status[@$value->Flag_status],
@@ -2229,16 +2254,21 @@ class LegislationController extends Controller
                     @$value->legiscourt->law_court,
                     @$value->legiscourt->bnumber_court,
                     @$value->legiscourt->rnumber_court,
+                    @$value->legiscourt->orderdatecourt,
                     @$value->legiscourt->fillingdate_court,
                     number_format(@$value->Sumperiod_legis, 2),
                     number_format(@$SetCourtPrice, 2),
                     number_format(@$SetPrice, 2),
                     number_format(@$SetPriceAdjud, 2),
-                    
+                    @$value->legiscourt->orderexamiday,
                     $Setexamiday,
+                    @$value->legiscourt->orderday_court,
                     $Setordersend,
+                    @$value->legiscourt->checkday_court,
                     $Setchecksend,
+                    @$value->legiscourt->setoffice_court,
                     $Setsendoffice,
+                    @$value->legiscourt->checkresults_court,
                     $Setsendcheckresults,
                     @$value->Date_asset,
                     $SetTextAsset,

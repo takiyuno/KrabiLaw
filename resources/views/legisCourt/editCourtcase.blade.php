@@ -753,6 +753,12 @@
                             <div class="row">
                               <div class="col-md-7">
                                 <div class="form-group row mb-0">
+                                  <label class="col-sm-4 col-form-label text-right SizeText">กำหนดวันที่คัดโฉนด :</label>
+                                  <div class="col-sm-7">
+                                    <input type="date" name="orderDatepreparedoc" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->orderDatepreparedoc}}" readonly/>
+                                  </div>
+                                </div>
+                                <div class="form-group row mb-0">
                                   <label class="col-sm-4 col-form-label text-right SizeText">วันที่คัดโฉนด :</label>
                                   <div class="col-sm-7">
                                     <input type="date" name="datepreparedoc" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->datepreparedoc_case}}"/>
@@ -900,6 +906,12 @@
                           <div class="row">
                             <div class="col-md-7">
                               <div class="form-group row mb-0">
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดวันที่ตั้งยึดทรัพย์ :</label>
+                                <div class="col-sm-7">
+                                  <input type="date" name="ordeDateSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->ordeDateSequester}}" readonly/>
+                                </div>
+                              </div>
+                              <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่ตั้งเรื่องยึดทรัพย์ :</label>
                                 <div class="col-sm-7">
                                   <input type="date" name="dateSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->dateSequester_case}}"/>
@@ -941,6 +953,10 @@
                                 </div>
                               </div> -->
                               <div class="form-group row mb-0">
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดประกาศขายครั้งเเรก :</label>
+                                <div class="col-sm-7">
+                                  <input type="date" name="ordeDateSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->ordeDateSequester}}" readonly/>
+                                </div>
                                 <label class="col-sm-4 col-form-label text-right SizeText">ผลประกาศขาย :</label>
                                 <div class="col-sm-7">
                                   <select id="ResultSequester" name="ResultSequester" class="form-control form-control-sm SizeText">

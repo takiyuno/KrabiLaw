@@ -615,9 +615,12 @@
                           <div class="row">
                             <div class="col-md-7">
                               <div class="form-group row mb-0">
+                                @php
+                                    $orderDateCer  = date('Y-m-d', strtotime(' +310 days', strtotime($data->Date_legis)));  
+                                @endphp
                                 <label class="col-sm-4 col-form-label text-right SizeText">กำหนดการคัดหนังสือ :</label>
                                 <div class="col-sm-7">
-                                  <input type="date" name="orderDateCer" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->orderDateCer}}" readonly/>
+                                  <input type="date" name="orderDateCer" class="form-control form-control-sm SizeText" value="{{ @$data->legiscourtCase->orderDateCer==NULL ? $orderDateCer:$data->legiscourtCase->orderDateCer}}" readonly/>
                                 </div>
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่คัดหนังสือรับรองคดี :</label>
                                 <div class="col-sm-7">

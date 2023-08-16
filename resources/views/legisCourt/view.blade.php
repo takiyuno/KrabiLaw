@@ -227,7 +227,8 @@
                         @php
                          
                          $DateFixcourt =  (@$data->legiscourt->orderdatecourt == NULL ? date('Y-m-d', strtotime(' +45 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderdatecourt );
-                          if($row->DateFixcourt >= date('Y-m-d')) {
+                          
+                         if($DateFixcourt >= date('Y-m-d')) {
                             $DateDue = date_create($DateFixcourt);
                             $NowDate = date_create(date('Y-m-d'));
                             $DateDiff = date_diff($NowDate,$DateDue);
@@ -322,15 +323,15 @@
                         @php
                          $orderexamiday =  (@$data->legiscourt->orderexamiday == NULL ? date('Y-m-d', strtotime(' +75 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderexamiday );
                         
-                          $SetDate = NULL;
-                          if($row->legiscourt->fuzzy_court != NULL) {
-                            $SetDate = $row->legiscourt->fuzzy_court;
-                          }else{
-                            $SetDate = $row->legiscourt->examiday_court;
-                          }
-                          if($orderexamiday >= date('Y-m-d')) {
+                          // $SetDate = NULL;
+                          // if($row->legiscourt->fuzzy_court != NULL) {
+                          //   $SetDate = $row->legiscourt->fuzzy_court;
+                          // }else{
+                            $SetDate = $row->legiscourt->examiday_court==NULL?date('Y-m-d'):$row->legiscourt->examiday_court;
+                          //}
+                          if($orderexamiday >= $SetDate) {
                             $DateDue = date_create($orderexamiday);
-                            $NowDate = date_create(date('Y-m-d'));
+                            $NowDate = date_create($SetDate);
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
                               $Tag = 'Active';
@@ -360,8 +361,8 @@
                             <span class="dateHide">{{ date_format(date_create(@$orderexamiday), 'Ymd')}} </span> 
                             {{($orderexamiday !== NULL) ? formatDateThai($orderexamiday) : '-' }}</td>
                           <td class="text-center">
-                          <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
-                          {{($SetDate !== NULL) ? formatDateThai($SetDate) : '-' }}</td>
+                          <span class="dateHide">{{ date_format(date_create( $row->legiscourt->examiday_court), 'Ymd')}} </span> 
+                          {{( $row->legiscourt->examiday_court !== NULL) ? formatDateThai( $row->legiscourt->examiday_court) : '-' }}</td>
                           <td class="text-left"> 
                             @if($Tag == 'Active')
                               <span class="btn-outline-warning btn-sm hover-up mr-2">
@@ -420,16 +421,16 @@
                         @php
                          $orderday_court =  (@$data->legiscourt->orderday_court == NULL ? date('Y-m-d', strtotime(' +120 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderday_court );
 
-                          $SetDate = NULL;
-                          if($row->legiscourt->ordersend_court != NULL) {
-                            $SetDate = $row->legiscourt->ordersend_court;
-                          }else{
-                            $SetDate = $row->legiscourt->orderday_court;
-                          }
+                          // $SetDate = NULL;
+                          // if($row->legiscourt->ordersend_court != NULL) {
+                            $SetDate = $row->legiscourt->ordersend_court==NULL?date('Y-m-d'):$row->legiscourt->ordersend_court;
+                          // }else{
+                          //   $SetDate = $row->legiscourt->orderday_court;
+                          // }
 
-                          if($orderday_court >= date('Y-m-d')) {
+                          if($orderday_court >= $SetDate) {
                             $DateDue = date_create($orderday_court);
-                            $NowDate = date_create(date('Y-m-d'));
+                            $NowDate = date_create($SetDate);
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
                               $Tag = 'Active';
@@ -457,16 +458,16 @@
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">
                             @if( $orderday_court != NULL)
-                            <span class="dateHide">{{ date_format(date_create(@ $orderday_court), 'Ymd')}} </span> 
+                            <span class="dateHide">{{ date_format(date_create($orderday_court), 'Ymd')}} </span> 
                               {{ formatDateThai( $orderday_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
                           </td>
                           <td class="text-center">
-                            @if($SetDate != NULL)
-                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
-                              {{ formatDateThai($SetDate) }}
+                            @if($row->legiscourt->ordersend_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$row->legiscourt->ordersend_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($row->legiscourt->ordersend_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
@@ -529,16 +530,16 @@
                         @php
                          $checkday_court =  (@$data->legiscourt->checkday_court == NULL ? date('Y-m-d', strtotime(' +165 days', strtotime($row->Date_legis))) : @$data->legiscourt->checkday_court );
 
-                          $SetDate = NULL;
-                          if($row->legiscourt->checksend_court != NULL) {
-                            $SetDate = $row->legiscourt->checksend_court;
-                          }else{
-                            $SetDate = $row->legiscourt->checkday_court;
-                          }
+                          // $SetDate = NULL;
+                          // if($row->legiscourt->checksend_court != NULL) {
+                            $SetDate = $row->legiscourt->checksend_court==NULL?date('Y-m-d'):$row->legiscourt->checksend_court;
+                          // }else{
+                          //   $SetDate = $row->legiscourt->checkday_court;
+                          // }
 
-                          if($checkday_court >= date('Y-m-d')) {
+                          if($checkday_court >= $SetDate) {
                             $DateDue = date_create($checkday_court);
-                            $NowDate = date_create(date('Y-m-d'));
+                            $NowDate = date_create($SetDate);
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
                               $Tag = 'Active';
@@ -565,17 +566,17 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">
-                            @if($orderday_court != NULL)
-                            <span class="dateHide">{{ date_format(date_create(@$orderday_court), 'Ymd')}} </span> 
-                              {{ formatDateThai($orderday_court) }}
+                            @if($checkday_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$checkday_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($checkday_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
                           </td>
                           <td class="text-center">
-                            @if($SetDate != NULL)
-                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
-                              {{ formatDateThai($SetDate) }}
+                            @if($row->legiscourt->checksend_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$row->legiscourt->checksend_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($row->legiscourt->checksend_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
@@ -638,16 +639,16 @@
                         @php
                          $setoffice_court =  (@$data->legiscourt->setoffice_court == NULL ? date('Y-m-d', strtotime(' +220 days', strtotime($row->Date_legis))) : @$data->legiscourt->setoffice_court );
 
-                          $SetDate = NULL;
-                          if($row->legiscourt->sendoffice_court != NULL) {
-                            $SetDate = @$row->legiscourt->sendoffice_court;
-                          }else{
-                            $SetDate = @$setoffice_court;
-                          }
+                          // $SetDate = NULL;
+                          // if($row->legiscourt->sendoffice_court != NULL) {
+                            $SetDate = @$row->legiscourt->sendoffice_court==NULL?date('Y-m-d'):@$row->legiscourt->sendoffice_court;
+                          // }else{
+                          //   $SetDate = @$setoffice_court;
+                          // }
 
-                          if($setoffice_court >= date('Y-m-d')) {
+                          if($setoffice_court >= $SetDate) {
                             $DateDue = date_create($setoffice_court);
-                            $NowDate = date_create(date('Y-m-d'));
+                            $NowDate = date_create($SetDate);
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
                               $Tag = 'Active';
@@ -674,17 +675,17 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center">                         
-                            @if($setoffice_court != NULL)
+                            @if(@$setoffice_court != NULL)
                             <span class="dateHide">{{ date_format(date_create(@$setoffice_court), 'Ymd')}} </span> 
-                              {{ formatDateThai($setoffice_court) }}
+                              {{ formatDateThai(@$setoffice_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
                           </td>
                           <td class="text-center">                         
-                            @if($SetDate != NULL)
-                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
-                              {{ formatDateThai($SetDate) }}
+                            @if(@$row->legiscourt->sendoffice_court != NULL)
+                            <span class="dateHide">{{ date_format(date_create(@@$row->legiscourt->sendoffice_court), 'Ymd')}} </span> 
+                              {{ formatDateThai(@$row->legiscourt->sendoffice_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
@@ -747,16 +748,16 @@
                         @php
                          $checkresults_court =  (@$data->legiscourt->checkresults_court == NULL ? date('Y-m-d', strtotime(' +265 days', strtotime($row->Date_legis))) : @$data->legiscourt->checkresults_court );
 
-                          $SetDate = NULL;
-                          if($row->legiscourt->sendcheckresults_court != NULL) {
-                            $SetDate = $row->legiscourt->sendcheckresults_court;
-                          }else{
-                            $SetDate = $row->legiscourt->checkresults_court;
-                          }
+                          // $SetDate = NULL;
+                          // if($row->legiscourt->sendcheckresults_court != NULL) {
+                            $SetDate = $row->legiscourt->sendcheckresults_court==NULL?date('Y-m-d'):$row->legiscourt->sendcheckresults_court;
+                          // }else{
+                          //   $SetDate = $row->legiscourt->checkresults_court;
+                          // }
 
-                          if($checkresults_court >= date('Y-m-d')) {
+                          if($checkresults_court >= $SetDate) {
                             $DateDue = date_create($checkresults_court);
-                            $NowDate = date_create(date('Y-m-d'));
+                            $NowDate = date_create($SetDate);
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
                               $Tag = 'Active';
@@ -791,9 +792,9 @@
                             @endif
                           </td>
                           <td class="text-center"> 
-                            @if($SetDate != NULL)
-                            <span class="dateHide">{{ date_format(date_create(@$SetDate), 'Ymd')}} </span> 
-                              {{ formatDateThai($SetDate) }}
+                            @if($row->legiscourt->sendcheckresults_court!= NULL)
+                            <span class="dateHide">{{ date_format(date_create(@$row->legiscourt->sendcheckresults_court), 'Ymd')}} </span> 
+                              {{ formatDateThai($row->legiscourt->sendcheckresults_court) }}
                             @else
                               <i class="text-secondary">ไม่พบข้อมูล</i>
                             @endif
@@ -859,10 +860,10 @@
                         @php
                          $orderDateCer =  (@$data->legiscourt->orderDateCer == NULL ? date('Y-m-d', strtotime(' +310 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderDateCer );
 
-                          $SetDate = NULL;
-                          if(@$orderDateCer >= date('Y-m-d')) {
+                          $SetDate = @$row->legiscourtCase->dateCertificate_case == NULL ?  date('Y-m-d') : @$row->legiscourtCase->dateCertificate_case ;
+                          if(@$orderDateCer >=  $SetDate) {
                             $DateDue = date_create(@$orderDateCer);
-                            $NowDate = date_create(date('Y-m-d'));
+                            $NowDate = date_create( $SetDate);
                             $DateDiff = date_diff($NowDate,$DateDue);
                             if($DateDiff->d <= 7){
                               $Tag = 'Active';

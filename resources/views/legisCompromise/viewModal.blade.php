@@ -90,11 +90,11 @@
                      
                           <select id="TypePromise" name="TypePromise" class="form-control form-control-sm SizeText" required>
                             <option value="" selected>--- เลือกประนอม ---</option>
-                            <option value="ประนอมที่ศาล" {{ ($data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
-                            <option value="ประนอมที่บริษัท" {{ ($data->legisCompromise->Type_Promise === 'ประนอมที่บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
-                            <option value="จำนำทรัพย์" {{ ($data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
-                            <option value="ประนอมขายฝาก" {{ ($data->legisCompromise->Type_Promise === 'ประนอมขายฝาก') ? 'selected' : '' }}>04. ประนอมขายฝาก</option>
-                            <option value="ประนอมหนี้หลังยึดทรัพย์" {{ ($data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
+                            <option value="ประนอมที่ศาล" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
+                            <option value="ประนอมที่บริษัท" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
+                            <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
+                            <option value="ประนอมขายฝาก" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมขายฝาก') ? 'selected' : '' }}>04. ประนอมขายฝาก</option>
+                            <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
                           </select>
                         
                       </div>

@@ -2161,7 +2161,8 @@ class LegislationController extends Controller
                 $sheet->row($row, array('ลำดับ','วันที่เข้าระบบ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'กำหนดวันสืบพยาน','วันสืบพยาน','กำหนดวันส่งคำบังคับ', 'วันส่งคำบังคับ','กำหนดวันตรวจ',  'วันตรวจผลหมาย','กำหนดวันตั้งเจ้าพนักงาน', 'วันตั้งเจ้าพนักงาน','กำหนดวันตรวจหมายตั้ง', 'วันตรวจผลหมายตั้ง',
-                    'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
+                    'กำหนดการคัดหนังสือ','วันที่คัดหนังสือรับรองคดี','วันที่สืบทรัพย์', 'สถานะทรัพย์','กำหนดวันที่คัดโฉนด','วันที่คัดโฉนด',
+                    'กำหนดวันที่ตั้งยึดทรัพย์','วันที่ตั้งเรื่องยึดทรัพย์', 'กำหนดประกาศขาย','สถานะประนอมหนี้', 
                     'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
   
                 foreach ($data as $key => $value) {
@@ -2270,8 +2271,17 @@ class LegislationController extends Controller
                     $Setsendoffice,
                     @$value->legiscourt->checkresults_court,
                     $Setsendcheckresults,
-                    @$value->Date_asset,
-                    $SetTextAsset,
+                    @$value->legiscourtCase->orderDateCer,
+                    @$value->legiscourtCase->dateCertificate_case,
+
+                    @$value->Legisasset->sequester_asset,
+                    @$value->Legisasset->sendsequester_asset,
+
+                    @$value->legiscourtCase->orderDatepreparedoc,
+                    @$value->legiscourtCase->datepreparedoc_case,
+                    @$value->legiscourtCase->ordeDateSequester,
+                    @$value->legiscourtCase->dateSequester_case,
+                    @$value->legiscourtCase->ordeDateSequester,
                     $SetTextCompro,
                     @$value->DateStatus_legis,
                     number_format(floatval(@$value->PriceStatus_legis), 2),
@@ -2479,7 +2489,8 @@ class LegislationController extends Controller
         $dateto = $request->Tdate;//"2023-02-28";
   
 
-        return view('legisCourt.reportCourt', compact('datefrom','dateto'));
+        //return view('legisCourt.reportCourt', compact('datefrom','dateto'));
+        return view('legislation.reportlegisAll', compact('datefrom','dateto'));
     }
 
     }

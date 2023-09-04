@@ -45,10 +45,11 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{7}}">รายงาน ลูกหนี้ฟ้องทั้งหมด'</a></li>
-                    <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{8}}">รายงาน ลูกหนี้ขายฝากทั้งหมด'</a></li>
+                    {{-- <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{8}}">รายงาน ลูกหนี้ขายฝากทั้งหมด'</a></li> --}}
                     {{-- <li class="dropdown-divider"></li>
                      <li><a target="_blank" class="dropdown-item SizeText" href="{{ route('Legislation.Report') }}?type={{2}}">รายงาน ลูกหนี้ Non-Vat</a></li> --}}
                     <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-item textSize-13" data-toggle="modal" data-target="#modal-lg" data-link="{{ route('MasterLegis.create') }}?type={{2}}&FlagTab={{9}}">รายงาน สถานะลูกหนี้ทั้งหมด</a></li>
                     <li><a class="dropdown-item textSize-13" data-toggle="modal" data-target="#modal-lg" data-link="{{ route('MasterLegis.create') }}?type={{2}}&FlagTab={{6}}">รายงาน ลูกหนี้ทั้งหมด</a></li>
                   </ul>
                 </div>

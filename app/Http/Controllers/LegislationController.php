@@ -2487,11 +2487,13 @@ class LegislationController extends Controller
       if($request->FlagTab == 6){
         $datefrom = $request->Fdate ;//"2022-01-01";
         $dateto = $request->Tdate;//"2023-02-28";
-  
-
-        //return view('legisCourt.reportCourt', compact('datefrom','dateto'));
-        return view('legislation.reportlegisAll', compact('datefrom','dateto'));
+      return view('legisCourt.reportCourt', compact('datefrom','dateto'));
     }
+    if($request->FlagTab == 9){
+      $datefrom = $request->Fdate ;//"2022-01-01";
+      $dateto = $request->Tdate;//"2023-02-28";
+      return view('legislation.reportlegisAll', compact('datefrom','dateto'));
+  }
 
     }
 

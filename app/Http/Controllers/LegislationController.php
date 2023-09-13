@@ -1228,6 +1228,10 @@ class LegislationController extends Controller
           $Legiscourt->indictment_court = floatval($request->get('indictmentcourt') == NULL ? 0 : str_replace (",","",$request->get('indictmentcourt')));
           $Legiscourt->pricelawyer_court = floatval($request->get('pricelawyercourt') == NULL ? 0 : str_replace (",","",$request->get('pricelawyercourt')));
           $Legiscourt->adjudicate_price = floatval($request->get('adjudicate_price') == NULL ? 0 :str_replace (",","",$request->get('adjudicate_price')));
+          $Legiscourt->first_price = floatval($request->get('first_price') == NULL ? 0 :str_replace (",","",$request->get('first_price')));
+          $Legiscourt->promise_price = floatval($request->get('promise_price') == NULL ? 0 :str_replace (",","",$request->get('promise_price')));
+          $Legiscourt->firstpay_date = $request->get('firstpay_date');
+          
           $Legiscourt->examiday_court = $request->get('examidaycourt');
           $Legiscourt->fuzzy_court = $request->get('fuzzycourt');
           $Legiscourt->examinote_court = $request->get('examinotecourt');

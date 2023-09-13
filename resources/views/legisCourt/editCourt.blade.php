@@ -498,7 +498,13 @@
                                 <div class="col-sm-8">
                                   <input type="text" id="adjudicate_price" name="adjudicate_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
                                 </div>                             
-                          </div>
+                              </div>
+                              <div class="form-group row mb-0">
+                                <label class="col-sm-4 col-form-label text-right SizeText">เงินก้อนแรก :</label>
+                                <div class="col-sm-8">
+                                  <input type="text" id="first_price" name="first_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
+                                </div>                             
+                              </div>
                             </div>
                             <div class="col-md-4">
                               <div class="form-group row mb-0">
@@ -506,10 +512,16 @@
                                 <div class="col-sm-8">
                                   <input type="date" id="examidaycourt" name="examidaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->examiday_court) }}" oninput="CourtDate();" />
                                 </div>
-                                {{-- <label class="col-sm-4 col-form-label text-right SizeText">วันเลือน :</label>
+                                
+                                  <label class="col-sm-4 col-form-label text-right SizeText">ยอดประนอม :</label>
+                                  <div class="col-sm-8">
+                                    <input type="text" id="promise_price" name="promise_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
+                                  </div>                             
+                               
+                                <label class="col-sm-4 col-form-label text-right SizeText">วันจ่ายเงิน :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="fuzzycourt" name="fuzzycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->fuzzy_court) }}" oninput="CourtDate();" />
-                                </div> --}}
+                                  <input type="date" id="firstpay_date" name="firstpay_date" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->fuzzy_court) }}" oninput="CourtDate();" />
+                                </div>
                               </div>
                             </div>
                             <div class="col-md-4">

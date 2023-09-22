@@ -424,12 +424,7 @@
                         @php
                          $orderday_court =  (@$data->legiscourt->orderday_court == NULL ? date('Y-m-d', strtotime(' +120 days', strtotime($row->Date_legis))) : @$data->legiscourt->orderday_court );
 
-                          // $SetDate = NULL;
-                          // if($row->legiscourt->ordersend_court != NULL) {
                             $SetDate = $row->legiscourt->ordersend_court==NULL?date('Y-m-d'):$row->legiscourt->ordersend_court;
-                          // }else{
-                          //   $SetDate = $row->legiscourt->orderday_court;
-                          // }
                           $due = $row->legiscourt->ordersend_court==NULL?$orderday_court:$row->legiscourt->ordersend_court;
 
                           if($due >= date('Y-m-d')) {

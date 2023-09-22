@@ -956,9 +956,9 @@
                                 </div>
                               </div> -->
                               <div class="form-group row mb-0">
-                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดประกาศขายครั้งเเรก :</label>
+                                <label class="col-sm-4 col-form-label text-right SizeText">กำหนดประกาศขาย :</label>
                                 <div class="col-sm-7">
-                                  <input type="date" name="ordeDateSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->ordeDateSequester}}" readonly/>
+                                  <input type="date" name="orderDatePublish" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->orderDatePublish}}" readonly/>
                                 </div>
                                 <label class="col-sm-4 col-form-label text-right SizeText">ผลประกาศขาย :</label>
                                 <div class="col-sm-7">

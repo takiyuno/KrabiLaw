@@ -98,7 +98,7 @@ class LegisComproController extends Controller
             //   return $query->where('Flag_Payment', 'Y');
             // })
             ->with(['legispayments' => function ($query) {
-              return $query->where('Flag_Payment', 'Y')->selectRaw('*,DATEDIFF(month,  DateDue_Payment ,CONVERT (Date, GETDATE())) as monthdiff');
+              return $query->where('Flag_Payment', 'Y')->selectRaw('*,DATEDIFF(day,  DateDue_Payment ,CONVERT (Date, GETDATE()))/30 as monthdiff');
             }])
             ->Wherehas('legisCompromise',function ($query) use($Fdate, $Tdate) {
               return $query->when(!empty($Fdate) && !empty($Tdate), function($q) use($Fdate, $Tdate) {

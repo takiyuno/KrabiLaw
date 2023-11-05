@@ -2,6 +2,14 @@
 
 namespace App;
 
+use App\legisasset;
+use App\Legiscompromise;
+use App\Legiscourt;
+use App\Legisexpense;
+use App\LegisImage;
+use App\legispayment;
+use App\LegisPublishsell;
+use App\LegisTrackings;
 use Illuminate\Database\Eloquent\Model;
 
 class Legislation extends Model
@@ -17,7 +25,7 @@ class Legislation extends Model
                         'Status_legis','UserStatus_legis','DateStatus_legis','PriceStatus_legis','txtStatus_legis','Discount_legis','Paidamount_legis','CostPrice_legis','DateUpState_legis',
                         'Flag_Class','Flag_status','Datesend_Flag','Noteby_legis','UserSend1_legis','UserSend2_legis','UseClear_Legiscom','DateClear_Legiscom','CountClear_Legiscom',
                         'Terminatebuyer_list','Terminatesupport_list','Acceptbuyerandsup_list','Twodue_list','AcceptTwodue_list',
-                        'Confirm_list','Accept_list','Notice_list','AcceptTwoNotice_list'];
+                        'Confirm_list','Accept_list','Notice_list','AcceptTwoNotice_list','RateCutOff'];
 
 
   public function legiscourt()
@@ -33,6 +41,10 @@ class Legislation extends Model
   public function legisCompromise()
   {
     return $this->hasOne(Legiscompromise::class,'legislation_id','id')->latest();
+  }
+  public function legisCompromiseInact()
+  {
+    return $this->hasMany(Legiscompromise::class,'legislation_id','id');
   }
 
   public function legispayments()
@@ -73,4 +85,5 @@ class Legislation extends Model
   {
     return $this->hasOne(LegisTrackings::class,'legislation_id','id')->latest();
   }
+ 
 }

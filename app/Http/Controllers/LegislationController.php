@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use PDF;
+use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
 use Storage;
 use File;
 use Carbon\Carbon;
 use Exporter;
 use Excel;
 use Helper;
+
 
 use App\Legislation;
 use App\Legiscourt;
@@ -388,6 +390,8 @@ class LegislationController extends Controller
               ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
               ->where('RSFHP.ARMAST.CONTNO','=',$Contract)
               ->first();
+          $dataArpay = DB::connection('ibmi2')->select("
+              SELECT sum(NPROF) as NPROF  FROM RSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
           if( $data==NULL){            
             $data = DB::connection('ibmi2')
             ->table('RSFHP.HARMAST')
@@ -395,6 +399,8 @@ class LegislationController extends Controller
             ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.HARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
             ->where('RSFHP.HARMAST.CONTNO','=',$Contract)
             ->first();
+            $dataArpay = DB::connection('ibmi2')->select("
+              SELECT sum(NPROF) as NPROF  FROM RSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
           }
          // dd($data);
           $dataGT = DB::connection('ibmi2')
@@ -450,6 +456,8 @@ class LegislationController extends Controller
               ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
               ->where('PSFHP.ARMAST.CONTNO','=', $Contract)
               ->first();
+          $dataArpay = DB::connection('ibmi2')->select("
+              SELECT sum(NPROF) as NPROF  FROM PSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
             if($data==NULL){
               $data = DB::connection('ibmi2')
               ->table('PSFHP.HARMAST')
@@ -457,6 +465,8 @@ class LegislationController extends Controller
               ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
               ->where('PSFHP.HARMAST.CONTNO','=', $Contract)
               ->first();
+              $dataArpay = DB::connection('ibmi2')->select("
+              SELECT sum(NPROF) as NPROF  FROM PSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
             }
               
           $dataGT = DB::connection('ibmi2')
@@ -496,7 +506,7 @@ class LegislationController extends Controller
 
         $datalegis = Legislation::where('Contract_legis',$Contract)->first();
         $billcoll = TB_Billcoll::get();
-        return response()->view('legislation.dataSearch', compact('data','datalegis','SetRealty','DB_type','Contract','type','billcoll'));
+        return response()->view('legislation.dataSearch', compact('data','dataArpay','datalegis','SetRealty','DB_type','Contract','type','billcoll'));
       }
     }
 
@@ -652,6 +662,18 @@ class LegislationController extends Controller
           ->join('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')
           ->where('RSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
+          $dataArpay = DB::connection('ibmi2')->select('
+          SELECT sum(NPROF) as NPROF  FROM RSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+      if( $data==NULL){            
+        $data = DB::connection('ibmi2')
+        ->table('RSFHP.HARMAST')
+        ->leftJoin('RSFHP.HINVTRAN','RSFHP.HARMAST.STRNO','=','RSFHP.HINVTRAN.STRNO')     
+        ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.HARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
+        ->where('RSFHP.HARMAST.CONTNO','=',$SetStrConn)
+        ->first();
+        $dataArpay = DB::connection('ibmi2')->select('
+          SELECT sum(NPROF) as NPROF  FROM RSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+      }
 
         // query ทรัพย์
         $dataAro = DB::connection('ibmi2')
@@ -698,6 +720,8 @@ class LegislationController extends Controller
           ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
           ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
+          $dataArpay = DB::connection('ibmi2')->select('
+          SELECT sum(NPROF) as NPROF  FROM PSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
           if($data==NULL){
             $data = DB::connection('ibmi2')
           ->table('PSFHP.HARMAST')
@@ -705,6 +729,8 @@ class LegislationController extends Controller
           ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
           ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
           ->first();
+          $dataArpay = DB::connection('ibmi2')->select('
+          SELECT sum(NPROF) as NPROF  FROM PSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
           }
 
         // query ทรัพย์
@@ -758,6 +784,8 @@ class LegislationController extends Controller
             ->join('P132SFHP.VIEW_CUSTMAIL','P132SFHP.ARMAST.CUSCOD','=','P132SFHP.VIEW_CUSTMAIL.CUSCOD')
             ->where('P132SFHP.ARMAST.CONTNO','=', $SetStrConn)
             ->first();
+            $dataArpay = DB::connection('ibmi2')->select('
+          SELECT sum(NPROF) as NPROF  FROM PSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
           if($data==NULL){
             $data = DB::connection('ibmi2')
             ->table('PSFHP.HARMAST')
@@ -765,6 +793,8 @@ class LegislationController extends Controller
             ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
             ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
             ->first();
+            $dataArpay = DB::connection('ibmi2')->select('
+          SELECT sum(NPROF) as NPROF  FROM PSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
           }
 
           $dataGT = DB::connection('ibmi2')
@@ -823,6 +853,7 @@ class LegislationController extends Controller
           'Staleperiod_legis' => $data->EXP_PRD,    //ค้าง
           'Realperiod_legis' => $data->HLDNO,       //ค้างงวดจริง
           'Sumperiod_legis' => $data->BALANC - $data->SMPAY,
+          'RateCutOff'=> $request->RateCutOff,
           'Flag' => $request->TypeCus_Flag,
           'Phone_legis' => (iconv('Tis-620','utf-8',$data->TELP)),
           'BILLCOLL' => $request->BILLCOLL,
@@ -1181,6 +1212,7 @@ class LegislationController extends Controller
           $user->AcceptTwoNotice_list = $request->get('AcceptTwoNoticelist');         //ใบตอบรับโนติสผู้ซื้อ - ผู้ค้ำ
           $user->dateStopRev = $request->get('dateStopRev');         //หยุดรับรู้รายได้
           $user->dateCutOff = $request->get('dateCutOff');    //ตัดหนี้ 0
+          $user->RateCutOff = $request->get('RateCutOff'); //ยอดตัดหนี้ 0
           $user->BILLCOLL = $request->get('BILLCOLL');         
 
           if ($request->get('TypeCus_Flag') == 'C') {
@@ -1877,7 +1909,7 @@ class LegislationController extends Controller
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
-                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
+                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0','ยอดตัดหนี้ 0','วันที่ปิดบัญชี'));
   
                 foreach ($data as $key => $value) {
                   //วันสืบพยาน
@@ -1985,6 +2017,8 @@ class LegislationController extends Controller
                     @$value->Note,
                     @$value->dateStopRev,
                     @$value->dateCutOff,
+                    @$value->RateCutOff,
+                    @$value->DateStatus_legis
                   ));
                 }
             });
@@ -2151,7 +2185,14 @@ class LegislationController extends Controller
               ->get();
           $status = 'ลูกหนี้ชั้นศาล';
           // dd($data[0]);
-
+          function ParsetoDate($Date_con){
+            $data = '';
+          if($Date_con!=''){
+            $data =  \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($Date_con));
+          }
+             return $data;
+           
+         }      
           Excel::create('รายงานลูกหนี้งานกฏหมาย', function ($excel) use($data,$status) {
             $excel->sheet($status, function ($sheet) use($data,$status) {
                 //$sheet->prependRow(1, array("บริษัท ชูเกียรติลิสซิ่ง จำกัด"));
@@ -2159,15 +2200,29 @@ class LegislationController extends Controller
                 $sheet->cells('A3:AM3', function($cells) {
                   $cells->setBackground('#FFCC00');
                 });
+              
+             $sheet->getStyle('B:C') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
+
+             $sheet->getStyle('O:P') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
+             $sheet->getStyle('W:AJ') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
+              $sheet->getStyle('AL:AP') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
+              $sheet->getStyle('AW:AX') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);     
+              $sheet->getStyle('AR') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);               
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
                 $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
                 $sheet->row($row, array('ลำดับ','วันที่เข้าระบบ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
-                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง','ยอดประนอม','เงินก้อนแรก','วันจ่ายเงินก้อนเเรก',
                     'กำหนดวันสืบพยาน','วันสืบพยาน','กำหนดวันส่งคำบังคับ', 'วันส่งคำบังคับ','กำหนดวันตรวจ',  'วันตรวจผลหมาย','กำหนดวันตั้งเจ้าพนักงาน', 'วันตั้งเจ้าพนักงาน','กำหนดวันตรวจหมายตั้ง', 'วันตรวจผลหมายตั้ง',
                     'กำหนดการคัดหนังสือ','วันที่คัดหนังสือรับรองคดี','วันที่สืบทรัพย์', 'สถานะทรัพย์','กำหนดวันที่คัดโฉนด','วันที่คัดโฉนด',
                     'กำหนดวันที่ตั้งยึดทรัพย์','วันที่ตั้งเรื่องยึดทรัพย์', 'กำหนดประกาศขาย','สถานะประนอมหนี้', 
-                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0'));
+                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0','ยอดตัดหนี้ 0','วันที่ปิดบัญชี'));
   
                 foreach ($data as $key => $value) {
                   //วันสืบพยาน
@@ -2223,15 +2278,16 @@ class LegislationController extends Controller
                     $SetTextCompro = "ไม่มีข้อมูล";
                   }
                   //ยอดตั้งฟ้อง
-                  if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court != NULL){
-                    $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court + @$value->legiscourt->pricelawyer_court;
-                  }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court == NULL){
-                    $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court;
-                  }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court == NULL and @$value->legiscourt->pricelawyer_court == NULL){
-                    $SetCourtPrice = @$value->legiscourt->capital_court;
-                  }else{
-                    $SetCourtPrice = 0;
-                  }
+                  // if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court != NULL){
+                  //   $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court + @$value->legiscourt->pricelawyer_court;
+                  // }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court == NULL){
+                  //   $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court;
+                  // }else if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court == NULL and @$value->legiscourt->pricelawyer_court == NULL){
+                  //   $SetCourtPrice = @$value->legiscourt->capital_court;
+                  // }else{
+                  //   $SetCourtPrice = 0;
+                  // }
+                  $SetCourtPrice = @$value->legiscourt->capital_court;
                   //ยอดค่าฟ้อง
                   if(@$value->legiscourt->indictment_court != NULL){
                     $SetPrice = @$value->legiscourt->indictment_court;
@@ -2246,8 +2302,9 @@ class LegislationController extends Controller
                   }
                   $sheet->row(++$row, array(
                     $key+1,
-                    @$value->Date_legis,
-                    @$value->DateCon_legis,
+                   // date_format(date_create(@$value->Date_legis),"d/m/Y"),
+                   ParsetoDate(@$value->Date_legis),
+                   ParsetoDate(@$value->DateCon_legis),
                     @$Flag[@$value->Flag],
                     @$Flag_Status[@$value->Flag_status],
                     @$value->legisCompromise->Type_Promise,
@@ -2259,41 +2316,46 @@ class LegislationController extends Controller
                     @$value->legiscourt->law_court,
                     @$value->legiscourt->bnumber_court,
                     @$value->legiscourt->rnumber_court,
-                    @$value->legiscourt->orderdatecourt,
-                    @$value->legiscourt->fillingdate_court,
-                    number_format(@$value->Sumperiod_legis, 2),
-                    number_format(@$SetCourtPrice, 2),
-                    number_format(@$SetPrice, 2),
-                    number_format(@$SetPriceAdjud, 2),
-                    @$value->legiscourt->orderexamiday,
-                    $Setexamiday,
-                    @$value->legiscourt->orderday_court,
-                    $Setordersend,
-                    @$value->legiscourt->checkday_court,
-                    $Setchecksend,
-                    @$value->legiscourt->setoffice_court,
-                    $Setsendoffice,
-                    @$value->legiscourt->checkresults_court,
-                    $Setsendcheckresults,
-                    @$value->legiscourtCase->orderDateCer,
-                    @$value->legiscourtCase->dateCertificate_case,
+                    ParsetoDate(@$value->legiscourt->orderdatecourt),
+                    ParsetoDate(@$value->legiscourt->fillingdate_court),
+                    @$value->Sumperiod_legis,
+                    @$SetCourtPrice,
+                    @$SetPrice,
+                    @$SetPriceAdjud,
+                    @$value->legiscourt->promise_price,
+                    @$value->legiscourt->first_price,
+                    ParsetoDate(@$value->legiscourt->firstpay_date),                   
+                    ParsetoDate(@$value->legiscourt->orderexamiday),
+                    ParsetoDate($Setexamiday),
+                    ParsetoDate(@$value->legiscourt->orderday_court),
+                    ParsetoDate($Setordersend),
+                    ParsetoDate(@$value->legiscourt->checkday_court),
+                    ParsetoDate($Setchecksend),
+                    ParsetoDate(@$value->legiscourt->setoffice_court),
+                    ParsetoDate($Setsendoffice),
+                    ParsetoDate(@$value->legiscourt->checkresults_court),
+                    ParsetoDate($Setsendcheckresults),
+                    ParsetoDate(@$value->legiscourtCase->orderDateCer),
+                    ParsetoDate(@$value->legiscourtCase->dateCertificate_case),
 
-                    @$value->Legisasset->sequester_asset,
+                    ParsetoDate(@$value->Legisasset->sequester_asset),
                     @$value->Legisasset->sendsequester_asset,
 
-                    @$value->legiscourtCase->orderDatepreparedoc,
-                    @$value->legiscourtCase->datepreparedoc_case,
-                    @$value->legiscourtCase->ordeDateSequester,
-                    @$value->legiscourtCase->dateSequester_case,
-                    @$value->legiscourtCase->ordeDateSequester,
+                    ParsetoDate(@$value->legiscourtCase->orderDatepreparedoc),
+                    ParsetoDate(@$value->legiscourtCase->datepreparedoc_case),
+                    ParsetoDate(@$value->legiscourtCase->ordeDateSequester),
+                    ParsetoDate(@$value->legiscourtCase->dateSequester_case),
+                    ParsetoDate(@$value->legiscourtCase->ordeDateSequester),
                     $SetTextCompro,
-                    @$value->DateStatus_legis,
-                    number_format(floatval(@$value->PriceStatus_legis), 2),
+                    ParsetoDate(@$value->DateStatus_legis),
+                    @$value->PriceStatus_legis,
                     @$value->txtStatus_legis,
-                    number_format(floatval(@$value->Discount_legis), 2),
+                    @$value->Discount_legis,
                     @$value->Note,
-                    @$value->dateStopRev,
-                    @$value->dateCutOff,
+                    ParsetoDate(@$value->dateStopRev),
+                    ParsetoDate(@$value->dateCutOff),
+                    @$value->RateCutOff,
+                    ParsetoDate( @$value->DateStatus_legis),
                   ));
                 }
             });
@@ -2483,6 +2545,8 @@ class LegislationController extends Controller
                     @$value->Note,
                     @$value->dateStopRev,
                     @$value->dateCutOff,
+                    @$value->RateCutOff,
+                    @$value->DateStatus_legis
                   ));
                 }
             });

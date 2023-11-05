@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('.AlertForm').click(function (evt) {
          var Contract_buyer = $(this).data("name");
          var form = $(this).closest("form");
-         
+         console.log(form);
          evt.preventDefault();
          swal({
              title: `${Contract_buyer}`,

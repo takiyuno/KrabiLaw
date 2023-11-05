@@ -61,7 +61,7 @@ return [
              // General settings
             'host'                 => '183.88.221.232',
             'protocol'             => 'TCPIP',
-            'username'             => 'sfhp',
+            'username'             => 'PSFHP',
             'password'             => 'Soft@2K7',
             //Server settings
             'database'             => 'DATASF',

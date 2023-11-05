@@ -12,7 +12,7 @@
           </button>
         </h5>
       </div>
-      @if ($data->TypeCon_legis == 'P01')
+      {{-- @if ($data->TypeCon_legis == 'P01')
         <form name="form" action="{{ route('MasterCompro.store') }}" method="post" enctype="multipart/form-data" id="quickForm">
           @csrf
           <div class="card-body SizeText">
@@ -27,11 +27,18 @@
                         $Settype = 'ประนอมขายฝาก';
                       @endphp
                       <input type="text" name="TypePromise" value="{{$Settype}}" class="form-control form-control-sm SizeText" />
-                    </div>
-                  </div>
+                    </div>                    
+                  </div>                  
                 </div>
                 <div class="col-md-6">
-                </div>
+                    <div class="form-group row mb-0">
+                      <label class="col-sm-4 col-form-label text-right SizeText">วันที่ประนอม :</label>
+                      <div class="col-sm-8">
+                        <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" />
+                      </div>
+                    </div>
+                  </div>
+                
                 <div class="col-md-6">
                   <div class="form-group row mb-0">
                     <label class="col-sm-4 col-form-label text-right SizeText">เงินต้น :</label>
@@ -50,12 +57,13 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group row mb-0">
-                    <label class="col-sm-4 col-form-label text-right SizeText">วันที่ประนอม :</label>
+                    <label class="col-sm-4 col-form-label text-right SizeText">วันดิวงวดเเรก :</label>
                     <div class="col-sm-8">
-                      <input type="date" name="Dateinsert" value="{{ (@$data->legisCompromise->Date_Promise != NULL) ?@$data->legisCompromise->Date_Promise: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" />
+                      <input type="date" name="fdate" value="{{ (@$data->legisCompromise->fdate != NULL) ?@$data->legisCompromise->fdate: date('Y-m-d') }}" class="form-control form-control-sm Boxcolor SizeText" />
                     </div>
                   </div>
                 </div>
+               
                 <div class="col-md-6">
                   <div class="form-group row mb-0">
                     <label class="col-sm-4 col-form-label text-right SizeText">ผู้ส่งประนอม :</label>
@@ -76,7 +84,7 @@
           <input type="hidden" name="type" value="1">
           <input type="hidden" name="id" value="{{$data->id}}">
         </form>
-      @else
+      @else --}}
         <form name="form" action="{{ route('MasterCompro.store') }}" method="post" enctype="multipart/form-data" id="quickForm">
           @csrf
           <div class="card-body SizeText">
@@ -91,7 +99,7 @@
                           <select id="TypePromise" name="TypePromise" class="form-control form-control-sm SizeText" required>
                             <option value="" selected>--- เลือกประนอม ---</option>
                             <option value="ประนอมที่ศาล" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
-                            <option value="ประนอมที่บริษัท" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
+                            <option value="ประนอมหนี้ก่อนฟ้อง" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้ก่อนฟ้อง') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
                             <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
                             <option value="ประนอมขายฝาก" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมขายฝาก') ? 'selected' : '' }}>04. ประนอมขายฝาก</option>
                             <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
@@ -198,12 +206,13 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group row mb-0">
-                      <label class="col-sm-4 col-form-label text-right SizeText">ค่างวด/ระยะเวลาผ่อน :</label>
-                      <div class="col-sm-4">
-                        <input type="text" name="ShowDue" id="ShowDue" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->ShowDue_Promise: '' }}" class="form-control form-control-sm SizeText" placeholder="0" readonly/>
-                      </div>
+                      <label class="col-sm-4 col-form-label text-right SizeText">ระยะเวลาผ่อน/ค่างวด :</label>
+                      
                       <div class="col-sm-4">
                         <input type="number" name="ShowPeriod" id="ShowPeriod" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->ShowPeriod_Promise: '' }}" class="form-control form-control-sm SizeText" placeholder="0" readonly/>
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="text" name="ShowDue" id="ShowDue" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->ShowDue_Promise: '' }}" class="form-control form-control-sm SizeText" placeholder="0" readonly/>
                       </div>
                     </div>
                   </div>
@@ -222,18 +231,26 @@
                     <div class="form-group row mb-0">
                       <label class="col-sm-4 col-form-label text-right SizeText">เงินก้อนแรก :</label>
                       <div class="col-sm-8">
-                        <input type="text" name="First_1" id="First_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FirstManey_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
+                        <input type="text" name="First_1" id="First_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FirstManey_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" />
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group row mb-0">
-                      <label class="col-sm-4 col-form-label text-right SizeText">ค่างวด/ระยะเวลาผ่อน :</label>
+                      <label class="col-sm-4 col-form-label text-right SizeText">วันดิวงวดเเรก :</label>
+                      <div class="col-sm-8">
+                        <input type="date" name="fdate" id="fdate" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->fdate: '' }}" class="form-control form-control-sm SizeText" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row mb-0">
+                      <label class="col-sm-4 col-form-label text-right SizeText">ระยะเวลาผ่อน/ค่างวด :</label>                      
                       <div class="col-sm-4">
-                        <input type="text" name="Due_1" id="Due_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->Due_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
+                        <input type="number" name="Period_1" id="Period_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->Period_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="จำนวนงวด" />
                       </div>
                       <div class="col-sm-4">
-                        <input type="number" name="Period_1" id="Period_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->Period_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="จำนวนงวด" required/>
+                        <input type="text" name="Due_1" id="Due_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->Due_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" />
                       </div>
                     </div>
                   </div>
@@ -248,19 +265,46 @@
                       </div>
                     </div>
                   </div>
+                  
+                </div>
+                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading-1 SizeText"><i class="fas fa-toggle-on"></i> ยอดผ่อนชำระเงินก้อนแรก : </h6>
+                <div class="row mb-3">
+                  
+                  <div class="col-md-6">
+                    <div class="form-group row mb-0">
+                      <label class="col-sm-4 col-form-label text-right SizeText">วันนัดก้อนแรก :</label>
+                      <div class="col-sm-8">
+                        <input type="date" name="fdate_first" id="fdate_first" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->fdate_first: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row mb-0">
+                      <label class="col-sm-4 col-form-label text-right SizeText">ระยะเวลา/ค่างวด:</label>                      
+                      <div class="col-sm-4">
+                        <input type="number" name="FPeriod_1" id="FPeriod_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FPeriod_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="จำนวนงวด" />
+                      </div>
+                      <div class="col-sm-4">
+                        <input type="text" name="FDue_1" id="FDue_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FDue_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
             <div class="text-right">
-              <button type="submit" class="btn btn-sm btn-warning SizeText hover-up">
-                <i class="fas fa-save"></i> บันทึก
-              </button>
+              
+              @if($data->legisCompromise->Flag_Promise!='Active')
+                <button type="submit" class="btn btn-sm btn-warning SizeText hover-up">
+                  <i class="fas fa-save"></i> บันทึก
+                </button>
+              @endif
             </div>
           </div>
 
           <input type="hidden" name="type" value="1">
           <input type="hidden" name="id" value="{{$data->id}}">
         </form>
-      @endif
+      {{-- @endif --}}
     </div>
   </section>
 @elseif($type == 5) {{-- Modal Payments --}}
@@ -277,6 +321,9 @@
       <form name="form" action="{{ route('MasterCompro.update', $id) }}" method="post" id="formimage" enctype="multipart/form-data">
         @csrf
         @method('put')
+        <input type="hidden" id="Sum_FirstPromise" value="{{@$data->legisCompromise->Sum_FirstPromise!=NULL?@$data->legisCompromise->Sum_FirstPromise:0}}">
+        <input type="hidden" id="Sum_DuePayPromise" value="{{@$data->legisCompromise->Sum_DuePayPromise!=NULL?@$data->legisCompromise->Sum_DuePayPromise:0}}">
+        <input type="hidden" id="Total_Promise" value="{{@$data->legisCompromise->Total_Promise!=NULL?@$data->legisCompromise->Total_Promise:0}}">
         <div class="card-body SizeText" id="Cul-Payments">
           <div class="row">
             <div class="col-6">
@@ -314,8 +361,8 @@
                   <select id="TypePayment" name="TypePayment" class="form-control form-control-sm SizeText Boxcolor" required>
                     <option value="" selected>--- ประเภทชำระ ---</option>
                     @if( $SetFirstMoney>0)
-                    <option value="เงินก้อนแรก(เงินสด)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T01. เงินก้อนแรก(เงินสด)</option>
-                    <option value="เงินก้อนแรก(เงินโอน)" {{ (@$data->TypeCon_legis == 'P01') ? 'disabled' : '' }}>T02. เงินก้อนแรก(เงินโอน)</option>
+                    <option value="เงินก้อนแรก(เงินสด)" >T01. เงินก้อนแรก(เงินสด)</option>
+                    <option value="เงินก้อนแรก(เงินโอน)" >T02. เงินก้อนแรก(เงินโอน)</option>
                     @endif
                     <option value="ชำระเงินสด" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
                     <option value="ชำระผ่านโอน" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
@@ -345,7 +392,7 @@
                 </div>
               </div>
             </div>
-            @if($data->legisCompromise->Discount_Promise == 0)
+            @if($data->legisCompromise->Discount_Promise == 0 && $SetFirstMoney <= 0 )
               <div class="col-6">
                 <div class="form-group row mb-0">
                   <label class="col-sm-4 col-form-label text-right">ส่วนลด : </label>
@@ -355,6 +402,22 @@
                 </div>
               </div>
             @endif
+            {{-- <div class="col-6">
+              <div class="form-group row mb-0">
+                <label class="col-sm-4 col-form-label text-right">ค่าปรับ : </label>
+                <div class="col-sm-8">
+                  <input type="text" name="Payintamt" id="Payintamt" class="form-control form-control-sm SizeText" maxlength="9" placeholder="0.00" readonly/>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group row mb-0">
+                <label class="col-sm-4 col-form-label text-right">ส่วนลดค่าปรับ : </label>
+                <div class="col-sm-8">
+                  <input type="text" name="Disintamt" id="Disintamt" class="form-control form-control-sm SizeText" maxlength="9" placeholder="0.00" readonly/>
+                </div>
+              </div>
+            </div> --}}
             <div class="col-12">
               <div class="form-group row mb-0">
                 <label class="col-sm-2 col-form-label text-right">หมายเหตุ : </label>
@@ -365,7 +428,7 @@
             </div>
           </div>
           <div class="text-right mt-3">
-            <button type="submit" class="btn btn-sm btn-success SizeText hover-up">
+            <button type="submit" id="submitBT" class="btn btn-sm btn-success SizeText hover-up">
               <i class="fas fa-check"></i> รับชำระ
             </button>
           </div>
@@ -401,11 +464,13 @@
         var Cash = GetCash.replace(",","");         //ยอดเงิน
         var defCash = $('#defCash').val();          //ยอดค่างวด
         var Discount = $('#Discount').val();        //สว่นลด
-
+        var Payintamt = $('#Payintamt').val();  
+        var Disintamt = $('#Disintamt').val();  
         var DateDue = '';
         $("#Cash").removeAttr("readonly");
         $("#Discount").removeAttr("readonly");
-
+        $("#Payintamt").removeAttr("readonly");
+        $("#Disintamt").removeAttr("readonly");
         if (TypePayment == 'เงินก้อนแรก(เงินสด)' || TypePayment == 'เงินก้อนแรก(เงินโอน)') {
           if (DateDuePay != '') {
             var DateDue = moment(DateDuePay).add(1, 'months').format('YYYY-MM-DD');
@@ -663,7 +728,7 @@
           </button>
         </h5>
       </div>
-      <form name="form" action="{{ route('MasterCompro.update', $id) }}" method="post" id="formimage" enctype="multipart/form-data">
+      <form name="formpayment" action="{{ route('MasterCompro.update', $id) }}" method="post" id="formpayment" enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="card-body SizeText" id="Cul-Payments">
@@ -790,7 +855,7 @@
       var DateDue = '';
       $("#Cash").removeAttr("readonly");
       $("#Discount").removeAttr("readonly");
-
+      $("#Payintamt").removeAttr("readonly");
       if (TypePayment == 'เงินก้อนแรก(เงินสด)' || TypePayment == 'เงินก้อนแรก(เงินโอน)') {
         if (DateDuePay != '') {
           var DateDue = moment(DateDuePay).add(1, 'months').format('YYYY-MM-DD');
@@ -822,3 +887,34 @@
     });
   </script>
 @endif
+
+<script>
+  // $('#submitBT').on('click',function(){
+  //   $('#submitBT').submit();
+  //   $('#submitBT').attr('disabled','disabled');
+  // });
+
+  $('#Period_1').on('input',function(){
+
+    var Period =  $('#Period_1').val();
+    // var Due_1 = $('#Due_1').val();
+    var First_1  = $('#First_1').val();
+    var CompoundTotal =  $('#CompoundTotal_1').val();
+    var CompoundTotal2 = CompoundTotal.replace(",","");
+    var due = Math.ceil(((parseFloat(CompoundTotal2)-parseFloat(First_1))/parseFloat(Period))/10)*10;
+
+    $('#Due_1').val(due);
+
+  });
+
+  $('#FPeriod_1').on('input',function(){
+
+      var FPeriod_1 =  $('#FPeriod_1').val();
+      // var Due_1 = $('#Due_1').val();
+      var First_1  = $('#First_1').val();
+      
+      var due = Math.ceil((parseFloat(First_1)/parseFloat(FPeriod_1))/10)*10;
+      $('#FDue_1').val(due);
+
+      });
+</script>

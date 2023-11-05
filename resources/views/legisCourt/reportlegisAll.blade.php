@@ -53,9 +53,11 @@ $date_start = explode('-',$datefrom);
 
 $objPHPExcel->setActiveSheetIndex(0);
 
+
+
  $c_column = (($date_diff+1)*2);
 
- 
+   
 
 $row = 3;
 $c1 = 2;
@@ -74,6 +76,7 @@ $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((2),($row+10),$Column
 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((2),($row+11),$Column[11]);
 $objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow((2),($row+12),$Column[12]);
 //$objPHPExcel->getActiveSheet()->mergeCellsByColumnAndRow(($i-3),2,($i-1),2);
+
 
         for($i=3;$i<($c_column+2);$i++){
             

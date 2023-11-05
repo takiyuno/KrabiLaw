@@ -68,6 +68,14 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group row mb-0">
+                                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดตั้งหนี้สูญ:</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" name="RateCutOff" value="{{($data->TOTPRC - $data->SMPAY)-@$dataArpay[0]->NPROF}}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะทรัพย์ :</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{@$SetRealty}}"/>

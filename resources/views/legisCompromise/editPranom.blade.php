@@ -10,26 +10,27 @@
 
   {{-- เช็คงวดขาด 3 งวด --}}
   @php
-    if ($data->legispayments != NULL){
-      if ($data->legispayments->DateDue_Payment < date('Y-m-d')) {
-        $DateDue = date_create($data->legispayments->DateDue_Payment);
-        $Date = date_create(date('Y-m-d'));
-        $Datediff = date_diff($DateDue,$Date);
+    // if ($data->legispayments != NULL){
+    //   if ($data->legispayments->DateDue_Payment < date('Y-m-d')) {
+    //     $DateDue = date_create($data->legispayments->DateDue_Payment);
+    //     $Date = date_create(date('Y-m-d'));
+    //     $Datediff = date_diff($DateDue,$Date);
         
-        if($Datediff->y != NULL) {
-          $SetYear = ($Datediff->y * 12);
-        }else{
-          $SetYear = NULL;
-        }
-        $DateNew = ($SetYear + $Datediff->m);
-      }
-      else{
-        $DateNew = NULL;
-      }
-    }
-    else{
-      $DateNew = NULL;
-    }
+    //     if($Datediff->y != NULL) {
+    //       $SetYear = ($Datediff->y * 12);
+    //     }else{
+    //       $SetYear = NULL;
+    //     }
+    //     $DateNew = ($SetYear + $Datediff->m);
+    //   }
+    //   else{
+    //     $DateNew = NULL;
+    //   }
+    // }
+    // else{
+    //   $DateNew = NULL;
+    // }
+    $DateNew = @$data->legisCompromise->HLDNO;
   @endphp
  
   @if ($data->TypeCon_legis == '')
@@ -39,11 +40,11 @@
           <div class="row">
             <div class="col-8">
               <div class="form-inline">
-                @if ($data->Flag == "C")
+                {{-- @if ($data->Flag == "C")
                   <h5>ระบบประนอมหนี้เก่า <small class="textHeader">(Compromise Old)</small></h5>
-                @else
-                  <h5>ระบบประนอมหนี้ใหม่ <small class="textHeader">(Compromise New)</small></h5>
-                @endif
+                @else --}}
+                  <h5>ระบบประนอมหนี้ <small class="textHeader">(Compromise )</small></h5>
+                {{-- @endif --}}
               </div>
             </div>
             <div class="col-4">
@@ -58,11 +59,12 @@
                   <button type="submit" class="btn btn-info btn-sm SizeText hover-up" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                     <i class="fa-solid fa-download"></i> อัพเดต
                   </button>
-                  @if($data->Flag == 'Y' and @$DateNew > 3)
+                  {{-- @if($data->Flag == 'Y' and @$DateNew > 3) --}}
                     <a href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up DeleteCompro" title="ลบรายการ">
                       <i class="far fa-trash-alt"></i> ล้าง
                     </a>
-                  @endif
+                   
+                  {{-- @endif --}}
                 </form>
               </div>
             </div>
@@ -275,7 +277,7 @@
                   </div>
                   <div id="list-page2-list" class="tab-pane {{ ($FlagTab == '2') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
-                      <table class="table table-hover SizeText-1 table-sm table1" id="">
+                      <table class="table table-hover SizeText-1 table-sm " id="">
                         <thead>
                           <tr>
                             <th class="text-center" style="width: 20px">No.</th>
@@ -470,11 +472,11 @@
           <div class="row">
             <div class="col-8">
               <div class="form-inline">
-                @if ($data->Flag == "C")
+                {{-- @if ($data->Flag == "C")
                   <h5>ระบบประนอมหนี้เก่า <small class="textHeader">(Compromise Old)</small></h5>
-                @else
-                  <h5>ระบบประนอมหนี้ใหม่ <small class="textHeader">(Compromise New)</small></h5>
-                @endif
+                @else --}}
+                  <h5>ระบบประนอมหนี้<small class="textHeader">(Compromise )</small></h5>
+                {{-- @endif --}}
               </div>
             </div>
             <div class="col-4">
@@ -489,10 +491,14 @@
                   <button type="submit" class="btn btn-info btn-sm SizeText hover-up" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                     <i class="fa-solid fa-download"></i> อัพเดต
                   </button>
-                  @if($data->Flag == 'Y' and @$DateNew > 3 and $data->legisCompromise->Flag_Promise != 'Complete')
-                    <a href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up AlertForm" title="ลบรายการ">
+                  @if( @$data->legisCompromise->Flag_Promise != 'Complete')
+
+                  <button type="button" class="btn btn-info btn-sm SizeText hover-up ClearPromise"  id='{{ $data->Contract_legis }}' data-name="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" >
+                    <i class="far fa-trash-alt"></i> ล้าง
+                  </button>
+                    {{-- <a href="" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up ClearPromise" title="ลบรายการ">
                       <i class="far fa-trash-alt"></i> ล้าง
-                    </a>
+                    </a> --}}
                   @endif
                 </form>
               </div>
@@ -585,11 +591,19 @@
                   <li class="nav-item">
                     <a class="nav-link SizeText {{ ($FlagTab == '1' or $FlagTab == '') ? 'active' : '' }}" data-toggle="tab" href="#list-page1-list">ข้อมูลประนอมหนี้</a>
                   </li>
+                  @if(count(@$dataPay->legisToFDue)>0)
+                  <li class="nav-item">
+                    <a class="nav-link SizeText {{ ($FlagTab == '5') ? 'active' : '' }}" data-toggle="tab" href="#list-page5-list">ตารางเงินก้อนเเรก</a>
+                  </li>
+                  @endif
                   <li class="nav-item">
                     <a class="nav-link SizeText {{ ($FlagTab == '2') ? 'active' : '' }}" data-toggle="tab" href="#list-page2-list">ตารางผ่อนชำระ</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link SizeText {{ ($FlagTab == '3') ? 'active' : '' }}" data-toggle="tab" href="#list-page3-list">บันทึกติดตาม</a>
+                    <a class="nav-link SizeText {{ ($FlagTab == '3') ? 'active' : '' }}" data-toggle="tab" href="#list-page3-list">ตารางรับชำระ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link SizeText {{ ($FlagTab == '4') ? 'active' : '' }}" data-toggle="tab" href="#list-page4-list">บันทึกติดตาม</a>
                   </li>
                 </ul>
                 <br>
@@ -626,7 +640,7 @@
                                 <select class="form-control form-control-sm SizeText">
                                   <option value="" selected>--- เลือกประนอม ---</option>
                                   <option value="ประนอมที่ศาล" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
-                                  <option value="ประนอมที่บริษัท" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
+                                  <option value="ประนอมหนี้ก่อนฟ้อง" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้ก่อนฟ้อง') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
                                   <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
                                   <option value="ประนอมขายฝาก" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมขายฝาก') ? 'selected' : '' }}>04. ประนอมขายฝาก</option>
                                   <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
@@ -668,19 +682,18 @@
                                 @if($data->legisCompromise->Sum_FirstPromise == $SetFirstMoney)
                                   <font color="green">ยอดเงินก้อนแรก : </font>
                                 @else
-                                  <font color="red" class="prem">ยอดเงินก้อนแรก : </font>
+                                  <font color="red" class="prem">ยอดเงินก้อนแรก /ชำระ: </font>
                                 @endif
                               @else
                                 ยอดเงินก้อนแรก :
                               @endif
                             </label>
-                            <div class="col-sm-8">
-                              @if ($data->legisCompromise != NULL and $data->legisCompromise->FirstManey_1 != 0)
-                                <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($data->legisCompromise->FirstManey_1, 2): '' }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
-                              @else
-                                <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($data->legisCompromise->Payall_Promise, 2): '' }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
-                              @endif
+                            <div class="col-sm-4">
+                                <input type="text" value="{{ ($data->legisCompromise != NULL) ? number_format($data->legisCompromise->FirstManey_1, 2): 0 }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
                             </div>
+                            <div class="col-sm-4">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ? number_format($data->legisCompromise->Sum_FirstPromise,2): 0 }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
+                          </div>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -712,6 +725,14 @@
                             <label class="col-sm-4 col-form-label text-right SizeText">ส่วนลด :</label>
                             <div class="col-sm-8">
                               <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($data->legisCompromise->Discount_Promise, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText">ค้างค่าปรับ :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($intamtbl != NULL) ?number_format($intamtbl, 2): 0 }}" class="form-control form-control-sm SizeText" readonly/>
                             </div>
                           </div>
                         </div>
@@ -760,14 +781,14 @@
                           </div>
                         </div>
                         @if($data->Status_legis == NULL)
-                          <div class="col-md-6">
+                          {{-- <div class="col-md-6">
                             <div class="form-group row mb-0">
                               <label class="col-sm-4 col-form-label text-right SizeText text-red">วันดิวงวดถัดไป :</label>
                               <div class="col-sm-8">
                                 <input type="date" value="{{ ($data->legispayments != NULL) ?$data->legispayments->DateDue_Payment: '' }}" class="form-control form-control-sm SizeText Boxcolor"  placeholder="วว/ดด/ปปปป"/>
                               </div>
                             </div>
-                          </div>
+                          </div> --}}
                           <div class="col-md-6">
                             <div class="form-group row mb-0">
                               <label class="col-sm-4 col-form-label text-right SizeText text-red">งวดขาดชำระ :</label>
@@ -778,7 +799,53 @@
                           </div>
                         @endif
                       </div>
-                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">หมายเหตุ <span class="textHeader">(Compromise Notes)</span></h6>
+                    
+                      @if($dataOldPromise->legisCompromiseInact!=NULL)
+                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">ประนอมเก่าสร้างใหม่ <span class="textHeader">(Compromise Old)</span></h6>
+                    <table class=" table-hover SizeText-1 table-sm table" id="">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 20px">No.</th>
+                          <th class="text-center" style="width: 50px">วันที่ประนอม</th>
+                          <th class="text-center" style="width: 100px">ประเภท</th>
+                          <th class="text-center" style="width: 50px">ยอดประนอม</th>
+                          <th class="text-center" style="width: 50px">ค่างวด</th>
+                          <th class="text-center" style="width: 50px">ยอดชำระแล้ว</th>
+                          <th class="text-center" style="width: 50px">ยอดคงเหลือ</th>
+                          {{-- <th class="text-center" style="width: 100px">วันที่ทำสัญญาใหม่</th> --}}
+                          <th class="text-center" style="width: 100px"></th>
+                        </tr>
+                      </thead>
+                       
+                        @foreach($dataOldPromise->legisCompromiseInact as $key => $value)
+                        @php
+                          $sumpay = 0;
+                          $sumpay = (@$value->Sum_FirstPromise!=NULL?floatval(@$value->Sum_FirstPromise):0)+(@$value->Sum_DuePayPromise!=NULL?floatval(@$value->Sum_DuePayPromise):0);
+
+                        @endphp
+                        <tr>
+                          <td class="text-center" style="width: 20px">{{$key+1}}</td>
+                          <td class="text-center" style="width: 50px">{{@$value->Date_Promise}}</td>
+                          <td class="text-center" style="width: 100px">{{@$value->Type_Promise}}</td>
+                          <td class="text-center" style="width: 50px">{{@$value->Total_Promise}}</td>
+                          <td class="text-center" style="width: 50px">{{@$value->Due_1>0?@$value->Due_1:@$value->DuePay_Promise}}</td>
+                          <td class="text-center" style="width: 50px">{{$sumpay}}</td>
+                          <td class="text-center" style="width: 50px">{{floatval(@$value->Total_Promise)-$sumpay}}</td>
+                          {{-- <td class="text-center" style="width: 100px">{{@$value->Date_Promise}}</td> --}}
+                          <td class="text-center" style="width: 100px">
+                            <button type="button"  class="btn btn-sm btn-outline-success" title="ดูรายการชำระ" data-toggle="modal" data-target="#modal-Popup" data-backdrop="static" data-keyboard="false" data-link="{{ route('MasterCompro.show',[$value->id]) }}?viewData={{'oldpayment'}}">
+                              <i class="far fa-eye"></i>
+                            </button>
+                         
+                          </td>
+                        </tr>
+                        @endforeach
+
+                      <tbody>
+                      </tbody>
+                    </table>
+                    @endif
+                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">หมายเหตุ <span class="textHeader">(Compromise Notes1)</span></h6>
                       <div class="row">
                         <div class="col-md-12">
                           <div class="form-group row mb-0">
@@ -787,53 +854,102 @@
                         </div>
                       </div>
                   </div>
+                  @if(count(@$dataPay->legisToFDue)>0)
+                  <div id="list-page5-list" class="tab-pane {{ ($FlagTab == '5') ? 'active' : '' }}">
+                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
+                    <table class="table table-hover SizeText-1 table-sm table1" id="">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 20px">งวด</th>
+                          <th class="text-center" style="width: 50px">วันดิว</th>
+                          <th class="text-center" style="width: 50px">ค่างวด</th>
+                          <th class="text-center" style="width: 50px">วันที่รับชำระ</th>
+                          <th class="text-center" style="width: 50px">ยอดชำระ</th>
+                          <th class="text-center" style="width: 50px">เบี้ยปรับ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       
+                        @foreach(@$dataPay->legisToFDue as $key => $row)
+                          <tr>
+                            <td class="text-center"> {{@$row->nopay}} </td>
+                            <td class="text-center"> {{ @$row->ddate!=NULL? date('d-m-Y', strtotime($row->ddate)):'' }} </td>
+                            <td class="text-center"> {{ @$row->damt!=NULL? number_format($row->damt,2):0 }} </td>
+                            <td class="text-center"> {{ @$row->date1!=NULL? date('d-m-Y', strtotime($row->date1)):'' }} </td>
+                            <td class="text-center"  > {{ @$row->payment!=NULL? number_format($row->payment,2):0 }} </td>
+                            <td class="text-center"  > {{ @$row->intamt!=NULL? number_format($row->intamt,2):0 }} </td>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>  
+                    
+                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText"><span class="textHeader"></span></h6>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดประนอม :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($data->legisCompromise->Total_Promise, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดชำระแล้ว :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($Setpaid, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดคงเหลือ :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($SetSum, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  @endif
                   <div id="list-page2-list" class="tab-pane {{ ($FlagTab == '2') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
-                      <table class="table table-hover SizeText-1 table-sm table1" id="">
-                        <thead>
+                    <table class="table table-hover SizeText-1 table-sm table1" id="">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 20px">งวด</th>
+                          <th class="text-center" style="width: 50px">วันดิว</th>
+                          <th class="text-center" style="width: 50px">ค่างวด</th>
+                          <th class="text-center" style="width: 50px">วันที่รับชำระ</th>
+                          <th class="text-center" style="width: 50px">ยอดชำระ</th>
+                          <th class="text-center" style="width: 50px">เบี้ยปรับ</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @if(@$dataPay->legisToDue!=NULL)
+                        @foreach(@$dataPay->legisToDue as $key => $row)
                           <tr>
-                            <th class="text-center" style="width: 20px">No.</th>
-                            <th class="text-center" style="width: 50px">วันที่รับชำระ</th>
-                            <th class="text-center" style="width: 100px">ประเภท</th>
-                            <th class="text-center" style="width: 50px">ยอดชำระ</th>
-                            <th class="text-center" style="width: 50px">ดิวถัดไป</th>
-                            <th class="text-center" style="width: 100px">ผู้รับชำระ</th>
-                            <th class="text-center" style="width: 100px"></th>
+                            <td class="text-center"> {{@$row->nopay}} </td>
+                            <td class="text-center"> {{ @$row->ddate!=NULL? date('d-m-Y', strtotime($row->ddate)):'' }} </td>
+                            <td class="text-center"> {{ @$row->damt!=NULL? number_format($row->damt,2):0 }} </td>
+                            <td class="text-center"> {{ @$row->date1!=NULL? date('d-m-Y', strtotime($row->date1)):'' }} </td>
+                            <td class="text-center"  > {{ @$row->payment!=NULL? number_format($row->payment,2):0 }} </td>
+                            <td class="text-center"  > {{ @$row->intamt!=NULL? number_format($row->intamt,2):0 }} </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          @foreach($dataPay as $key => $row)
-                            <tr>
-                              <td class="text-center"> {{$key+1}} </td>
-                              <td class="text-center"> {{ date('d-m-Y', strtotime($row->Date_Payment)) }} </td>
-                              <td class="text-center" title="{{$row->Jobnumber_Payment}}"> {{$row->Type_Payment}} </td>
-                              <td class="text-right"> 
-                                {{ number_format($row->Gold_Payment, 2) }} 
-                                @if($row->Gold_Payment < $data->DuePay_Promise)
-                                  <span class="badge bg-danger prem">ต่ำกว่าค่างวด</span>
-                                @endif
-                              </td>
-                              <td class="text-center text-red"> {{ date('d-m-Y', strtotime($row->DateDue_Payment)) }}</td>
-                              <td class="text-right"> {{$row->Adduser_Payment}} </td>
-                              <td class="text-right">
-                                <a target="_blank" class="btn btn-sm hover-up bg-warning {{ ($row->Flag_Payment != 'Y' or Auth::user()->position != 'MANAGER' and Auth::user()->position != 'Admin') ? 'disabled' : '' }}" data-toggle="modal" data-target="#modal-Popup" data-link="{{ route('MasterCompro.show',$row->id) }}?type={{9}}">
-                                  <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <a target="_blank" href="{{ route('MasterCompro.show',[$row->id]) }}?type={{11}}" class="btn btn-info btn-sm hover-up" title="พิมพ์ใบเสร็จ">
-                                  <i class="fas fa-print"></i>
-                                </a>
-                                <form method="post" class="delete_form" action="{{ route('MasterCompro.destroy',[$row->id]) }}?type={{2}}" style="display:inline;">
-                                {{csrf_field()}}
-                                  <input type="hidden" name="_method" value="DELETE" />
-                                  <button type="submit" data-name="{{ $row->Jobnumber_Payment }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up {{ (auth::user()->type == 'Admin' or auth::user()->type == 'แผนก วิเคราะห์') ? '' : 'disabled' }}" title="ลบรายการ">
-                                    <i class="far fa-trash-alt"></i>
-                                  </button>
-                                </form>
-                              </td>
-                            </tr>
-                          @endforeach
-                        </tbody>
-                      </table>
+                        @endforeach
+                        @else
+                        <tr>
+                          <td class="text-center">ไม่พบข้อมูล </td>
+                          <td class="text-center"> </td>
+                          <td class="text-center"> </td>
+                          <td class="text-center"> </td>
+                          <td class="text-center"> </td>
+                          <td class="text-center"> </td>
+                        </tr>
+                        @endif
+                      </tbody>
+                    </table>  
+                    
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText"><span class="textHeader"></span></h6>
                       <div class="row">
                         <div class="col-md-4">
@@ -863,6 +979,102 @@
                       </div>
                   </div>
                   <div id="list-page3-list" class="tab-pane {{ ($FlagTab == '3') ? 'active' : '' }}">
+                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
+                    
+                      <table class="table table-hover SizeText-1 table-sm table2" id="">
+                        <thead>
+                          <tr>
+                            <th class="text-center" style="width: 20px">No.</th>
+                            <th class="text-center" style="width: 50px">วันที่รับชำระ</th>
+                            <th class="text-center" style="width: 100px">ประเภท</th>
+                            <th class="text-center" style="width: 50px">ยอดชำระ</th>
+                            {{-- <th class="text-center" style="width: 50px">ดิวถัดไป</th> --}}
+                            <th class="text-center" style="width: 100px">ผู้รับชำระ</th>
+                            <th class="text-center" style="width: 100px"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @if(@$dataPay->ComproToPaymentAll)
+                         
+                          @foreach($dataPay->ComproToPaymentAll as $key => $row)
+                            @php
+                            $cancel="";
+                              if($row->Flag=='C'){
+                                $cancel='style=text-decoration:line-through';
+                              }
+                            @endphp
+                            <tr {{ $cancel}}>
+                              <td class="text-center"> {{$key+1}} </td>
+                              <td class="text-center"> {{ date('d-m-Y', strtotime($row->Date_Payment)) }} </td>
+                              <td class="text-center" title="{{$row->Jobnumber_Payment}}"> {{$row->Type_Payment}} </td>
+                              <td class="text-right"> 
+                                {{ number_format($row->Gold_Payment, 2) }} 
+                                @if($row->Gold_Payment < $data->DuePay_Promise)
+                                  <span class="badge bg-danger prem">ต่ำกว่าค่างวด</span>
+                                @endif
+                              </td>
+                              {{-- <td class="text-center text-red"> {{ date('d-m-Y', strtotime($row->DateDue_Payment)) }}</td> --}}
+                              <td class="text-right"> {{$row->Adduser_Payment}} </td>
+                              <td class="text-right">
+                                {{-- <a target="_blank" class="btn btn-sm hover-up bg-warning {{ ($row->Flag_Payment != 'Y' or Auth::user()->position != 'MANAGER' and Auth::user()->position != 'Admin') ? 'disabled' : '' }}" data-toggle="modal" data-target="#modal-Popup" data-link="{{ route('MasterCompro.show',$row->id) }}?type={{9}}">
+                                  <i class="fa-solid fa-pen-to-square"></i>
+                                </a> --}}
+                                <a target="_blank" href="{{ route('MasterCompro.show',[$row->id]) }}?type={{11}}" class="btn btn-info btn-sm hover-up" title="พิมพ์ใบเสร็จ">
+                                  <i class="fas fa-print"></i>
+                                </a>
+                                @if(count($dataPay->ComproToPaymentAll)==($key+1))
+                                <form method="post" class="delete_form" action="{{ route('MasterCompro.destroy',[$row->id]) }}?type={{2}}" style="display:inline;">
+                                {{csrf_field()}}
+                                  <input type="hidden" name="_method" value="DELETE" />
+                                  <button type="submit" data-name="{{ $row->Jobnumber_Payment }}" class="delete-modal btn btn-danger btn-sm AlertForm hover-up {{ ((auth::user()->type == 'Admin' or auth::user()->type == 'แผนก วิเคราะห์') AND $row->Flag!='C') ? '' : 'disabled' }}" title="ลบรายการ">
+                                    <i class="far fa-trash-alt"></i> 
+                                  </button>
+                                </form>
+                                @endif
+                              </td>
+                            </tr>
+                          @endforeach
+                          @else
+                          <tr>
+                            <td class="text-center" >ไม่พบข้อมูล </td>
+                            <td class="text-center" > </td>
+                            <td class="text-center" > </td>
+                            <td class="text-center" > </td>
+                            <td class="text-center" > </td>
+                            <td class="text-center" > </td>
+                          </tr>
+                          @endif
+                        </tbody>
+                      </table> 
+                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText"><span class="textHeader"></span></h6>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดประนอม :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($data->legisCompromise->Total_Promise, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดชำระแล้ว :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($Setpaid, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group row mb-0">
+                            <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดคงเหลือ :</label>
+                            <div class="col-sm-8">
+                              <input type="text" value="{{ ($data->legisCompromise != NULL) ?number_format($SetSum, 2): '' }}" class="form-control form-control-sm SizeText" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div id="list-page4-list" class="tab-pane {{ ($FlagTab == '4') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">บันทึกติดตาม <span class="textHeader">(Tracking Debters)</span></h6>
                       <button type="button" class="btn btn-sm bg-gray SizeText inputButton" data-toggle="modal" data-target="#modal-Popup" data-link="{{ route('MasterCompro.show',[$data->id]) }}?type={{6}}" title="บันทึกติดตาม" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                         <i class="fas fa-tags SizeText"></i> ติดตาม
@@ -1018,6 +1230,56 @@
         'excel', 'print'
       ]
     });
+    // $('.table3').DataTable( {
+      
+    //   "searching" : false,
+    //   "lengthChange" : false,
+    //   "info" : false,
+    //   "pageLength": 6,
+    //   "order": [[ 0, "asc" ]],
+      
+    // });
   });
+
+
+
+    $('.ClearPromise').click(function (evt) {
+         var Contract_buyer = $(this).data("name");
+         var _token =  $('input[name="_token"]').val();
+          var id =  idName = $(this).attr("id");
+         console.log(id);
+         evt.preventDefault();
+         swal({
+             title: `${id}`,
+             icon: "warning",
+             text: "คุณต้องการยืนยันการยกยอดประนอมหรือไม่ ?",
+             buttons: true,
+             dangerMode: true,
+         })
+         .then((isConfirm)=>{
+             // console.log(isConfirm);
+             
+             if (isConfirm) {
+              $.ajax({
+                  url: Contract_buyer,
+                  method: "GET",
+                  data: {
+                    _token: _token,
+                    
+                  },
+                  success: function(result) {
+                    swal("ยกยอดประนอมสำเร็จ !", {
+                     icon: "success",
+                     timer: 5000,
+                    })
+                    location.reload();
+                  }
+                })
+                
+                 
+             }
+         });
+ 
+     });
   </script>
 @endsection

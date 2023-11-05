@@ -16,7 +16,8 @@ use App\Legislation;
 use App\Legiscompromise;
 use App\legispayment;
 use App\LegisTrackings;
-
+use App\compromises_paydue;
+use App\compromises_firstdue;
 class LegisComproController extends Controller
 {
     /**
@@ -91,6 +92,9 @@ class LegisComproController extends Controller
           $lastday3 = date('Y-m-d', strtotime("-3 month"));
           $lastday4 = date('Y-m-d', strtotime("-4 month"));
 
+       
+
+
           $dataNormal = Legislation::where('Flag_status',3)
             ->where('Status_legis', NULL)
            
@@ -104,6 +108,7 @@ class LegisComproController extends Controller
               return $query->when(!empty($Fdate) && !empty($Tdate), function($q) use($Fdate, $Tdate) {
                 return $q->whereBetween('Date_Promise',[$Fdate,$Tdate]);
               });
+              
             })
            
             ->with('legisTrackings')
@@ -112,41 +117,41 @@ class LegisComproController extends Controller
                         ->where('Flag_status',3)
                         ->get();
             // dump($dataNormal);
+        
+            
 
           $Count1 = 0;
           $Count1_1 = 0;
           $Count1_2 = 0;
           $Count1_3 = 0;
           $Count1_4 = 0;
+          $Count1_5 = 0;
           $CountNullData = 0;
           $data1 = [];
           $data1_1 = [];
           $data1_2 = [];
           $data1_3 = [];
           $data1_4 = []; 
+          $data1_5 = []; 
           $NullData = [];  
 $numDue = 0;
 
           for($j= 0; $j < count($dataNormal); $j++){
             
-            //if (@$dataNormal[$j]->legisTrackings->Status_Track != 'Y') {
-             // @link http://www.php.net/manual/en/class.datetime.php
-                $d1 = date_create(@$dataNormal[$j]->legispayments->DateDue_Payment );
-                $d2 = date_create(date('Y-m-d'));
+                // $d1 = date_create(@$dataNormal[$j]->legispayments->DateDue_Payment );
+                // $d2 = date_create(date('Y-m-d'));
                
-                // @link http://www.php.net/manual/en/class.dateinterval.php
-                $interval = date_diff($d1,$d2);
+           
+                // $interval = date_diff($d1,$d2);
               
-                $numMonth = $interval->format('%m');
-                $numYear = $interval->format('%y');
-                // if( $numYear>0){
-                //   $numDue = (intval($numYear)*12)+intval($numMonth);
-                // }else{
-                //   $numDue = intval($numMonth);
-                // }
+                // $numMonth = $interval->format('%m');
+                // $numYear = $interval->format('%y');
+               
              
-              $numDue = @$dataNormal[$j]->legispayments->monthdiff;
-                if ($dataNormal[$j]->legispayments != NULL) {  
+              //$numDue = @$dataNormal[$j]->legispayments->monthdiff;
+              $numDue = @$dataNormal[$j]->legisCompromise->HLDNO;
+              $Fpayment = floatval($dataNormal[$j]->legisCompromise->Sum_FirstPromise) - floatval($dataNormal[$j]->legisCompromise->FirstManey_1);
+                if ($dataNormal[$j]->legispayments != NULL && $Fpayment>=0) {  
                   
                   if($numDue>3) {
                     $Count1_4 += 1;
@@ -165,36 +170,19 @@ $numDue = 0;
                     $Count1 += 1;
                     $data1[] = $dataNormal[$j];
                   }
-                } else {
+                }elseif($dataNormal[$j]->legispayments != NULL && $Fpayment<0){
+                  $Count1_5 += 1;
+                  $data1_5[] = $dataNormal[$j];   
+                }                
+                else {
                   $CountNullData += 1;
                   $NullData[] = $dataNormal[$j];
                 }
-            // if ($dataNormal[$j]->legispayments != NULL) {  
-            //   if(@$dataNormal[$j]->legispayments->DateDue_Payment >= date('Y-m-d') or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1) {
-            //     $Count1 += 1;
-            //     $data1[] = $dataNormal[$j];
-            //   }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday1 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday2){
-            //     $Count1_1 += 1;
-            //     $data1_1[] = $dataNormal[$j];
-            //   }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday2 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3){
-            //     $Count1_2 += 1;
-            //     $data1_2[] = $dataNormal[$j];
-            //   }elseif(@$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday3 or @$dataNormal[$j]->legispayments->DateDue_Payment > @$lastday4){
-            //     $Count1_3 += 1;
-            //     $data1_3[] = $dataNormal[$j];
-            //   }else{
-            //     $Count1_4 += 1;
-            //     $data1_4[] = $dataNormal[$j];
-            //   }
-            // } else {
-            //   $CountNullData += 1;
-            //   $NullData[] = $dataNormal[$j];
-            // }
-            //}
+          
           }
           $type = $request->type;
           $Flag = $request->Flag;
-          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','dateSearch','NullData','Count1','Count1_1','Count1_2','Count1_3','Count1_4','CountNullData','dataEndcaseOld'));
+          return view('legisCompromise.view', compact('type','Flag','data1','data1_1','data1_2','data1_3','data1_4','data1_5','dateSearch','NullData','Count1','Count1_1','Count1_2','Count1_3','Count1_4','Count1_5','CountNullData','dataEndcaseOld'));
       }
       elseif ($request->type == 3) {   //ลูกหนี้ประนอมหนี้(เก่า)
         $lastday1 = date('Y-m-d', strtotime("-1 month"));
@@ -415,11 +403,6 @@ $numDue = 0;
       }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
       if ($request->type == 1) {   //Modal รับชำระค่างวด
@@ -435,12 +418,6 @@ $numDue = 0;
       }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
       if ($request->type == 1) {    //create and update LegisCompro
@@ -453,7 +430,8 @@ $numDue = 0;
           $LegisCompro = new Legiscompromise([
             'legislation_id' => $request->id,
             'Flag_Promise' => 'Active',
-            'Date_Promise' => $request->Dateinsert,                        //วันที่ประนอมหนี้
+            'Date_Promise' => $request->Dateinsert, 
+            'fdate'=>  $request->fdate,                       //วันที่ประนอมหนี้
             'Type_Promise' => $request->TypePromise,
             'Sum_Promise' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
             'TotalSum_Promise' => ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0),
@@ -473,57 +451,105 @@ $numDue = 0;
             'ShowPeriod_Promise' => ($request->ShowPeriod != NULL ? str_replace (",","",$request->ShowPeriod) : 0),
             'CompoundTotal_1' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
             'FirstManey_1' => ($request->First_1 != NULL ? str_replace (",","",$request->First_1) : 0),
+            'fdate_first' =>$request->fdate_first,
+            'FDue_1' => ($request->FDue_1 != NULL ? str_replace (",","",$request->FDue_1) : 0),
+            'FPeriod_1' => ($request->FPeriod_1 != NULL ? str_replace (",","",$request->FPeriod_1) : 0),
             'Due_1' => ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0),
             'Period_1' => ($request->Period_1 != NULL ? str_replace (",","",$request->Period_1) : 0),
             'Profit_1' => ($request->Profit_1 != NULL ? str_replace (",","",$request->Profit_1) : 0),
+            'LPAYD' => date('Y-m-d'),
             'PercentProfit_1' => ($request->PercentProfit_1 != NULL ? str_replace (",","",$request->PercentProfit_1) : 0),
             'User_Promise' =>  auth()->user()->name,
           ]);
           $LegisCompro->save();
-        }else {
-          $user = Legislation::find($request->id);
-          $user->Flag_status = 3;
-          $user->update();
-          $LegisCompro = Legiscompromise::where('legislation_id',$request->id)->first();
-            if ($LegisCompro->Flag_Promise == NULL) {
-              $LegisCompro->Flag_Promise = 'Active';
+
+         if($LegisCompro->FirstManey_1 == 0){
+         
+            $Paydue = DB::select(
+                "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
+                [
+                    '1',  $LegisCompro->legislation_id, $LegisCompro->Period_1, $LegisCompro->Due_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate,
+                    '0', $LegisCompro->TotalCapital_Promise
+                ]
+            );
+
+
+            foreach ($Paydue as $key => $value) {
+              $item = new compromises_paydue;
+                $item->legislation_id = $request->id;
+                $item->legisCompro_id = $LegisCompro->id;
+              // $item->contno = $value->contno;
+              // $item->locat = $value->locat;
+                $item->nopay = $value->nopay;
+                $item->ddate = $value->ddate;
+                $item->damt = $value->damt;
+                $item->capitalbl = $value->capitalbl;
+                $item->daycalint = $value->daycalint;
+                $item->save();
             }
-            $LegisCompro->Type_Promise = $request->TypePromise;
-            $LegisCompro->Date_Promise = $request->Dateinsert;           //วันที่ประนอมหนี้
-            $LegisCompro->TotalSum_Promise = ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0);
-            $LegisCompro->TotalPaid_Promise = ($request->TotalPaid != NULL ? str_replace (",","",$request->TotalPaid) : 0);
-            $LegisCompro->Compen_Promise = ($request->Compensation != NULL ? str_replace (",","",$request->Compensation) : 0);
-            $LegisCompro->P_Compen_Promise = ($request->PercentCompensation != NULL ? str_replace (",","",$request->PercentCompensation) : 0);
-            $LegisCompro->TotalCapital_Promise = ($request->TotalCapital != NULL ? str_replace (",","",$request->TotalCapital) : 0);
-            $LegisCompro->FeePrire_Promise = ($request->FeePrire != NULL ? str_replace (",","",$request->FeePrire) : 0);
-            $LegisCompro->P_FeePrire_Promise = ($request->PercentFeePrire != NULL ? str_replace (",","",$request->PercentFeePrire) : 0);
-            $LegisCompro->TotalCost_Promise = ($request->TotalCost != NULL ? str_replace (",","",$request->TotalCost) : 0);
-            $LegisCompro->Payall_Promise = ($request->firstMoney != NULL ? str_replace (",","",$request->firstMoney) : 0);
-            $LegisCompro->P_Payall_Promise = ($request->PercentfirstMoney != NULL ? str_replace (",","",$request->PercentfirstMoney) : 0);
-            $LegisCompro->Total_Promise = ($request->SHowTotal != NULL ? str_replace (array(","),"",$request->SHowTotal) : 0);
-            $LegisCompro->DuePay_Promise = ($request->Installment != NULL ? str_replace (",","",$request->Installment) : 0);
-            $LegisCompro->P_DuePay_Promise = ($request->PercentInstallment != NULL ? str_replace (",","",$request->PercentInstallment) : 0);
-            $LegisCompro->ShowDue_Promise = ($request->ShowDue != NULL ? str_replace (",","",$request->ShowDue) : 0);
-            $LegisCompro->ShowPeriod_Promise = ($request->ShowPeriod != NULL ? str_replace (",","",$request->ShowPeriod) : 0);
-            $LegisCompro->CompoundTotal_1 = ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0);
-            $LegisCompro->FirstManey_1 = ($request->First_1 != NULL ? str_replace (",","",$request->First_1) : 0);
-            $LegisCompro->Due_1 = ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0);
-            $LegisCompro->Period_1 = ($request->Period_1 != NULL ? str_replace (",","",$request->Period_1) : 0);
-            $LegisCompro->Profit_1 = ($request->Profit_1 != NULL ? str_replace (",","",$request->Profit_1) : 0);
-            $LegisCompro->PercentProfit_1 = ($request->PercentProfit_1 != NULL ? str_replace (",","",$request->PercentProfit_1) : 0);
-            $LegisCompro->User_Promise = $request->Userinsert;
-          $LegisCompro->update();
+          }else{
+              $Paydue = DB::select(
+                "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
+                [
+                    '1',  $LegisCompro->legislation_id, $LegisCompro->FPeriod_1, $LegisCompro->FDue_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate_first,
+                    '0', $LegisCompro->FirstManey_1
+                ]
+            );
+
+
+            foreach ($Paydue as $key => $value) {
+              $item = new compromises_firstdue;
+                $item->legislation_id = $request->id;
+                $item->legisCompro_id = $LegisCompro->id;
+              // $item->contno = $value->contno;
+              // $item->locat = $value->locat;
+                $item->nopay = $value->nopay;
+                $item->ddate = $value->ddate;
+                $item->damt = $value->damt;
+                $item->capitalbl = $value->capitalbl;
+                $item->daycalint = $value->daycalint;
+                $item->save();
+            }
+          }
         }
+        // else {
+        //   $user = Legislation::find($request->id);
+        //   $user->Flag_status = 3;
+        //   $user->update();
+        //   $LegisCompro = Legiscompromise::where('legislation_id',$request->id)->first();
+        //     if ($LegisCompro->Flag_Promise == NULL) {
+        //       $LegisCompro->Flag_Promise = 'Active';
+        //     }
+        //     $LegisCompro->Type_Promise = $request->TypePromise;
+        //     $LegisCompro->Date_Promise = $request->Dateinsert;           //วันที่ประนอมหนี้
+        //     $LegisCompro->TotalSum_Promise = ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0);
+        //     $LegisCompro->TotalPaid_Promise = ($request->TotalPaid != NULL ? str_replace (",","",$request->TotalPaid) : 0);
+        //     $LegisCompro->Compen_Promise = ($request->Compensation != NULL ? str_replace (",","",$request->Compensation) : 0);
+        //     $LegisCompro->P_Compen_Promise = ($request->PercentCompensation != NULL ? str_replace (",","",$request->PercentCompensation) : 0);
+        //     $LegisCompro->TotalCapital_Promise = ($request->TotalCapital != NULL ? str_replace (",","",$request->TotalCapital) : 0);
+        //     $LegisCompro->FeePrire_Promise = ($request->FeePrire != NULL ? str_replace (",","",$request->FeePrire) : 0);
+        //     $LegisCompro->P_FeePrire_Promise = ($request->PercentFeePrire != NULL ? str_replace (",","",$request->PercentFeePrire) : 0);
+        //     $LegisCompro->TotalCost_Promise = ($request->TotalCost != NULL ? str_replace (",","",$request->TotalCost) : 0);
+        //     $LegisCompro->Payall_Promise = ($request->firstMoney != NULL ? str_replace (",","",$request->firstMoney) : 0);
+        //     $LegisCompro->P_Payall_Promise = ($request->PercentfirstMoney != NULL ? str_replace (",","",$request->PercentfirstMoney) : 0);
+        //     $LegisCompro->Total_Promise = ($request->SHowTotal != NULL ? str_replace (array(","),"",$request->SHowTotal) : 0);
+        //     $LegisCompro->DuePay_Promise = ($request->Installment != NULL ? str_replace (",","",$request->Installment) : 0);
+        //     $LegisCompro->P_DuePay_Promise = ($request->PercentInstallment != NULL ? str_replace (",","",$request->PercentInstallment) : 0);
+        //     $LegisCompro->ShowDue_Promise = ($request->ShowDue != NULL ? str_replace (",","",$request->ShowDue) : 0);
+        //     $LegisCompro->ShowPeriod_Promise = ($request->ShowPeriod != NULL ? str_replace (",","",$request->ShowPeriod) : 0);
+        //     $LegisCompro->CompoundTotal_1 = ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0);
+        //     $LegisCompro->FirstManey_1 = ($request->First_1 != NULL ? str_replace (",","",$request->First_1) : 0);
+        //     $LegisCompro->Due_1 = ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0);
+        //     $LegisCompro->Period_1 = ($request->Period_1 != NULL ? str_replace (",","",$request->Period_1) : 0);
+        //     $LegisCompro->Profit_1 = ($request->Profit_1 != NULL ? str_replace (",","",$request->Profit_1) : 0);
+        //     $LegisCompro->PercentProfit_1 = ($request->PercentProfit_1 != NULL ? str_replace (",","",$request->PercentProfit_1) : 0);
+        //     $LegisCompro->User_Promise = $request->Userinsert;
+        //   $LegisCompro->update();
+        // }
         return redirect()->back()->with('success','บันทึกสำเร็จ');
       }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request, $id)
     {
       if ($request->type == 4) {      //Modal Create LegisCompro
@@ -635,6 +661,14 @@ $numDue = 0;
         $pdf::WriteHTML($html,true,false,true,false,'');
         $pdf::Output('Payments.pdf');
       }
+
+      if($request->viewData == 'oldpayment'){
+        $dataPay = legispayment::where('legisCompro_id',$id)
+                    ->get();
+
+      $type = $request->type;
+      return view('legisCompromise.viewModalPay',compact('dataPay'));
+      }
     }
 
     /**
@@ -652,6 +686,7 @@ $numDue = 0;
           $FlagTab = 1;
         }
 
+        
         $data = Legislation::where('id',$id)
           ->with(['legisCompromise' => function ($query) {
             return $query->where('Flag_Promise','<>','InActive');
@@ -661,23 +696,42 @@ $numDue = 0;
           }])
           ->with('legisTrackings')
           ->first();
+        
+        $dataOldPromise = Legislation::where('id',$id)
+        ->with(['legisCompromiseInact' => function ($query) {
+          return $query->where('Flag_Promise','=','InActive');
+        }])->first();
 
-        $dataPay = legispayment::where('legislation_id',$id)
-                    ->where('Count_Promis',NULL)->get();
+        $dataPay  = legisCompromise::where('legislation_id',$id)->where('Flag_Promise','Active')->first();
+
+        $intamtDue = compromises_paydue::where('legisCompro_id', @$dataPay->id)->get();
+
+        $intdue = $intamtDue->sum('intamt');
+
+        $payint = legispayment::where('legisCompro_id', @$dataPay->id)->where('Flag','<>','C')->get();
+
+        $payintamt = $payint->sum('Payintamt');
+        $Disintamt = $payint->sum('Disintamt');
+
+        $intamtbl = $intdue-($payintamt+$Disintamt);
+
+        // $dataPay = legispayment::where('legislation_id',$id)
+        //   ->where('Count_Promis',NULL)->get();
          // dd($id,$dataPay);
         $dataTrack = LegisTrackings::where('legislation_id',$id)->get();
         
         $type = $request->type;
-        return view('legisCompromise.editPranom',compact('data','id','type','FlagTab','dataPay','dataTrack'));
+        return view('legisCompromise.editPranom',compact('data','id','type','FlagTab','dataPay','dataTrack','dataOldPromise','intamtbl'));
       }
       elseif ($request->type == 4) {  //Delete legisCompro & legispay & legisTrack
-        $LegisCompro = Legiscompromise::where('legislation_id',$id);
-        $LegisPays = legispayment::where('legislation_id',$id);
-        $LegisTrack = LegisTrackings::where('legislation_id',$id);
+        $LegisCompro = Legiscompromise::where('legislation_id',$id)->where('Flag_Promise', 'Active')->first();
+        
+        $LegisCompro->Flag_Promise = 'InActive';
+        $LegisCompro->update();
+       // $LegisPays = legispayment::where('legislation_id',$id);
+        //$LegisTrack = LegisTrackings::where('legislation_id',$id);
 
-        $LegisCompro->Delete();
-        $LegisPays->Delete();
-        $LegisTrack->Delete();
+       
 
         $Legislation = Legislation::find($id);
           $Legislation->UseClear_Legiscom = auth()->user()->name;
@@ -685,7 +739,7 @@ $numDue = 0;
           $Legislation->CountClear_Legiscom = $Legislation->CountClear_Legiscom +1;
         $Legislation->update();
         
-        return redirect()->back()->with('success','ล้างข้อมูลเรียบร้อย');
+        return  response()->json(["success" => 'success' ]);
       }
     }
 
@@ -734,24 +788,142 @@ $numDue = 0;
           'DateDue_Payment' => $request->DateDue,
           'Gold_Payment' => str_replace (",","",$request->Cash),
           'Discount_Payment' => str_replace (",","",$request->Discount),
+          'Payintamt' => $request->Payintamt!=NULL?str_replace (",","",$request->Payintamt):0,
+          'Disintamt' => $request->Disintamt!=NULL?str_replace (",","",$request->Disintamt):0,
           'Type_Payment' =>  $request->TypePayment,
           'BankIn' =>  $request->BankIn,
           'Adduser_Payment' =>  $request->AdduserPayment,
           'Note_Payment' =>  $request->NotePayment,
           'Flag_Payment' =>  'Y',
+          'Flag'=>'H',
+          'LPAYD'=>@$ItemPay->Date_Payment,
           'Jobnumber_Payment' => @$JobCode,
           'Period_Payment' => @$NumPeriod,
           'Date_Payment'=>$request->DatePayment,
           ]);
         $LegisPay->save();
 
+        
+
+
         //Update Flag LegisCompro
+        $FlagTab = 1;
         $LegisCompro = Legiscompromise::where('legislation_id',$id)
                                         ->where('Flag_Promise','Active')->first();
+
           if ($request->TypePayment == "เงินก้อนแรก(เงินสด)" or $request->TypePayment == "เงินก้อนแรก(เงินโอน)") {
-            $LegisCompro->Sum_FirstPromise += floatval(str_replace (",","",$request->Cash));
+            $LegisCompro->Sum_FirstPromise =  floatval($LegisCompro->Sum_FirstPromise)+floatval(str_replace (",","",$request->Cash));
+            $FlagTab = 5;
+            if((floatval($LegisCompro->Sum_FirstPromise)-floatval($LegisCompro->FirstManey_1)) >= 0){
+              
+              $chkDue = compromises_paydue::where("legisCompro_id",$LegisCompro->id)->get();
+             
+              $nextMonth = date('Y-m',strtotime(date('Y-m') . "+1 month"));
+
+              if(explode("-",$nextMonth)[1] == '02'){
+                $nextMonth = $nextMonth.'-28';
+              }else{
+                $nextMonth = $nextMonth.'-30';
+              }
+
+              if($chkDue==NULL||count($chkDue)== 0){
+                $Paydue = DB::select(
+                    "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
+                    [
+                        '1',  $LegisCompro->legislation_id, $LegisCompro->Period_1, $LegisCompro->Due_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate,
+                        '0', (floatval($LegisCompro->TotalCapital_Promise)-floatval($LegisCompro->FirstManey_1))
+                    ]
+                );
+    
+    
+                foreach ($Paydue as $key => $value) {
+                  $item = new compromises_paydue;
+                    $item->legislation_id = $LegisCompro->legislation_id;
+                    $item->legisCompro_id = $LegisCompro->id;
+                  // $item->contno = $value->contno;
+                  // $item->locat = $value->locat;
+                    $item->nopay = $value->nopay;
+                    $item->ddate = $value->ddate;
+                    $item->damt = $value->damt;
+                    $item->capitalbl = $value->capitalbl;
+                    $item->daycalint = $value->daycalint;
+                    $item->save();
+                }
+              }
+            }
+
+            //Due
+
+            $payCash = floatval(str_replace (",","",$request->Cash))>0?floatval(str_replace (",","",$request->Cash)):0;
+
+            $paydue = 0;
+
+            $updateDue = compromises_firstdue::where("legisCompro_id",$LegisCompro->id)->whereRaw('damt-payment >0 order by nopay asc')->get();
+
+            foreach ($updateDue as $key => $value) {
+              $payCash = (floatval($payCash)+floatval($value->payment))- $paydue;
+
+              if ($payCash >=$value->damt) {
+                $value->payment = $value->damt;
+                $paydue = $value->damt;
+              }else{
+                if($payCash>=0 && $payCash>=$value->damt){
+                  $value->payment = $value->damt;
+                  $paydue = $paydue+$value->damt;
+                }else{
+                  $value->payment = $payCash;
+                  $payCash=0;
+                }    
+              }
+              $value->date1 = date('Y-m-d'); 
+            
+              if($payCash<=0){ 
+                $value->update();
+                break;
+              }else{
+                $value->update();
+              }
+              
+            
+            }
+
           }else {
-            $LegisCompro->Sum_DuePayPromise += floatval(str_replace (",","",$request->Cash));
+            $FlagTab = 2;
+            $LegisCompro->Sum_DuePayPromise = floatval($LegisCompro->Sum_DuePayPromise)+floatval(str_replace (",","",$request->Cash));
+            //Due
+
+                $payCash = floatval(str_replace (",","",$request->Cash))>0?floatval(str_replace (",","",$request->Cash)):0;
+
+                $paydue = 0;
+
+                $updateDue = compromises_paydue::where("legisCompro_id",$LegisCompro->id)->whereRaw('damt-payment >0 order by nopay asc')->get();
+
+                foreach ($updateDue as $key => $value) {
+                  $payCash = (floatval($payCash)+floatval($value->payment))- $paydue;
+
+                  if ($payCash >=$value->damt) {
+                    $value->payment = $value->damt;
+                    $paydue = $value->damt;
+                  }else{
+                    if($payCash>=0 && $payCash>=$value->damt){
+                      $value->payment = $value->damt;
+                      $paydue = $paydue+$value->damt;
+                    }else{
+                      $value->payment = $payCash;
+                      $payCash=0;
+                    }    
+                  }
+                  $value->date1 = date('Y-m-d'); 
+                
+                  if($payCash<=0){ 
+                    $value->update();
+                    break;
+                  }else{
+                    $value->update();
+                  }
+                  
+                
+                }
           }
 
           // เช็คส่วนลด
@@ -760,14 +932,14 @@ $numDue = 0;
           }
           // เช็คยอดคงเหลือ
           if ($LegisCompro->ComproTolegislation->TypeCon_legis == 'P01') {
-            $LegisCompro->Sum_Promise += floatval(str_replace (",","",$request->Cash));
+            $LegisCompro->Sum_Promise = floatval($LegisCompro->Sum_Promise) +floatval(str_replace (",","",$request->Cash));
           }
           else {
             $Setpaid = (floatval(str_replace (",","",$LegisCompro->Sum_FirstPromise)) + floatval(str_replace (",","",$LegisCompro->Sum_DuePayPromise)) + floatval(str_replace (",","",$request->Discount))+floatval(str_replace (",","",$request->Cash)));
             $LegisCompro->Sum_Promise = (floatval($LegisCompro->Total_Promise) - $Setpaid);
-
+            }
             // เช็คปิดบัญชี
-            if ($Setpaid >= $LegisCompro->Total_Promise) {
+            if ($LegisCompro->Sum_Promise >= $LegisCompro->Total_Promise) {
               $LegisCompro->Flag_Promise = 'Complete';
 
               $Legislation = Legislation ::find($id);
@@ -776,8 +948,9 @@ $numDue = 0;
                 $Legislation->DateStatus_legis = date('Y-m-d');
               $Legislation->update();
             }
-          }
-
+          
+        $LegisCompro->LPAYA = str_replace (",","",$request->Cash);
+        $LegisCompro->LPAYD = $request->DatePayment;    
         $LegisCompro->update();
 
         //Update Flag LegisTrack
@@ -789,7 +962,7 @@ $numDue = 0;
         }
 
         // return redirect()->back()->with('success','รับชำระเรียบร้อย');
-        return redirect()->Route('MasterCompro.edit',[$id,'type' => 1,'FlagTab' => 2])->with('success','รับชำระเรียบร้อย');
+        return redirect()->Route('MasterCompro.edit',[$id,'type' => 1,'FlagTab' => $FlagTab  ])->with('success','รับชำระเรียบร้อย');
       }
       elseif ($request->type == 2) {  //update LegisCompro
         $datapay = legispayment::where('legislation_id',$id)->get();
@@ -798,9 +971,9 @@ $numDue = 0;
         $SumPayPrice = 0;
         foreach ($datapay as $key => $value) {
           if ($value->Type_Payment == 'เงินก้อนแรก(เงินสด)' or $value->Type_Payment == 'เงินก้อนแรก(เงินโอน)') {
-            $SumFirstPrice += $value->Gold_Payment;
+            $SumFirstPrice =   floatval($SumFirstPrice) +  floatval($value->Gold_Payment);
           }else {
-            $SumPayPrice += $value->Gold_Payment;
+            $SumPayPrice =  floatval($SumPayPrice) +  floatval($value->Gold_Payment);
           }
         }
         
@@ -886,6 +1059,17 @@ $numDue = 0;
 
         return redirect()->back()->with('success','อัพเดตข้อมูลเรียบร้อย');
       }
+      if($request->process =='caloverdue') {
+        try {
+          $statement = DB::statement("EXEC sp_Caloverdue ?", [date('Y-m-d')]);
+          return  response()->json(["message" => 'success' ]);
+        } catch (Exception $e) {
+
+          return response()->json(['message' => $e->getMessage(), 'code' => $e->getCode()], 500);
+        }
+
+        
+      }
     }
 
     /**
@@ -897,21 +1081,114 @@ $numDue = 0;
     public function destroy(Request $request, $id)
     {
       if ($request->type == 1) {      //ลบรายการ(ประนอมหนี้เก่า)ทั้งหมด
-          $item = Legislation::find($id);
-          $item1 = Legiscompromise::where('legisPromise_id',$id);
-          $item2 = legispayment::where('legis_Com_Payment_id',$id);
+          // $item = Legislation::find($id);
+          // $item1 = Legiscompromise::where('legisPromise_id',$id);
+          // $item2 = legispayment::where('legis_Com_Payment_id',$id);
   
-          $item->Delete();
-          $item1->Delete();
-          $item2->Delete();
+          // $item->Delete();
+          // $item1->Delete();
+          // $item2->Delete();
       }
-      elseif ($request->type == 2) {  //ลบรายการ Payment
+      elseif ($request->type == 2) {  //ยกเลิกรายการ Payment
         $itemPay = legispayment::find($id);
-          $LegisCompro = Legiscompromise::where('legislation_id', $itemPay->legislation_id)->first();
+          $LegisCompro = Legiscompromise::where('id', $itemPay->legisCompro_id)->first();
             if ($itemPay->Type_Payment == 'เงินก้อนแรก(เงินสด)' || $itemPay->Type_Payment == 'เงินก้อนแรก(เงินโอน)') {
-              $LegisCompro->Sum_FirstPromise -= $itemPay->Gold_Payment;
+              $LegisCompro->Sum_FirstPromise = floatval($LegisCompro->Sum_FirstPromise)-floatval($itemPay->Gold_Payment);
+              $payCash = floatval(str_replace (",","",$itemPay->Gold_Payment))>0?floatval(str_replace (",","",$itemPay->Gold_Payment)):0;
+
+                $payMent = $payCash;
+                $payMentDue = 0;
+                if($itemPay->Gold_Payment>0){
+                  $updateDue = compromises_firstdue::where("legisCompro_id",$LegisCompro->id)->whereRaw('payment >0 order by nopay desc')->get();
+
+                  foreach ($updateDue as $key => $value) {
+                  
+
+                    if($payMent>0){
+                        $payMent = (floatval($payMent)-floatval($value->payment));
+
+                        if ($payMent >=0) { 
+                          $payMentDue = $payMentDue+$value->payment;
+                          $value->payment = 0;
+                          $value->date1 = NULL ;
+                        
+                        }else{
+                          if($payMent>=0 && $payMent>=$value->payment){
+                            $payMentDue = $payMentDue+$value->payment;
+                            $value->payment = 0; 
+                            $value->date1 = NULL ;                     
+                          }else{
+                            
+                            $value->payment = floatval($value->payment)-(floatval($payCash)-$payMentDue);                      
+                            $value->date1 = $LegisCompro->LPAYD ; 
+                            $payMentDue = $payMentDue+$value->payment;
+                            $payMent=0;
+                          }    
+                        }
+                        
+
+
+                    }                  
+                  
+                    if($payMent<=0){ 
+                      $value->update();
+                      break;
+                    }else{
+                      $value->update();
+                    }
+                    
+                  
+                  }
+                }
             }else {
-              $LegisCompro->Sum_DuePayPromise -= $itemPay->Gold_Payment;
+              $LegisCompro->Sum_DuePayPromise = floatval($LegisCompro->Sum_DuePayPromise)- floatval($itemPay->Gold_Payment);
+
+              $payCash = floatval(str_replace (",","",$itemPay->Gold_Payment))>0?floatval(str_replace (",","",$itemPay->Gold_Payment)):0;
+
+                $payMent = $payCash;
+                $payMentDue = 0;
+                if($itemPay->Gold_Payment>0){
+                  $updateDue = compromises_paydue::where("legisCompro_id",$LegisCompro->id)->whereRaw('payment >0 order by nopay desc')->get();
+
+                  foreach ($updateDue as $key => $value) {
+                  
+
+                    if($payMent>0){
+                        $payMent = (floatval($payMent)-floatval($value->payment));
+
+                        if ($payMent >=0) { 
+                          $payMentDue = $payMentDue+$value->payment;
+                          $value->payment = 0;
+                          $value->date1 = NULL ;
+                        
+                        }else{
+                          if($payMent>=0 && $payMent>=$value->payment){
+                            $payMentDue = $payMentDue+$value->payment;
+                            $value->payment = 0; 
+                            $value->date1 = NULL ;                     
+                          }else{
+                            
+                            $value->payment = floatval($value->payment)-(floatval($payCash)-$payMentDue);                      
+                            $value->date1 = $LegisCompro->LPAYD ; 
+                            $payMentDue = $payMentDue+$value->payment;
+                            $payMent=0;
+                          }    
+                        }
+                        
+
+
+                    }                  
+                  
+                    if($payMent<=0){ 
+                      $value->update();
+                      break;
+                    }else{
+                      $value->update();
+                    }
+                    
+                  
+                  }
+                }
             }
             $LegisCompro->Sum_Promise = ($LegisCompro->Sum_FirstPromise + $LegisCompro->Sum_DuePayPromise + $LegisCompro->Discount_Promise);
 
@@ -929,7 +1206,11 @@ $numDue = 0;
               $LegisCompro->Flag_Promise = 'Active';
             }
           $LegisCompro->update();
-        $itemPay->Delete();
+
+                
+
+          $itemPay->Flag ='C';
+        $itemPay->update();
 
         $LegisPay = legispayment::where('legislation_id',$LegisCompro->legislation_id)->latest()->first();
         if ($LegisPay != NULL) {
@@ -1002,15 +1283,28 @@ $numDue = 0;
               foreach ($data as $key => $value) {
                 $SetStatus = NULL;
                 if (@$value->legisTrackings->Status_Track != 'Y') {
-                  if($value->legispayments->DateDue_Payment >= date('Y-m-d') or $value->legispayments->DateDue_Payment > $lastday1) {
+                  // if($value->legispayments->DateDue_Payment >= date('Y-m-d') or $value->legispayments->DateDue_Payment > $lastday1) {
+                  //   $SetStatus = 'ชำระปกติ';
+                  // }elseif($value->legispayments->DateDue_Payment > $lastday1 or $value->legispayments->DateDue_Payment > $lastday2){
+                  //   $SetStatus = 'ขาดชำระ 1 งวด';
+                  // }elseif($value->legispayments->DateDue_Payment > $lastday2 or $value->legispayments->DateDue_Payment > $lastday3){
+                  //   $SetStatus = 'ขาดชำระ 2 งวด';
+                  // }elseif($value->legispayments->DateDue_Payment > $lastday3 or $value->legispayments->DateDue_Payment > $lastday4){
+                  //   $SetStatus = 'ขาดชำระ 3 งวด';
+                  // }
+
+                  if($value->legisCompromise->HLDNO <= 0) {
                     $SetStatus = 'ชำระปกติ';
-                  }elseif($value->legispayments->DateDue_Payment > $lastday1 or $value->legispayments->DateDue_Payment > $lastday2){
+                  }elseif($value->legisCompromise->HLDNO >0 && $value->legisCompromise->HLDNO <2){
                     $SetStatus = 'ขาดชำระ 1 งวด';
-                  }elseif($value->legispayments->DateDue_Payment > $lastday2 or $value->legispayments->DateDue_Payment > $lastday3){
+                  }elseif($value->legisCompromise->HLDNO >1 && $value->legisCompromise->HLDNO <3){
                     $SetStatus = 'ขาดชำระ 2 งวด';
-                  }elseif($value->legispayments->DateDue_Payment > $lastday3 or $value->legispayments->DateDue_Payment > $lastday4){
+                  }elseif($value->legisCompromise->HLDNO >2 && $value->legisCompromise->HLDNO <4){
                     $SetStatus = 'ขาดชำระ 3 งวด';
+                  }elseif($value->legisCompromise->HLDNO >3){
+                    $SetStatus = 'ขาดชำระมากกว่า 3 งวด';
                   }
+
 
                   if ($SetStatus != NULL) {
                     if ($value->legisCompromise->FirstManey_1 != 0) {
@@ -1087,14 +1381,26 @@ $numDue = 0;
               foreach ($data as $key => $value) {
                 $SetStatus = NULL;
                 if (@$value->legisTrackings->Status_Track != 'Y') {
-                  if($value->legispayments->DateDue_Payment >= date('Y-m-d') or $value->legispayments->DateDue_Payment > $lastday1) {
+                  // if($value->legispayments->DateDue_Payment >= date('Y-m-d') or $value->legispayments->DateDue_Payment > $lastday1) {
+                  //   $SetStatus = 'ชำระปกติ';
+                  // }elseif($value->legispayments->DateDue_Payment > $lastday1 or $value->legispayments->DateDue_Payment > $lastday2){
+                  //   $SetStatus = 'ขาดชำระ 1 งวด';
+                  // }elseif($value->legispayments->DateDue_Payment > $lastday2 or $value->legispayments->DateDue_Payment > $lastday3){
+                  //   $SetStatus = 'ขาดชำระ 2 งวด';
+                  // }elseif($value->legispayments->DateDue_Payment > $lastday3 or $value->legispayments->DateDue_Payment > $lastday4){
+                  //   $SetStatus = 'ขาดชำระ 3 งวด';
+                  // }
+
+                  if($value->legisCompromise->HLDNO <= 0) {
                     $SetStatus = 'ชำระปกติ';
-                  }elseif($value->legispayments->DateDue_Payment > $lastday1 or $value->legispayments->DateDue_Payment > $lastday2){
+                  }elseif($value->legisCompromise->HLDNO >0 && $value->legisCompromise->HLDNO <2){
                     $SetStatus = 'ขาดชำระ 1 งวด';
-                  }elseif($value->legispayments->DateDue_Payment > $lastday2 or $value->legispayments->DateDue_Payment > $lastday3){
+                  }elseif($value->legisCompromise->HLDNO >1 && $value->legisCompromise->HLDNO <3){
                     $SetStatus = 'ขาดชำระ 2 งวด';
-                  }elseif($value->legispayments->DateDue_Payment > $lastday3 or $value->legispayments->DateDue_Payment > $lastday4){
+                  }elseif($value->legisCompromise->HLDNO >2 && $value->legisCompromise->HLDNO <4){
                     $SetStatus = 'ขาดชำระ 3 งวด';
+                  }elseif($value->legisCompromise->HLDNO >3){
+                    $SetStatus = 'ขาดชำระมากกว่า 3 งวด';
                   }
 
                   if ($SetStatus != NULL) {

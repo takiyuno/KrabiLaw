@@ -8,8 +8,8 @@ class legispayment extends Model
 {
   protected $table = 'legispayments';
   protected $fillable = ['legislation_id','legisCompro_id','BankIn',
-                         'DateDue_Payment','Gold_Payment','Discount_Payment','Type_Payment','Adduser_Payment','Note_Payment',
-                         'Flag_Payment','Jobnumber_Payment','Period_Payment','Date_Payment'];
+                         'DateDue_Payment','Gold_Payment','Payintamt','Disintamt','Discount_Payment','Type_Payment','Adduser_Payment','Note_Payment',
+                         'Flag_Payment','Flag','Jobnumber_Payment','Period_Payment','Date_Payment','LPAYD'];
 
 
   public function PaymentTolegislation()
@@ -18,7 +18,7 @@ class legispayment extends Model
   }
   public function PaymentToCompro()
   {
-    return $this->belongsTo(Legiscompromise::class,'legislation_id','legislation_id');
+    return $this->belongsTo(Legiscompromise::class,'legisCompro_id','id');
   }
   public function PaymentToTrackings()
   {

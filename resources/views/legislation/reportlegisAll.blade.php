@@ -51,11 +51,20 @@ $date_start = explode('-',$datefrom);
  $m1 = date_format($origin,"n");
  $m2 = date_format($origin,"m");
 
+ function ParsetoDate($Date_con){
+            $data = '';
+          if($Date_con!=''){
+            $data =  \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($Date_con));
+          }
+             return $data;
+           
+         } 
 $objPHPExcel->setActiveSheetIndex(0);
 
  $c_column = (($date_diff+1)*2);
 
- 
+ $objPHPExcel->getActiveSheet()->getStyle('F:G') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
 
 $row = 4;
 $c1 = 2;
@@ -123,8 +132,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),$DateFixcourt);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->fillingdate_court);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate($DateFixcourt));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->fillingdate_court));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1), $DateShow); 
                 $row++;
             }        
@@ -184,8 +193,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$orderexamiday);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->examiday_court);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$orderexamiday));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->examiday_court));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),$DateShow ); 
                 $row++;
             }
@@ -241,8 +250,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$orderday_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->ordersend_court);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$orderday_court));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->ordersend_court));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),$DateShow); 
                 $row++;
             } 
@@ -296,8 +305,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$checkday_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->checksend_court);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$checkday_court));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->checksend_court));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1), $DateShow ); 
                 $row++;
             }  
@@ -351,8 +360,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$setoffice_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->sendoffice_court);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$setoffice_court));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->sendoffice_court));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1), $DateShow); 
                 $row++;
             } 
@@ -407,8 +416,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$checkresults_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->sendcheckresults_court);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$checkresults_court));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->sendcheckresults_court));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1), $DateShow); 
                 $row++;
             } 
@@ -469,8 +478,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$orderDateCer);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->dateCertificate_case);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$orderDateCer));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->dateCertificate_case));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),$DateShow); 
                 $row++;
             } 
@@ -507,7 +516,7 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$value->sequester_asset);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->sequester_asset));  
                 $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->sendsequester_asset);  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),""); 
                 $row++;
@@ -567,8 +576,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$datepreparedoc);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->datepreparedoc_case);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$datepreparedoc));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->datepreparedoc_case));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),$DateShow ); 
                 $row++;
             } 
@@ -629,8 +638,8 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$dateSequester);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->dateSequester_case);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$dateSequester));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->dateSequester_case));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),$DateShow ); 
                 $row++;
             } 
@@ -669,14 +678,15 @@ $default_style = array(
             $sB = 'B'.($row+2);
             $row = $row+2;
             foreach ($countPrepare as  $value) {
-                $orderDatePublish=  (@$value->orderDatePublish == NULL ? date('Y-m-d', strtotime(' +45 days', strtotime($value->sequester_asset))) : @$value->orderDatePublish );
+
+                $orderDatePublish=  (@$value->orderDatePublish == NULL ? ($value->sequester_asset != NULL?date('Y-m-d', strtotime(' +45 days', strtotime($value->sequester_asset))):'') : @$value->orderDatePublish );
 
                 $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),@$value->bnumber_court);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->rnumber_court);  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$orderDatePublish);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->Dateset_publish);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$orderDatePublish));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->Dateset_publish));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->Round_publish ); 
                 $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->resultsell_case ); 
                 $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$value->datesoldout_case ); 
@@ -733,6 +743,8 @@ $m=0;
 $objPHPExcel->getActiveSheet()->mergeCells('A1:H1');
 $objPHPExcel->getActiveSheet()->setCellValue('A1',"รายงานลูกหนี้ประนอมหนี้");  
 
+$objPHPExcel->getActiveSheet()->getStyle('F') ->getNumberFormat()
+                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
 $default_style = array(
     'font' => array(
         'name' => 'Verdana',
@@ -760,12 +772,12 @@ $default_style = array(
 //                                 left join legispayments b on b.legislation_id = a.id
 //                                 left join legiscompromises c on c.legislation_id = a.id
 //                                 where a.Status_legis is null and b.Flag_Payment = 'Y' and Flag_Promise = 'Active'");
-    $dataNormal = \App\Legislation::where('Status_legis', NULL)
-        
+    $dataNormal = \App\Legislation::where('Status_legis', NULL)->where('Flag_status',3)
+  
             ->with(['legispayments' => function ($query) {
               return $query->where('Flag_Payment', 'Y')->selectRaw('*,DATEDIFF(day,  DateDue_Payment ,CONVERT (Date, GETDATE()))/30 as monthdiff ,DATEDIFF(day,  Date_Payment ,CONVERT (Date, GETDATE()))/30 as NONPAY');
             }])
-           ->with('legisCompromise')
+           ->Wherehas('legisCompromise')
             ->with('legisTrackings')
             ->get();
           
@@ -794,7 +806,8 @@ $numDue = 0;
                 $numMonth = $interval->format('%m');
                 $numYear = $interval->format('%y');
                 
-              $numDue = @$dataNormal[$j]->legispayments->monthdiff;
+             // $numDue = @$dataNormal[$j]->legispayments->monthdiff;
+             $numDue = @$value->legisCompromise->HLDNO;
               if ($dataNormal[$j]->legispayments != NULL) {   
                   
                   if($numDue>3) {
@@ -856,17 +869,28 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                 // else{
                 //     $DueCus = 0;
                 // }     
+                //non
+                $non = "0 days";
+                 if ($value->legispayments != NULL){
+                 
+                    $DateDue = date_create($value->legispayments->Date_Payment);
+                    $Date = date_create(date('Y-m-d'));
+                    $Datediff = date_diff($DateDue,$Date);
+                    
+                    $non = $Datediff->format("%a days");
+                   
+                }
                 $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise); 
              
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$value->legispayments->Date_Payment);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
                 $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),0 );  
-                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->TypeCon_legis=='P01'?@$value->legisCompromise->DuePay_Promise:@$value->legisCompromise->Due_1);  
+                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                 $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
-
-                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$value->legispayments->NONPAY);  
+                    //@$value->legispayments->NONPAY
+                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),$non);  
                 $sumpay = floatval(@$value->legisCompromise->Sum_FirstPromise) + floatval(@$value->legisCompromise->Sum_DuePayPromise);
                 $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+1), ($sumpay));  
                 $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
@@ -899,6 +923,18 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
             $sB = 'B'.($row+2);
             $row = $row+2;
             foreach ($data1_1 as  $value) {
+                $non = "0 days";
+            
+                    if ($value->legispayments != NULL){
+                    
+                        $DateDue = date_create($value->legispayments->Date_Payment);
+                        $Date = date_create(date('Y-m-d'));
+                        $Datediff = date_diff($DateDue,$Date);
+                        
+                        $non = $Datediff->format("%a days");
+                    
+                    }
+                
                 $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
@@ -908,12 +944,12 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     }else{
                     $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
                     }
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$value->legispayments->Date_Payment);  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),$kangSum );  
-                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->TypeCon_legis=='P01'?@$value->legisCompromise->DuePay_Promise:@$value->legisCompromise->Due_1);  
+                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT );  
+                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                 $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
 
-                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$value->legispayments->NONPAY);  
+                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),$non);  
                 $sumpay = floatval(@$value->legisCompromise->Sum_FirstPromise) + floatval(@$value->legisCompromise->Sum_DuePayPromise);
                 $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+1), ($sumpay));  
                 $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
@@ -946,21 +982,31 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                 $sB = 'B'.($row+2);
                 $row = $row+2;
                 foreach ($data1_2 as  $value) {
+                    $non = "0 days";
+                    if ($value->legispayments != NULL){
+                    
+                        $DateDue = date_create($value->legispayments->Date_Payment);
+                        $Date = date_create(date('Y-m-d'));
+                        $Datediff = date_diff($DateDue,$Date);
+                        
+                        $non = $Datediff->format("%a days");
+                    
+                    }
                     $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
-                    if(@$value->TypeCon_legis=='P01'){
-                    $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
-                    }else{
-                    $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
-                    }
-                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$value->legispayments->Date_Payment);  
-                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),$kangSum );  
-                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->TypeCon_legis=='P01'?@$value->legisCompromise->DuePay_Promise:@$value->legisCompromise->Due_1);  
+                    // if(@$value->TypeCon_legis=='P01'){
+                    // $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
+                    // }else{
+                    // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
+                    // }
+                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT );  
+                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
 
-                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$value->legispayments->NONPAY);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),$non);  
                     $sumpay = floatval(@$value->legisCompromise->Sum_FirstPromise) + floatval(@$value->legisCompromise->Sum_DuePayPromise);
                     $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+1), ($sumpay));  
                     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
@@ -976,7 +1022,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                             )
                         )
                     );   
-                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวด');  
+                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวด');  
 
                 $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
@@ -993,21 +1039,31 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                 $sB = 'B'.($row+2);
                 $row = $row+2;
                 foreach ($data1_3 as  $value) {
+                    $non = "0 days";
+                    if ($value->legispayments != NULL){
+                    
+                        $DateDue = date_create($value->legispayments->Date_Payment);
+                        $Date = date_create(date('Y-m-d'));
+                        $Datediff = date_diff($DateDue,$Date);
+                        
+                        $non = $Datediff->format("%a days");
+                    
+                    }
                     $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
-                    if(@$value->TypeCon_legis=='P01'){
-                    $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
-                    }else{
-                    $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
-                    }
-                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$value->legispayments->Date_Payment);  
-                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),$kangSum );  
-                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->TypeCon_legis=='P01'?@$value->legisCompromise->DuePay_Promise:@$value->legisCompromise->Due_1);  
+                    // if(@$value->TypeCon_legis=='P01'){
+                    // $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
+                    // }else{
+                    // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
+                    // }
+                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT );  
+                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
 
-                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$value->legispayments->NONPAY);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$non);  
                     $sumpay = floatval(@$value->legisCompromise->Sum_FirstPromise) + floatval(@$value->legisCompromise->Sum_DuePayPromise);
                     $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+1), ($sumpay));  
                     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
@@ -1023,7 +1079,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                             )
                         )
                     );   
-                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวดขึ้นไป');  
+                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวดขึ้นไป');  
 
                 $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
@@ -1040,21 +1096,32 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                 $sB = 'B'.($row+2);
                 $row = $row+2;
                 foreach ($data1_4 as  $value) {
+                    $non = "0 days";
+                    if ($value->legispayments != NULL){
+                    
+                        $DateDue = date_create($value->legispayments->Date_Payment);
+                        $Date = date_create(date('Y-m-d'));
+                        $Datediff = date_diff($DateDue,$Date);
+                        
+                        $non = $Datediff->format("%a days");
+                    
+                    }
                     $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
-                    if(@$value->TypeCon_legis=='P01'){
-                    $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
-                    }else{
-                    $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
-                    }
-                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),@$value->legispayments->Date_Payment);  
-                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),$kangSum );  
-                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->TypeCon_legis=='P01'?@$value->legisCompromise->DuePay_Promise:@$value->legisCompromise->Due_1);  
+                    // if(@$value->TypeCon_legis=='P01'){
+                    // $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
+                    // }else{
+                    // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
+                    // }
+                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
-
-                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$value->legispayments->NONPAY);  
+                    
+                    
+                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$non);  
                     $sumpay = floatval(@$value->legisCompromise->Sum_FirstPromise) + floatval(@$value->legisCompromise->Sum_DuePayPromise);
                     $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+1), ($sumpay));  
                     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
@@ -1070,6 +1137,73 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                             )
                         )
                     );   
+                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ประนอมไม่มีการชำระ');  
+
+                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม'); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'วันที่นัดจ่ายเงินก้อนแรก');   
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'เงินก้อนแรก'); 
+                   
+                    $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดจ่ายเงินก้นแรก'); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดดิว'); 
+                    // $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ');  
+                    $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
+                    $sB = 'B'.($row+2);
+                    $row = $row+2;
+                    foreach ($NullData as  $value) {
+                     // if(@$value->legisCompromise!=NULL){
+
+                      
+                        $non = "0 days";
+
+                        $lastday = @$value->legispayments->Date_Payment!=NULL?@$value->legispayments->Date_Payment:@$value->legisCompromise->Date_Promise;
+                                             
+                            $DateDue = date_create($lastday);
+                            $Date = date_create(date('Y-m-d'));
+                            $Datediff = date_diff($DateDue,$Date);
+                            
+                            $non = $Datediff->format("%a days");
+                        
+                    
+                        
+                        $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                        $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
+                        $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
+                        // if(@$value->TypeCon_legis=='P01'){
+                        // $kangSum = (@$value->legisCompromise->DuePay_Promise*@$value->legispayments->monthdiff );
+                        // }else{
+                        // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
+                        // }
+                        $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legisCompromise->fdate_first));
+                        $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legisCompromise->FirstManey_1);  
+                          
+                        $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Sum_FirstPromise);  
+                        $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legisCompromise->Due_1);  
+                    
+                        $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+1),@$non);  
+                        $sumpay = floatval(@$value->legisCompromise->Sum_FirstPromise) + floatval(@$value->legisCompromise->Sum_DuePayPromise);
+                        $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+1), ($sumpay));  
+                        $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
+                        $row++;
+                     // }
+                    } 
+                    $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
+                        array(
+                            
+                            'borders' => array(
+                                'allborders' => array(
+                                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                                    )
+                                )
+                            )
+                        );   
+
 
 $objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L&BInvoice&RPrinted on &D');
 $objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&B' . $objPHPExcel->getProperties()->getTitle() . '&RPage &P of &N');

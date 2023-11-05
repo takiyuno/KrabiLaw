@@ -502,7 +502,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">เงินก้อนแรก :</label>
                                 <div class="col-sm-8">
-                                  <input type="text" id="first_price" name="first_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
+                                  <input type="text" id="first_price" name="first_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->first_price != '') ? number_format($data->legiscourt->first_price, 2) : '' }}" oninput="CalculateCap();"/>
                                 </div>                             
                               </div>
                             </div>
@@ -515,12 +515,12 @@
                                 
                                   <label class="col-sm-4 col-form-label text-right SizeText">ยอดประนอม :</label>
                                   <div class="col-sm-8">
-                                    <input type="text" id="promise_price" name="promise_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->adjudicate_price != '') ? number_format($data->legiscourt->adjudicate_price, 2) : '' }}" oninput="CalculateCap();"/>
+                                    <input type="text" id="promise_price" name="promise_price" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->promise_price != '') ? number_format($data->legiscourt->promise_price, 2) : '' }}" oninput="CalculateCap();"/>
                                   </div>                             
                                
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันจ่ายเงิน :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="firstpay_date" name="firstpay_date" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->fuzzy_court) }}" oninput="CourtDate();" />
+                                  <input type="date" id="firstpay_date" name="firstpay_date" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->firstpay_date) }}" oninput="CourtDate();" />
                                 </div>
                               </div>
                             </div>

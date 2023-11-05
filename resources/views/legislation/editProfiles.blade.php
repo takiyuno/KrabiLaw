@@ -609,6 +609,14 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดตั้งหนี้สูญ :</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="RateCutOff" value="{{ @$data->RateCutOff }}" class="form-control form-control-sm SizeText" {{@$data->RateCutOff>0?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">เอกสาร <span class="textHeader">(Documents)</span></h6>
                   <div class="row">

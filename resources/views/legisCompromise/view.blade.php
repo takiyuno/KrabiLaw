@@ -22,6 +22,7 @@
 
   <!-- Main content -->
   <section class="Profile-container" style="font-family: 'Prompt', sans-serif;">
+    @csrf
       <div class="content">
         <div class="content-header">
           <div class="row">
@@ -29,6 +30,9 @@
               <div class="form-inline">
                 @if($type == 2)
                   <h5>ลูกหนี้ประนอม <small class="textHeader">(Compounding Debt)</small></h5>
+                  <button id="process" type="button" class="btn btn-success btn-sm hover-up" >
+                    ประมวลผล
+                  </button>
                 @elseif($type == 3)
                   <h5>ลูกหนี้ประนอมเก่า <small class="textHeader">(Old Compounding Debt)</small></h5>
                 @endif
@@ -73,9 +77,9 @@
                 <span class="text-right">
                   <i class="mr-3 text-muted"></i> 
                   @if($type == 2)
-                    รวมประนอม ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
+                    รวมประนอม ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+$Count1_5+ $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @elseif($type == 3)
-                    รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
+                    รวมประนอมเก่า ( <b><font color="red">{{$Count1 + $Count1_1 + $Count1_2 + $Count1_3 + $Count1_4+ $Count1_5 + $CountNullData + count($dataEndcaseOld)}}</font></b> ราย )
                   @endif
                 </span>
                 <div class="author-card-profile">
@@ -85,7 +89,18 @@
             </div>
               <div class="wizard">
                 <nav class="list-group list-group-flush" role="tablist">
-                  <a class="list-group-item hover-up active" data-toggle="tab" href="#list-page1-list">
+                  <a class="list-group-item hover-up active" data-toggle="tab" href="#list-page9-list">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <i class="fas fa-user-tag mr-1 text-success"></i>
+                        <div class="d-inline-block font-weight-medium text-uppercase">จ่ายเงินก้อนเเรก</div>
+                      </div>
+                        @if($Count1_5 != 0)
+                          <span class="badge bg-danger">{{$Count1_5}}</span>
+                        @endif
+                    </div>
+                  </a>
+                  <a class="list-group-item hover-up " data-toggle="tab" href="#list-page1-list">
                     <div class="d-flex justify-content-between align-items-center">
                       <div>
                         <i class="fas fa-user-tag mr-1 text-success"></i>
@@ -173,7 +188,104 @@
             <div class="card">
               <div class="card-body text-sm">
                 <div class="tab-content">
-                  <div id="list-page1-list" class="tab-pane active">
+                  <div id="list-page9-list" class="tab-pane active">
+                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">จ่ายเงินก้อนเเรก  <span class="textHeader">(First Payment)</span></h6>
+                      <table class="table table-hover SizeText font12 dateHide" id="table11">
+                        <thead>
+                          <tr>
+                            <th class="text-center">เลขที่สัญญา</th>
+                            <th class="text-center">ชื่อ-สกุล</th>
+                            <th class="text-center">การประนอม</th>
+                            <th class="text-center">เริ่มประนอม</th>
+                            <th class="text-center">เงินก้อนแรก</th>
+                            <th class="text-center">ชำระ</th>
+                            <th class="text-center">ค้างงวด</th>
+                            <th class="text-center">วันที่ชำระล่าสุด</th>
+                            <th class="text-center">วันดิวถัดไป</th>
+                            <th class="text-center">สถานะ</th>
+                            <th class="text-right" style="width: 30px"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($data1_5 as $key => $row)
+                            @php 
+                              if($row->legispayments != NULL){
+                                $SetDateDue = date_create($row->legispayments->DateDue_Payment);
+                                @$DateDuePayment = date_format($SetDateDue, 'd-m-Y'); 
+                              }else{
+                                @$DateDuePayment = NULL;
+                              }
+                            @endphp
+                            <tr>
+                              <td class="text-left"> {{$row->Contract_legis}}</td>
+                              <td class="text-left"> {{$row->Name_legis}} </td>
+                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
+                              <td class="text-center"> 
+                              <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>
+                                 {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
+                                 <td class="text-center"> 
+                                  @php
+
+                                     $exp_amt = \DB::select("select sum(damt-payment) as expamt from compromises_firstdue 
+                                            where legisCompro_id= ".$row->legisCompromise->id."  and FORMAT (cast(ddate as date), 'yyyy-MM-dd') <= ".date('Y-m-d'));  
+                                        
+                                  @endphp
+                                  {{-- @php
+                                    if ($row->legispayments != NULL){
+                                      if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
+                                        $DateDue = date_create($row->legispayments->DateDue_Payment);
+                                        $Date = date_create(date('Y-m-d'));
+                                        $Datediff = date_diff($DateDue,$Date);
+                                        
+                                        if($Datediff->y != NULL) {
+                                          $SetYear = ($Datediff->y * 12);
+                                        }else{
+                                          $SetYear = 0;
+                                        }
+                                        $DueCus = ($SetYear + $Datediff->m);
+                                      }
+                                      else{
+                                        $DueCus = 0;
+                                      }
+                                    }
+                                    else{
+                                      $DueCus = 0;
+                                    }
+                                  @endphp 
+                                  {{ @$row->legispayments->monthdiff<0?0:0 }} --}}
+                                  {{(@$row->legisCompromise->FirstManey_1 != 0) ?number_format(@$row->legisCompromise->FirstManey_1, 2): '-' }}
+                                </td>
+                              <td class="text-right">{{(@$row->legisCompromise->Sum_FirstPromise != 0) ?number_format(@$row->legisCompromise->Sum_FirstPromise, 2): '-' }}</td>
+                              <td class="text-right">{{(@$exp_amt->expamt != 0) ?number_format(floatval(@$exp_amt->expamt)/floatval(@$row->legisCompromise->FDue_1), 2): '-' }}</td>
+                              <td class="text-center" >
+                                <span >{{ date_format(date_create(@$row->legisCompromise->LPAYD), 'Ymd')}} </span>
+                                {{-- {{ formatDateThai(@$row->legispayments->Date_Payment)}} --}}
+                                {{(@$row->legisCompromise->LPAYD != NULL) ?formatDateThai(@$row->legisCompromise->LPAYD): '-' }} 
+                              </td>
+                              <td class="text-center"> 
+                              <span > {{ date_format(date_create(@$row->legisCompromise->promisesToFDue->ddate ), 'Ymd')}} </span>
+                                {{-- {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} {{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}}  --}}
+                                {{(@$row->legisCompromise->promisesToDue->ddate != NULL) ?formatDateThai(@$row->legisCompromise->promisesToFDue->ddate): '-' }} 
+                                
+                              </td>
+
+                              <td class="text-center">
+                                <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
+                                  {{@$row->Flag_Class}}
+                                </button>                              
+  
+                              </td>
+                              <td class="text-right">
+                                <a href="{{ route('MasterCompro.edit',[$row->id]) }}?type={{$type}}" class="btn btn-warning btn-sm hover-up" title="แก้ไขรายการ">
+                                  <i class="far fa-edit"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                  </div>
+                  <div id="list-page1-list" class="tab-pane ">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText font12">ชำระปกติ  <span class="textHeader">(Normal Payment)</span></h6>
                       <table class="table table-hover SizeText font12 dateHide" id="table11">
                         <thead>
@@ -209,7 +321,7 @@
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>
                                  {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                                  <td class="text-center"> 
-                                  @php
+                                  {{-- @php
                                     if ($row->legispayments != NULL){
                                       if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
                                         $DateDue = date_create($row->legispayments->DateDue_Payment);
@@ -230,18 +342,24 @@
                                     else{
                                       $DueCus = 0;
                                     }
-                                  @endphp
-                                  {{ @$row->legispayments->monthdiff<0?0:0 }} 
+                                  @endphp 
+                                  {{ @$row->legispayments->monthdiff<0?0:0 }} --}}
+                                  {{@$row->legisCompromise->HLDNO}}
                                 </td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
                               <td class="text-center" >
-                                <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>
-                                {{ formatDateThai(@$row->legispayments->Date_Payment)}}
+                                <span >{{ date_format(date_create(@$row->legisCompromise->LPAYD), 'Ymd')}} </span>
+                                {{-- {{ formatDateThai(@$row->legispayments->Date_Payment)}} --}}
+                                {{(@$row->legisCompromise->LPAYD != NULL) ?formatDateThai(@$row->legisCompromise->LPAYD): '-' }} 
                               </td>
                               <td class="text-center"> 
-                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>
-                                {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <span > {{ date_format(date_create(@$row->legisCompromise->promisesToDue->ddate ), 'Ymd')}} </span>
+                                {{-- {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} {{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}}  --}}
+                                {{(@$row->legisCompromise->promisesToDue->ddate != NULL) ?formatDateThai(@$row->legisCompromise->promisesToDue->ddate): '-' }} 
+                                
+                              </td>
+
                               <td class="text-center">
                                 <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
                                   {{@$row->Flag_Class}}
@@ -321,7 +439,7 @@
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>  
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-center"> 
-                                @php
+                                {{-- @php
                                   if ($row->legispayments != NULL){
                                     if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
                                       $DateDue = date_create($row->legispayments->DateDue_Payment);
@@ -348,15 +466,23 @@
                                     $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff );
                                   }
                                 @endphp
-                                {{ @$row->legispayments->monthdiff }} 
+                                {{ @$row->legispayments->monthdiff }}  --}}
+                                {{@$row->legisCompromise->HLDNO}}
                               </td>
-                              <td class="text-right">{{number_format($kangSum, 2) }}</td>
+                              <td class="text-right">{{number_format(@$row->legisCompromise->EXP_AMT, 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"> <span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span> {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center">
-                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>  
-                                 {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center" >
+                                <span >{{ date_format(date_create(@$row->legisCompromise->LPAYD), 'Ymd')}} </span>
+                                {{-- {{ formatDateThai(@$row->legispayments->Date_Payment)}} --}}
+                                {{(@$row->legisCompromise->LPAYD != NULL) ?formatDateThai(@$row->legisCompromise->LPAYD): '-' }} 
+                              </td>
+                              <td class="text-center"> 
+                              <span > {{ date_format(date_create(@$row->legisCompromise->promisesToDue->ddate ), 'Ymd')}} </span>
+                                {{-- {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} {{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}}  --}}
+                                {{(@$row->legisCompromise->promisesToDue->ddate != NULL) ?formatDateThai(@$row->legisCompromise->promisesToDue->ddate): '-' }} 
+                                
+                              </td>
                               <td class="text-center">
                                 <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
                                   {{@$row->Flag_Class}}
@@ -434,7 +560,7 @@
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-center"> 
-                                @php
+                                {{-- @php
                                   if ($row->legispayments != NULL){
                                     if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
                                       $DateDue = date_create($row->legispayments->DateDue_Payment);
@@ -461,15 +587,23 @@
                                     $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff );
                                   }
                                 @endphp
-                                {{ @$row->legispayments->monthdiff }} 
+                                {{ @$row->legispayments->monthdiff }}  --}}
+                                {{@$row->legisCompromise->HLDNO}}
                               </td>
-                              <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
+                              <td class="text-right">{{number_format(@$row->legisCompromise->EXP_AMT, 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center">
-                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span> 
-                                {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center" >
+                                <span >{{ date_format(date_create(@$row->legisCompromise->LPAYD), 'Ymd')}} </span>
+                                {{-- {{ formatDateThai(@$row->legispayments->Date_Payment)}} --}}
+                                {{(@$row->legisCompromise->LPAYD != NULL) ?formatDateThai(@$row->legisCompromise->LPAYD): '-' }} 
+                              </td>
+                              <td class="text-center"> 
+                              <span > {{ date_format(date_create(@$row->legisCompromise->promisesToDue->ddate ), 'Ymd')}} </span>
+                                {{-- {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} {{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}}  --}}
+                                {{(@$row->legisCompromise->promisesToDue->ddate != NULL) ?formatDateThai(@$row->legisCompromise->promisesToDue->ddate): '-' }} 
+                                
+                              </td>
                               <td class="text-center">
                                 <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
                                   {{@$row->Flag_Class}}
@@ -548,7 +682,7 @@
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>   
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-center"> 
-                                @php
+                                {{-- @php
                                   if ($row->legispayments != NULL){
                                     if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
                                       $DateDue = date_create($row->legispayments->DateDue_Payment);
@@ -575,15 +709,23 @@
                                     $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff);
                                   }
                                 @endphp
-                                {{ @$row->legispayments->monthdiff }} 
+                                {{ @$row->legispayments->monthdiff }}  --}}
+                                {{@$row->legisCompromise->HLDNO}}
                               </td>
-                              <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
+                              <td class="text-right">{{number_format(@$row->legisCompromise->EXP_AMT, 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
-                              <td class="text-center">
-                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>  
-                                {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <td class="text-center" >
+                                <span >{{ date_format(date_create(@$row->legisCompromise->LPAYD), 'Ymd')}} </span>
+                                {{-- {{ formatDateThai(@$row->legispayments->Date_Payment)}} --}}
+                                {{(@$row->legisCompromise->LPAYD != NULL) ?formatDateThai(@$row->legisCompromise->LPAYD): '-' }} 
+                              </td>
+                              <td class="text-center"> 
+                              <span > {{ date_format(date_create(@$row->legisCompromise->promisesToDue->ddate ), 'Ymd')}} </span>
+                                {{-- {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} {{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}}  --}}
+                                {{(@$row->legisCompromise->promisesToDue->ddate != NULL) ?formatDateThai(@$row->legisCompromise->promisesToDue->ddate): '-' }} 
+                                
+                              </td>
                               <td class="text-center">
                                 <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
                                   {{@$row->Flag_Class}}
@@ -655,14 +797,14 @@
                               }
                             @endphp
                             <tr>
-                              <td class="text-left"> {{$row->Contract_legis}}</td>
-                              <td class="text-left"> {{$row->Name_legis}} </td>
-                              <td class="text-left"> {{$row->legisCompromise->Type_Promise}} </td>
+                              <td class="text-left"> {{@$row->Contract_legis}}</td>
+                              <td class="text-left"> {{@$row->Name_legis}} </td>
+                              <td class="text-left"> {{@$row->legisCompromise->Type_Promise}} </td>
                               <td class="text-center">
                               <span >{{ date_format(date_create(@$row->legisCompromise->Date_Promise), 'Ymd')}} </span>    
                               {{formatDateThai(@$row->legisCompromise->Date_Promise)}}</td>
                               <td class="text-center"> 
-                                @php
+                                {{-- @php
                                   if ($row->legispayments != NULL){
                                     if ($row->legispayments->DateDue_Payment < date('Y-m-d')) {
                                       $DateDue = date_create($row->legispayments->DateDue_Payment);
@@ -689,15 +831,23 @@
                                     $kangSum = (@$row->legisCompromise->Due_1*@$row->legispayments->monthdiff);
                                   }
                                 @endphp
-                                {{ @$row->legispayments->monthdiff }} 
+                                {{ @$row->legispayments->monthdiff }}  --}}
+                                {{@$row->legisCompromise->HLDNO}}
                               </td>
-                              <td class="text-right">{{number_format((@$kangSum), 2) }}</td>
+                              <td class="text-right">{{number_format(@$row->legisCompromise->EXP_AMT, 2) }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Total_Promise != 0) ?number_format(@$row->legisCompromise->Total_Promise, 2): '-' }}</td>
                               <td class="text-right">{{(@$row->legisCompromise->Sum_Promise != 0) ?number_format(@$row->legisCompromise->Sum_Promise, 2): '-' }}</td>
-                              <td class="text-center"><span >{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>  {{formatDateThai(@$row->legispayments->Date_Payment)}}</td>
+                              <td class="text-center" >
+                                <span >{{ date_format(date_create(@$row->legisCompromise->LPAYD), 'Ymd')}} </span>
+                                {{-- {{ formatDateThai(@$row->legispayments->Date_Payment)}} --}}
+                                {{(@$row->legisCompromise->LPAYD != NULL) ?formatDateThai(@$row->legisCompromise->LPAYD): '-' }} 
+                              </td>
                               <td class="text-center"> 
-                              <span >{{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}} </span>    
-                              {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} </td>
+                              <span > {{ date_format(date_create(@$row->legisCompromise->promisesToDue->ddate ), 'Ymd')}} </span>
+                                {{-- {{(@$DateDuePayment != NULL) ?formatDateThai(@$DateDuePayment): '-' }} {{ date_format(date_create(@$row->legispayments->DateDue_Payment), 'Ymd')}}  --}}
+                                {{(@$row->legisCompromise->promisesToDue->ddate != NULL) ?formatDateThai(@$row->legisCompromise->promisesToDue->ddate): '-' }} 
+                                
+                              </td>
                               <td class="text-center">
                                 <button data-toggle="tooltip" type="button" class="btn btn-success btn-sm hover-up" >
                                   {{@$row->Flag_Class}}
@@ -934,6 +1084,35 @@
       $("#list-page7-list").on("click", function(){
           $("#flag").val(7);
       });
+    });
+
+    $('#process').on('click',function(){
+      
+      var _token =  $('input[name="_token"]').val();
+      $.ajax({
+          url: "{{route('MasterCompro.update',0)}}",
+          method: "PUT",
+          
+          data: {
+            _token: _token,process:'caloverdue'
+            
+          },
+          success: function(result) {
+            if(result.message=='success'){
+               swal("ประมวลผลสำเร็จ !", {
+              icon: "success",
+              timer: 5000,
+            })
+            }else{
+              swal( result.message , {
+              icon: "error",
+              timer: 5000,
+            })
+            }
+           
+          }
+        })
+                
     });
   </script>
 @endsection

@@ -1906,7 +1906,7 @@ class LegislationController extends Controller
                 });
                 $row = 3;
                 $sheet->row($row, array('ลำดับ', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
-                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง','ยอดรวมทำสัญญา','ยอดลูกค้าจ่าย', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',
                     'วันที่สืบทรัพย์', 'สถานะทรัพย์', 'สถานะประนอมหนี้', 
                     'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0','ยอดตัดหนี้ 0','วันที่ปิดบัญชี'));
@@ -1997,6 +1997,8 @@ class LegislationController extends Controller
                     @$value->legiscourt->bnumber_court,
                     @$value->legiscourt->rnumber_court,
                     @$value->legiscourt->fillingdate_court,
+                    number_format(@$value->TopPrice_legis, 2),
+                    number_format(@$value->Pay_legis, 2),
                     number_format(@$value->Sumperiod_legis, 2),
                     number_format(@$SetCourtPrice, 2),
                     number_format(@$SetPrice, 2),

@@ -591,7 +591,8 @@
                   <li class="nav-item">
                     <a class="nav-link SizeText {{ ($FlagTab == '1' or $FlagTab == '') ? 'active' : '' }}" data-toggle="tab" href="#list-page1-list">ข้อมูลประนอมหนี้</a>
                   </li>
-                  @if(count(@$dataPay->legisToFDue)>0)
+                
+                  @if(@$dataPay!=NULL && count(@$dataPay->legisToFDue)>0)
                   <li class="nav-item">
                     <a class="nav-link SizeText {{ ($FlagTab == '5') ? 'active' : '' }}" data-toggle="tab" href="#list-page5-list">ตารางเงินก้อนเเรก</a>
                   </li>
@@ -854,7 +855,8 @@
                         </div>
                       </div>
                   </div>
-                  @if(count(@$dataPay->legisToFDue)>0)
+                 
+                  @if(@$dataPay!=NULL && count(@$dataPay->legisToFDue)>0)
                   <div id="list-page5-list" class="tab-pane {{ ($FlagTab == '5') ? 'active' : '' }}">
                     <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">รายการผ่อนชำระ <span class="textHeader">(Instalment Debters)</span></h6>
                     <table class="table table-hover SizeText-1 table-sm table1" id="">

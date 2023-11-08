@@ -59,13 +59,14 @@
                   <button type="submit" class="btn btn-info btn-sm SizeText hover-up" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                     <i class="fa-solid fa-download"></i> อัพเดต
                   </button>
+                </form>
                   {{-- @if($data->Flag == 'Y' and @$DateNew > 3) --}}
-                    <a href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up DeleteCompro" title="ลบรายการ">
+                    <a href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up DeleteCompro" title="ลบรายการ"  {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                       <i class="far fa-trash-alt"></i> ล้าง
                     </a>
                    
                   {{-- @endif --}}
-                </form>
+                
               </div>
             </div>
           </div>
@@ -493,7 +494,7 @@
                   </button>
                   @if( @$data->legisCompromise->Flag_Promise != 'Complete')
 
-                  <button type="button" class="btn btn-info btn-sm SizeText hover-up ClearPromise"  id='{{ $data->Contract_legis }}' data-name="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" >
+                  <button type="button" class="btn btn-info btn-sm SizeText hover-up ClearPromise"  id='{{ $data->Contract_legis }}' data-name="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                     <i class="far fa-trash-alt"></i> ล้าง
                   </button>
                     {{-- <a href="" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up ClearPromise" title="ลบรายการ">

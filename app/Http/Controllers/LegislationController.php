@@ -660,6 +660,7 @@ class LegislationController extends Controller
           ->table('RSFHP.ARMAST')
           ->join('RSFHP.INVTRAN','RSFHP.ARMAST.CONTNO','=','RSFHP.INVTRAN.CONTNO')
           ->join('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')
+          ->join('RSFHP.SETGROUP','RSFHP.SETGROUP.GCODE','=','RSFHP.INVTRAN.GCODE')
           ->where('RSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
           $dataArpay = DB::connection('ibmi2')->select('
@@ -668,7 +669,8 @@ class LegislationController extends Controller
         $data = DB::connection('ibmi2')
         ->table('RSFHP.HARMAST')
         ->leftJoin('RSFHP.HINVTRAN','RSFHP.HARMAST.STRNO','=','RSFHP.HINVTRAN.STRNO')     
-        ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.HARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
+        ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.HARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')
+        ->join('RSFHP.SETGROUP','RSFHP.SETGROUP.GCODE','=','RSFHP.HINVTRAN.GCODE')                       
         ->where('RSFHP.HARMAST.CONTNO','=',$SetStrConn)
         ->first();
         $dataArpay = DB::connection('ibmi2')->select('
@@ -718,6 +720,7 @@ class LegislationController extends Controller
           ->table('PSFHP.ARMAST')
           ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')
           ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+          ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.INVTRAN.GCODE')
           ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
           $dataArpay = DB::connection('ibmi2')->select('
@@ -727,6 +730,7 @@ class LegislationController extends Controller
           ->table('PSFHP.HARMAST')
           ->join('PSFHP.HINVTRAN','PSFHP.HARMAST.CONTNO','=','PSFHP.HINVTRAN.CONTNO')
           ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+          ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.HINVTRAN.GCODE')
           ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
           ->first();
           $dataArpay = DB::connection('ibmi2')->select('
@@ -779,9 +783,10 @@ class LegislationController extends Controller
           $SetTypeConn = 'P01';
 
           $data = DB::connection('ibmi2')
-            ->table('P132SFHP.ARMAST')
-            ->join('P132SFHP.INVTRAN','P132SFHP.ARMAST.CONTNO','=','P132SFHP.INVTRAN.CONTNO')
-            ->join('P132SFHP.VIEW_CUSTMAIL','P132SFHP.ARMAST.CUSCOD','=','P132SFHP.VIEW_CUSTMAIL.CUSCOD')
+            ->table('PSFHP.ARMAST')
+            ->join('PSFHP.INVTRAN','PSFHP.ARMAST.CONTNO','=','PSFHP.INVTRAN.CONTNO')
+            ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+            ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.INVTRAN.GCODE')
             ->where('P132SFHP.ARMAST.CONTNO','=', $SetStrConn)
             ->first();
             $dataArpay = DB::connection('ibmi2')->select('
@@ -791,6 +796,7 @@ class LegislationController extends Controller
             ->table('PSFHP.HARMAST')
             ->join('PSFHP.HINVTRAN','PSFHP.HARMAST.CONTNO','=','PSFHP.HINVTRAN.CONTNO')
             ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
+            ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.HINVTRAN.GCODE')
             ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
             ->first();
             $dataArpay = DB::connection('ibmi2')->select('
@@ -826,8 +832,10 @@ class LegislationController extends Controller
           'TypeDB_Legis' => @$SetTypeDB,
           'Date_legis' => date('Y-m-d'),
           'Contract_legis' => str_replace(" ","",$data->CONTNO),
-          'TypeCon_legis' => @$SetTypeConn,
+          'TypeCon_legis' => @$data->GCODE,
+          'TypeCon_Name' =>$data->GDESC,
           'DateCon_legis' => $data->SDATE,
+          'LOCAT' => $data->LOCAT,
           'Name_legis' => (iconv('TIS-620', 'utf-8', str_replace(" ","",$data->SNAM)." ".str_replace(" ","",$data->NAME1)."  ".str_replace(" ","",$data->NAME2))),
           'Idcard_legis' => (str_replace(" ","",$data->IDNO)),
           'Address_legis' => (iconv('TIS-620', 'utf-8', str_replace(" ","",$data->ADDRES))." ต.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->TUMB))." อ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->AUMPDES))." จ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->PROVDES))."  ".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->ZIP))),
@@ -871,8 +879,10 @@ class LegislationController extends Controller
           'TypeDB_Legis' => @$SetTypeDB,
           'Date_legis' => date('Y-m-d'),
           'Contract_legis' => str_replace(" ","",$data->CONTNO),
-          'TypeCon_legis' => @$SetTypeConn,
+          'TypeCon_legis' => @$data->GCODE,
+          'TypeCon_Name' =>$data->GDESC,
           'DateCon_legis' => $data->SDATE,
+          'LOCAT' => $data->LOCAT,
           'Name_legis' => (iconv('TIS-620', 'utf-8', str_replace(" ","",$data->SNAM)." ".str_replace(" ","",$data->NAME1)."  ".str_replace(" ","",$data->NAME2))),
           'Idcard_legis' => (str_replace(" ","",$data->IDNO)),
           'Address_legis' => (iconv('TIS-620', 'utf-8', str_replace(" ","",$data->ADDRES))." ต.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->TUMB))." อ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->AUMPDES))." จ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->PROVDES))."  ".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->ZIP))),
@@ -2166,23 +2176,11 @@ class LegislationController extends Controller
         //       }
         //   });
         // })->export('xlsx');
-       
-          $data = Legislation::where('Status_legis','=', NULL)
-              ->whereIn('Flag', ['Y','W'])
-              // ->where(function ($query) {
-              //       return $query->where('Flag_Class', 'สถานะส่งฟ้อง')
-              //       ->orwhere('Flag_Class', 'สถานะส่งสืบพยาน')
-              //       ->orwhere('Flag_Class', 'สถานะส่งคำบังคับ')
-              //       ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมาย')
-              //       ->orwhere('Flag_Class', 'สถานะส่งตั้งเจ้าพนักงาน')
-              //       ->orwhere('Flag_Class', 'สถานะส่งตรวจผลหมายตั้ง');
-              //     })
-              // ->Wherehas('legiscourt',function ($query) {
-              //   return $query->where('fillingdate_court','!=', NULL);
-              // })
+      // where('Status_legis','=', NULL)
+          $data = Legislation::
+               whereIn('Flag', ['Y','W'])
               ->with('legiscourt')
               ->with('legiscourtCase')
-              ->with('legisCompromise')
               ->with('Legisasset')
               ->get();
           $status = 'ลูกหนี้ชั้นศาล';
@@ -2206,25 +2204,31 @@ class LegislationController extends Controller
              $sheet->getStyle('B:C') ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);
 
-             $sheet->getStyle('O:P') ->getNumberFormat()
+             $sheet->getStyle('S:T') ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
-             $sheet->getStyle('W:AJ') ->getNumberFormat()
+            //  $sheet->getStyle('W:AJ') ->getNumberFormat()
+            //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
+              $sheet->getStyle('AI:BB') ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
-              $sheet->getStyle('AL:AP') ->getNumberFormat()
-                ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY); 
-              $sheet->getStyle('AW:AX') ->getNumberFormat()
+              $sheet->getStyle('BF:BG') ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);     
-              $sheet->getStyle('AR') ->getNumberFormat()
+              $sheet->getStyle('BD') ->getNumberFormat()
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);               
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
                 $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
-                $sheet->row($row, array('ลำดับ','วันที่เข้าระบบ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
-                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง','ยอดประนอม','เงินก้อนแรก','วันจ่ายเงินก้อนเเรก',
-                    'กำหนดวันสืบพยาน','วันสืบพยาน','กำหนดวันส่งคำบังคับ', 'วันส่งคำบังคับ','กำหนดวันตรวจ',  'วันตรวจผลหมาย','กำหนดวันตั้งเจ้าพนักงาน', 'วันตั้งเจ้าพนักงาน','กำหนดวันตรวจหมายตั้ง', 'วันตรวจผลหมายตั้ง',
+                $sheet->row($row, array('ลำดับ','วันที่เข้าระบบ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา',
+                    'HQ',	'บริษัท',	'ประเภทสัญญา',	'สาขา','ชื่อ-สกุล', 'เบอร์ติดต่อ',
+                    'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 
+                    'ปีที่ฟ้อง',	'ยอดรวมทำสัญญา Smart','ยอดลูกค้าจ่าย Smart',
+                    'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 
+                    'ยอดค่าฟ้อง','ยอดศาลสั่ง','ยอดประนอม','เงินก้อนแรก',
+                    'จ่ายเงินก้อนแรก','จ่ายประนอม' 	,'จ่ายทั้งหมด' 	,'ส่วนลด' ,	 'ยอดคงเหลือประนอม' ,'วันจ่ายเงินก้อนเเรก',
+                    'กำหนดวันสืบพยาน','วันสืบพยาน','กำหนดวันส่งคำบังคับ', 'วันส่งคำบังคับ','กำหนดวันตรวจ',  'วันตรวจผลหมาย','กำหนดวันตั้งเจ้าพนักงาน', 
+                    'วันตั้งเจ้าพนักงาน','กำหนดวันตรวจหมายตั้ง', 'วันตรวจผลหมายตั้ง',
                     'กำหนดการคัดหนังสือ','วันที่คัดหนังสือรับรองคดี','วันที่สืบทรัพย์', 'สถานะทรัพย์','กำหนดวันที่คัดโฉนด','วันที่คัดโฉนด',
                     'กำหนดวันที่ตั้งยึดทรัพย์','วันที่ตั้งเรื่องยึดทรัพย์', 'กำหนดประกาศขาย','สถานะประนอมหนี้', 
-                    'วันที่ปิดบัญชี','ยอดปิดบัญชี','ยอดชำระ','ส่วนลด','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0','ยอดตัดหนี้ 0','วันที่ปิดบัญชี'));
+                    'วันที่ปิดบัญชี','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0','ยอดตัดหนี้ 0'));
   
                 foreach ($data as $key => $value) {
                   //วันสืบพยาน
@@ -2258,11 +2262,14 @@ class LegislationController extends Controller
                   //   $Setsendcheckresults = @$value->legiscourt->checkresults_court;
                   // }
                   //สถานะลูกหนี้
+                  
                   if (@$value->Status_legis != NULL) {
                     $SetStatus = @$value->Status_legis;
                   }else {
                     if ($value->Flag_Class != NULL) {
                       $SetStatus = @$value->Flag_Class;
+                    }else{
+                      $SetStatus = '';
                     }
                   }
                   //สถานะสืบทรัพย์
@@ -2302,15 +2309,27 @@ class LegislationController extends Controller
                   }else{
                     $SetPriceAdjud = 0;
                   }
+                  $company = '';
+                  if(@$value->TypeCon_legis=='101'){
+                   $company = 'CKL';
+                  }else{
+                   $company = 'CKP';
+                  }
                   $sheet->row(++$row, array(
                     $key+1,
                    // date_format(date_create(@$value->Date_legis),"d/m/Y"),
+                   
+
                    ParsetoDate(@$value->Date_legis),
                    ParsetoDate(@$value->DateCon_legis),
                     @$Flag[@$value->Flag],
                     @$Flag_Status[@$value->Flag_status],
                     @$value->legisCompromise->Type_Promise,
                     @$value->Contract_legis,
+                    'KB',
+                    $company,
+                    @$value->TypeCon_Name,
+                    @$value->LOCAT,
                     @$value->Name_legis,
                     @$value->Phone_legis,
                     $SetStatus,
@@ -2320,12 +2339,22 @@ class LegislationController extends Controller
                     @$value->legiscourt->rnumber_court,
                     ParsetoDate(@$value->legiscourt->orderdatecourt),
                     ParsetoDate(@$value->legiscourt->fillingdate_court),
+
+                    substr(@$value->legiscourt->fillingdate_court,0,4) ,
+                    @$value->TopPrice_legis,
+                    @$value->Beforemoey_legis,
+
                     @$value->Sumperiod_legis,
                     @$SetCourtPrice,
                     @$SetPrice,
                     @$SetPriceAdjud,
                     @$value->legiscourt->promise_price,
                     @$value->legiscourt->first_price,
+                    @$value->legisCompromiseInact->sum('Sum_FirstPromise'),
+                    @$value->legisCompromiseInact->sum('Sum_DuePayPromise'),
+                    @$value->legisCompromiseInact->sum('Sum_DuePayPromise')+@$value->legisCompromiseInact->sum('Sum_FirstPromise'),
+                    @$value->legisCompromiseInact->sum('Discount_Promise'),
+                    @$value->legisCompromiseInact[0]->Total_Promise - ((@$value->legisCompromiseInact->sum('Sum_DuePayPromise')+@$value->legisCompromiseInact->sum('Sum_FirstPromise'))+@$value->legisCompromiseInact->sum('Discount_Promise')),
                     ParsetoDate(@$value->legiscourt->firstpay_date),                   
                     ParsetoDate(@$value->legiscourt->orderexamiday),
                     ParsetoDate($Setexamiday),
@@ -2350,14 +2379,12 @@ class LegislationController extends Controller
                     ParsetoDate(@$value->legiscourtCase->ordeDateSequester),
                     $SetTextCompro,
                     ParsetoDate(@$value->DateStatus_legis),
-                    @$value->PriceStatus_legis,
-                    @$value->txtStatus_legis,
-                    @$value->Discount_legis,
+                  
                     @$value->Note,
                     ParsetoDate(@$value->dateStopRev),
                     ParsetoDate(@$value->dateCutOff),
                     @$value->RateCutOff,
-                    ParsetoDate( @$value->DateStatus_legis),
+                   
                   ));
                 }
             });

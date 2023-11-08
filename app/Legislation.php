@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Legislation extends Model
 {
   protected $table = 'legislations';
-  protected $fillable = ['TypeDB_Legis','Date_legis','Contract_legis','TypeCon_legis',
+  protected $fillable = ['TypeDB_Legis','Date_legis','Contract_legis','TypeCon_legis','LOCAT',
                         'DateCon_legis','Name_legis','Idcard_legis','Address_legis','Phone_legis',
                         'BrandCar_legis','register_legis','YearCar_legis','Mile_legis',
                         'Category_legis','DateDue_legis','TopPrice_legis','Pay_legis','DateSue_legis','DateVAT_legis',

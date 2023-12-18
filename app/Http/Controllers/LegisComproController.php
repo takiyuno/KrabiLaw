@@ -702,7 +702,7 @@ $numDue = 0;
           return $query->where('Flag_Promise','=','InActive');
         }])->first();
 
-        $dataPay  = legisCompromise::where('legislation_id',$id)->where('Flag_Promise','Active')->first();
+        $dataPay  = legisCompromise::where('legislation_id',$id)->whereIn('Flag_Promise',['Active','Complete'])->first();
 
         $intamtDue = compromises_paydue::where('legisCompro_id', @$dataPay->id)->get();
 
@@ -788,8 +788,8 @@ $numDue = 0;
           'DateDue_Payment' => $request->DateDue,
           'Gold_Payment' => str_replace (",","",$request->Cash),
           'Discount_Payment' => str_replace (",","",$request->Discount),
-          'Payintamt' => $request->Payintamt!=NULL?str_replace (",","",$request->Payintamt):0,
-          'Disintamt' => $request->Disintamt!=NULL?str_replace (",","",$request->Disintamt):0,
+          'Payintamt' => $request->Payintamt!=NULL?floatval(str_replace (",","",$request->Payintamt)):0,
+          'Disintamt' => $request->Disintamt!=NULL?floatval(str_replace (",","",$request->Disintamt)):0,
           'Type_Payment' =>  $request->TypePayment,
           'BankIn' =>  $request->BankIn,
           'Adduser_Payment' =>  $request->AdduserPayment,
@@ -931,13 +931,13 @@ $numDue = 0;
             $LegisCompro->Discount_Promise = floatval(str_replace (",","",$request->Discount));
           }
           // เช็คยอดคงเหลือ
-          if ($LegisCompro->ComproTolegislation->TypeCon_legis == 'P01') {
-            $LegisCompro->Sum_Promise = floatval($LegisCompro->Sum_Promise) +floatval(str_replace (",","",$request->Cash));
-          }
-          else {
+          // if ($LegisCompro->ComproTolegislation->TypeCon_legis == 'P01') {
+          //   $LegisCompro->Sum_Promise = floatval($LegisCompro->Sum_Promise) +floatval(str_replace (",","",$request->Cash));
+          // }
+          // else {
             $Setpaid = (floatval(str_replace (",","",$LegisCompro->Sum_FirstPromise)) + floatval(str_replace (",","",$LegisCompro->Sum_DuePayPromise)) + floatval(str_replace (",","",$request->Discount))+floatval(str_replace (",","",$request->Cash)));
             $LegisCompro->Sum_Promise = (floatval($LegisCompro->Total_Promise) - $Setpaid);
-            }
+           // }
             // เช็คปิดบัญชี
             if ($LegisCompro->Sum_Promise >= $LegisCompro->Total_Promise) {
               $LegisCompro->Flag_Promise = 'Complete';

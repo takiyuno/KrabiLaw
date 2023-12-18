@@ -25,7 +25,7 @@ class Legiscompromise extends Model
 
   public function ComproToPayment()
   {
-    return $this->hasOne(legispayment::class,'legisCompro_id','id');
+    return $this->hasOne(legispayment::class,'legisCompro_id','id')->latest();
   }
   public function ComproToPaymentAll()
   {

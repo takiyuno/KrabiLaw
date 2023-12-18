@@ -227,7 +227,7 @@
                                   @php
 
                                      $exp_amt = \DB::select("select sum(damt-payment) as expamt from compromises_firstdue 
-                                            where legisCompro_id= ".$row->legisCompromise->id."  and FORMAT (cast(ddate as date), 'yyyy-MM-dd') <= ".date('Y-m-d'));  
+                                            where legisCompro_id= ".$row->legisCompromise->id."  and FORMAT (cast(ddate as date), 'yyyy-MM-dd') <= '".date('Y-m-d')."'");  
                                         
                                   @endphp
                                   {{-- @php

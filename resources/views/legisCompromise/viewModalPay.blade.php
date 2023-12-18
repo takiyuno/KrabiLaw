@@ -15,9 +15,8 @@
                 <th class="text-center" style="width: 50px">วันที่รับชำระ</th>
                 <th class="text-center" style="width: 100px">ประเภท</th>
                 <th class="text-center" style="width: 50px">ยอดชำระ</th>
-                {{-- <th class="text-center" style="width: 50px">ดิวถัดไป</th> --}}
+                <th class="text-center" style="width: 100px">การชำระ</th>
                 <th class="text-center" style="width: 100px">ผู้รับชำระ</th>
-                <th class="text-center" style="width: 100px"></th>
             </tr>
             </thead>
             <tbody>
@@ -37,11 +36,9 @@
                 <td class="text-right"> 
                     {{ number_format($row->Gold_Payment, 2) }} 
                 </td>
-                {{-- <td class="text-center text-red"> {{ date('d-m-Y', strtotime($row->DateDue_Payment)) }}</td> --}}
+                <td class="text-center text-red"> {{ @$row->BankIn }}</td>
                 <td class="text-right"> {{$row->Adduser_Payment}} </td>
-                <td class="text-right">
-                   
-                </td>
+              
                 </tr>
             @endforeach
             @else

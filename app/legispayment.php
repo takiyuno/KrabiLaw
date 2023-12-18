@@ -14,7 +14,7 @@ class legispayment extends Model
 
   public function PaymentTolegislation()
   {
-    return $this->belongsTo(Legislation::class,'legislation_id','id');
+    return $this->belongsTo(Legislation::class,'id','legislation_id');
   }
   public function PaymentToCompro()
   {

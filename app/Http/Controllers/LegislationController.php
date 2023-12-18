@@ -390,8 +390,7 @@ class LegislationController extends Controller
               ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.ARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
               ->where('RSFHP.ARMAST.CONTNO','=',$Contract)
               ->first();
-          $dataArpay = DB::connection('ibmi2')->select("
-              SELECT sum(NPROF) as NPROF  FROM RSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
+          $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM RSFHP.ARMAST a LEFT JOIN RSFHP.ARPAY b ON a.CONTNO = b.CONTNO  WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$Contract."'");
           if( $data==NULL){            
             $data = DB::connection('ibmi2')
             ->table('RSFHP.HARMAST')
@@ -399,8 +398,7 @@ class LegislationController extends Controller
             ->leftJoin('RSFHP.VIEW_CUSTMAIL','RSFHP.HARMAST.CUSCOD','=','RSFHP.VIEW_CUSTMAIL.CUSCOD')                       
             ->where('RSFHP.HARMAST.CONTNO','=',$Contract)
             ->first();
-            $dataArpay = DB::connection('ibmi2')->select("
-              SELECT sum(NPROF) as NPROF  FROM RSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
+            $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM RSFHP.HARMAST a LEFT JOIN RSFHP.HARPAY b ON a.CONTNO = b.CONTNO WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$Contract."'");
           }
          // dd($data);
           $dataGT = DB::connection('ibmi2')
@@ -456,8 +454,7 @@ class LegislationController extends Controller
               ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.ARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
               ->where('PSFHP.ARMAST.CONTNO','=', $Contract)
               ->first();
-          $dataArpay = DB::connection('ibmi2')->select("
-              SELECT sum(NPROF) as NPROF  FROM PSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
+            $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM PSFHP.ARMAST a LEFT JOIN PSFHP.ARPAY b ON a.CONTNO = b.CONTNO WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$Contract."'");
             if($data==NULL){
               $data = DB::connection('ibmi2')
               ->table('PSFHP.HARMAST')
@@ -465,8 +462,7 @@ class LegislationController extends Controller
               ->join('PSFHP.VIEW_CUSTMAIL','PSFHP.HARMAST.CUSCOD','=','PSFHP.VIEW_CUSTMAIL.CUSCOD')
               ->where('PSFHP.HARMAST.CONTNO','=', $Contract)
               ->first();
-              $dataArpay = DB::connection('ibmi2')->select("
-              SELECT sum(NPROF) as NPROF  FROM PSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = '".$Contract."'");
+              $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM PSFHP.HARMAST a LEFT JOIN PSFHP.HARPAY b ON a.CONTNO = b.CONTNO WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$Contract."'");
             }
               
           $dataGT = DB::connection('ibmi2')
@@ -663,8 +659,7 @@ class LegislationController extends Controller
           ->join('RSFHP.SETGROUP','RSFHP.SETGROUP.GCODE','=','RSFHP.INVTRAN.GCODE')
           ->where('RSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
-          $dataArpay = DB::connection('ibmi2')->select('
-          SELECT sum(NPROF) as NPROF  FROM RSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+          $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM RSFHP.ARMAST a LEFT JOIN RSFHP.ARPAY b ON a.CONTNO = b.CONTNO  WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$SetStrConn."'");
       if( $data==NULL){            
         $data = DB::connection('ibmi2')
         ->table('RSFHP.HARMAST')
@@ -673,8 +668,7 @@ class LegislationController extends Controller
         ->join('RSFHP.SETGROUP','RSFHP.SETGROUP.GCODE','=','RSFHP.HINVTRAN.GCODE')                       
         ->where('RSFHP.HARMAST.CONTNO','=',$SetStrConn)
         ->first();
-        $dataArpay = DB::connection('ibmi2')->select('
-          SELECT sum(NPROF) as NPROF  FROM RSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+        $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM RSFHP.HARMAST a LEFT JOIN RSFHP.HARPAY b ON a.CONTNO = b.CONTNO  WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$SetStrConn."'");
       }
 
         // query ทรัพย์
@@ -723,8 +717,7 @@ class LegislationController extends Controller
           ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.INVTRAN.GCODE')
           ->where('PSFHP.ARMAST.CONTNO','=', $SetStrConn)
           ->first();
-          $dataArpay = DB::connection('ibmi2')->select('
-          SELECT sum(NPROF) as NPROF  FROM PSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+          $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM PSFHP.ARMAST a LEFT JOIN PSFHP.ARPAY b ON a.CONTNO = b.CONTNO  WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$SetStrConn."'");
           if($data==NULL){
             $data = DB::connection('ibmi2')
           ->table('PSFHP.HARMAST')
@@ -733,8 +726,7 @@ class LegislationController extends Controller
           ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.HINVTRAN.GCODE')
           ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
           ->first();
-          $dataArpay = DB::connection('ibmi2')->select('
-          SELECT sum(NPROF) as NPROF  FROM PSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+          $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM PSFHP.HARMAST a LEFT JOIN PSFHP.HARPAY b ON a.CONTNO = b.CONTNO WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$SetStrConn."'");
           }
 
         // query ทรัพย์
@@ -789,8 +781,7 @@ class LegislationController extends Controller
             ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.INVTRAN.GCODE')
             ->where('P132SFHP.ARMAST.CONTNO','=', $SetStrConn)
             ->first();
-            $dataArpay = DB::connection('ibmi2')->select('
-          SELECT sum(NPROF) as NPROF  FROM PSFHP.ARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+            $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM PSFHP.ARMAST a LEFT JOIN PSFHP.ARPAY b ON a.CONTNO = b.CONTNO  WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$SetStrConn."'");
           if($data==NULL){
             $data = DB::connection('ibmi2')
             ->table('PSFHP.HARMAST')
@@ -799,8 +790,7 @@ class LegislationController extends Controller
             ->join('PSFHP.SETGROUP','PSFHP.SETGROUP.GCODE','=','PSFHP.HINVTRAN.GCODE')
             ->where('PSFHP.HARMAST.CONTNO','=', $SetStrConn)
             ->first();
-            $dataArpay = DB::connection('ibmi2')->select('
-          SELECT sum(NPROF) as NPROF  FROM PSFHP.HARPAY WHERE PAYMENT = 0 AND CONTNO = "'.$SetStrConn.'"');
+            $dataArpay = DB::connection('ibmi2')->select("SELECT sum(b.INTEFFR) as NPROF FROM PSFHP.ARMAST a LEFT JOIN PSFHP.ARPAY b ON a.CONTNO = b.CONTNO  WHERE  b.DDATE > a.DTSTOPV AND a.CONTNO = '".$SetStrConn."'");
           }
 
           $dataGT = DB::connection('ibmi2')
@@ -866,6 +856,7 @@ class LegislationController extends Controller
           'Phone_legis' => (iconv('Tis-620','utf-8',$data->TELP)),
           'BILLCOLL' => $request->BILLCOLL,
           'Flag_status' => $SetFalg,
+          'dateStopRev' => trim(@$data->DTSTOPV),
           'UserSend1_legis' => auth()->user()->name,
         ]);
         $dataLegis->save();
@@ -910,6 +901,7 @@ class LegislationController extends Controller
           'Flag' => $request->TypeCus_Flag,
           'BILLCOLL' => $request->BILLCOLL,
           'Flag_status' => $SetFalg,
+          'dateStopRev' => trim(@$data->DTSTOPV),
           'UserSend1_legis' => auth()->user()->name,
         ]);
         $dataLegis->save();
@@ -2227,7 +2219,7 @@ class LegislationController extends Controller
                     'กำหนดวันสืบพยาน','วันสืบพยาน','กำหนดวันส่งคำบังคับ', 'วันส่งคำบังคับ','กำหนดวันตรวจ',  'วันตรวจผลหมาย','กำหนดวันตั้งเจ้าพนักงาน', 
                     'วันตั้งเจ้าพนักงาน','กำหนดวันตรวจหมายตั้ง', 'วันตรวจผลหมายตั้ง',
                     'กำหนดการคัดหนังสือ','วันที่คัดหนังสือรับรองคดี','วันที่สืบทรัพย์', 'สถานะทรัพย์','กำหนดวันที่คัดโฉนด','วันที่คัดโฉนด',
-                    'กำหนดวันที่ตั้งยึดทรัพย์','วันที่ตั้งเรื่องยึดทรัพย์', 'กำหนดประกาศขาย','สถานะประนอมหนี้', 
+                    'กำหนดวันที่ตั้งยึดทรัพย์','วันที่ตั้งเรื่องยึดทรัพย์', 'กำหนดประกาศขาย', 
                     'วันที่ปิดบัญชี','หมายเหตุ','หยุดรับรู้รายได้','ตัดหนี้0','ยอดตัดหนี้ 0'));
   
                 foreach ($data as $key => $value) {
@@ -2281,11 +2273,12 @@ class LegislationController extends Controller
                     $SetTextAsset = "ไม่มีข้อมูล";
                   }
                   //สถานะประนอมหนี้
-                  if (@$value->Legisasset->Date_Promise != NULL) {
+                  if (@$value->legisCompromise != NULL) {
                     $SetTextCompro = "ประนอมหนี้";
                   }else {
-                    $SetTextCompro = "ไม่มีข้อมูล";
+                    $SetTextCompro = "ไม่ประนอมหนี้";
                   }
+                
                   //ยอดตั้งฟ้อง
                   // if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court != NULL){
                   //   $SetCourtPrice = @$value->legiscourt->capital_court + @$value->legiscourt->indictment_court + @$value->legiscourt->pricelawyer_court;
@@ -2315,6 +2308,13 @@ class LegislationController extends Controller
                   }else{
                    $company = 'CKP';
                   }
+                  $balance = 0;
+                  if(count(@$value->legisCompromiseInact)>0 && @$value->legisCompromiseInact!= NULL){
+                    $balance=@$value->legisCompromiseInact[0]->Total_Promise - ((@$value->legisCompromiseInact->sum('Sum_DuePayPromise')+@$value->legisCompromiseInact->sum('Sum_FirstPromise'))+@$value->legisCompromiseInact->sum('Discount_Promise'));
+
+                  }else{
+                    $balance=@$SetCourtPrice;
+                  }
                   $sheet->row(++$row, array(
                     $key+1,
                    // date_format(date_create(@$value->Date_legis),"d/m/Y"),
@@ -2323,7 +2323,7 @@ class LegislationController extends Controller
                    ParsetoDate(@$value->Date_legis),
                    ParsetoDate(@$value->DateCon_legis),
                     @$Flag[@$value->Flag],
-                    @$Flag_Status[@$value->Flag_status],
+                    @$SetTextCompro,
                     @$value->legisCompromise->Type_Promise,
                     @$value->Contract_legis,
                     'KB',
@@ -2354,7 +2354,7 @@ class LegislationController extends Controller
                     @$value->legisCompromiseInact->sum('Sum_DuePayPromise'),
                     @$value->legisCompromiseInact->sum('Sum_DuePayPromise')+@$value->legisCompromiseInact->sum('Sum_FirstPromise'),
                     @$value->legisCompromiseInact->sum('Discount_Promise'),
-                    @$value->legisCompromiseInact[0]->Total_Promise - ((@$value->legisCompromiseInact->sum('Sum_DuePayPromise')+@$value->legisCompromiseInact->sum('Sum_FirstPromise'))+@$value->legisCompromiseInact->sum('Discount_Promise')),
+                    @$balance                    ,
                     ParsetoDate(@$value->legiscourt->firstpay_date),                   
                     ParsetoDate(@$value->legiscourt->orderexamiday),
                     ParsetoDate($Setexamiday),
@@ -2377,7 +2377,6 @@ class LegislationController extends Controller
                     ParsetoDate(@$value->legiscourtCase->ordeDateSequester),
                     ParsetoDate(@$value->legiscourtCase->dateSequester_case),
                     ParsetoDate(@$value->legiscourtCase->ordeDateSequester),
-                    $SetTextCompro,
                     ParsetoDate(@$value->DateStatus_legis),
                   
                     @$value->Note,

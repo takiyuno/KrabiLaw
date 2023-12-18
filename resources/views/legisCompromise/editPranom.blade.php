@@ -236,7 +236,7 @@
                           <div class="form-group row mb-0">
                             <label class="col-sm-4 col-form-label text-right SizeText text-red">วันที่ชำระล่าสุด :</label>
                             <div class="col-sm-8">
-                              <input type="date" data-date="" value="{{ ($data->legispayments != NULL) ?(substr($data->legispayments->Date_Payyment,0,10)): '' }}" class="form-control form-control-sm SizeText Boxcolor" placeholder="วว/ดด/ปปปป"/>
+                              <input type="date" data-date="" value="{{ ($data->legispayments != NULL) ?(substr($data->legispayments->Date_Payment,0,10)): '' }}" class="form-control form-control-sm SizeText Boxcolor" placeholder="วว/ดด/ปปปป"/>
                             </div>
                           </div>
                         </div>
@@ -997,6 +997,7 @@
                           </tr>
                         </thead>
                         <tbody>
+                         
                           @if(@$dataPay->ComproToPaymentAll)
                          
                           @foreach($dataPay->ComproToPaymentAll as $key => $row)

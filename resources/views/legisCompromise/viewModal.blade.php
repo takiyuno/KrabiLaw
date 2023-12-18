@@ -293,7 +293,7 @@
             </div>
             <div class="text-right">
               
-              @if($data->legisCompromise->Flag_Promise!='Active')
+              @if(@$data->legisCompromise->Flag_Promise!='Active')
                 <button type="submit" class="btn btn-sm btn-warning SizeText hover-up">
                   <i class="fas fa-save"></i> บันทึก
                 </button>

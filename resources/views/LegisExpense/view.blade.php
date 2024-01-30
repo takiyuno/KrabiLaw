@@ -69,7 +69,7 @@
           </div>
             <div class="wizard">
               <nav class="list-group list-group-flush" role="tablist">
-                <a class="list-group-item hover-up @if(isset($FlagTab)) {{($FlagTab == 1) ? 'active' : '' }} @else active @endif" id="vert-tabs-01-tab" data-toggle="tab" href="#list-page1-list">
+                <a class="list-group-item hover-up @if(isset($FlagTab)) {{($FlagTab == 1) ? 'active' : '' }} @else active @endif " id="vert-tabs-01-tab" data-toggle="tab" href="#list-page1-list">
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
                       <i class="fas fa-user-tag mr-1 text-muted"></i>
@@ -80,7 +80,7 @@
                       @endif
                   </div>
                 </a>
-                <a class="list-group-item hover-up @if(isset($FlagTab)) {{($FlagTab == 2) ? 'active' : '' }} @endif" id="vert-tabs-02-tab" data-toggle="tab" href="#list-page2-list">
+                <a class="list-group-item hover-up @if(isset($FlagTab)) {{($FlagTab == 2) ? 'active' : '' }} @endif d-none" id="vert-tabs-02-tab" data-toggle="tab" href="#list-page2-list">
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
                       <i class="fas fa-user-tag mr-1 text-muted"></i>
@@ -102,7 +102,7 @@
                       @endif
                   </div>
                 </a>
-                <a class="list-group-item hover-up @if(isset($FlagTab)) {{($FlagTab == 4) ? 'active' : '' }} @endif" id="vert-tabs-04-tab" data-toggle="tab" href="#list-page4-list">
+                <a class="list-group-item hover-up @if(isset($FlagTab)) {{($FlagTab == 4) ? 'active' : '' }} @endif d-none" id="vert-tabs-04-tab" data-toggle="tab" href="#list-page4-list">
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
                       <i class="fas fa-user-tag mr-1 text-muted"></i>
@@ -166,6 +166,7 @@
                             <a data-toggle="modal" data-target="#modal-edit" data-link="{{ route('MasterExpense.show',[$row->id]) }}?type={{3}}&Flagtype={{1}}&FlagTab={{1}}" class="btn btn-warning btn-sm hover-up {{ (auth::user()->type != 'Admin' and $row->Flag_expense != 'wait') ? 'disabled' : '' }}">
                               <i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ"></i>
                             </a>
+                            @if(auth()->user()->position != "STAFF")
                             <form method="post" class="delete_form" action="{{ route('MasterExpense.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
@@ -175,6 +176,7 @@
                                 <i class="far fa-trash-alt"></i>
                               </button>
                             </form>
+                            @endif
                           </td>
                         </tr>
                       @endforeach
@@ -228,6 +230,7 @@
                             <a data-toggle="modal" data-target="#modal-edit" data-link="{{ route('MasterExpense.show',[$row->Code_expense]) }}?type={{3}}&Flagtype={{2}}&FlagTab={{2}}" class="btn btn-warning btn-sm hover-up {{ (auth::user()->type != 'Admin' and $row->Flag_expense != 'wait') ? 'disabled' : '' }}">
                               <i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ"></i>
                             </a>
+                            @if(auth()->user()->position != "STAFF")
                             <form method="post" class="delete_form" action="{{ route('MasterExpense.destroy',[$row->Code_expense]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="2" />
@@ -237,6 +240,7 @@
                                 <i class="far fa-trash-alt"></i>
                               </button>
                             </form>
+                            @endif
                           </td>
                         </tr>
                       @endforeach
@@ -309,6 +313,7 @@
                             <a data-toggle="modal" data-target="#modal-edit" data-link="{{ route('MasterExpense.show',[$row->id]) }}?type={{3}}&Flagtype={{3}}&FlagTab={{3}}" class="btn btn-warning btn-sm hover-up {{ (auth::user()->type != 'Admin' and $row->Flag_expense == 'complete') ? 'disabled' : '' }}">
                               <i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="แก้ไขรายการ"></i>
                             </a>
+                            @if(auth()->user()->position != "STAFF")
                             <form method="post" class="delete_form" action="{{ route('MasterExpense.destroy',[$row->id]) }}" style="display:inline;">
                             {{csrf_field()}}
                               <input type="hidden" name="type" value="1" />
@@ -318,6 +323,7 @@
                                 <i class="far fa-trash-alt"></i>
                               </button>
                             </form>
+                            @endif
                           </td>
                         </tr>
                       @endforeach

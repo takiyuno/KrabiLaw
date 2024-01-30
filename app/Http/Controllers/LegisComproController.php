@@ -702,7 +702,7 @@ $numDue = 0;
           return $query->where('Flag_Promise','=','InActive');
         }])->first();
 
-        $dataPay  = legisCompromise::where('legislation_id',$id)->whereIn('Flag_Promise',['Active','Complete'])->first();
+        $dataPay  = legisCompromise::where('legislation_id',$id)->whereIn('Flag_Promise',['Active'])->first();
 
         $intamtDue = compromises_paydue::where('legisCompro_id', @$dataPay->id)->get();
 

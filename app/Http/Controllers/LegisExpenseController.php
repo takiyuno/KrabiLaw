@@ -206,7 +206,6 @@ class LegisExpenseController extends Controller
                 }
 
             $LegisExpense = new Legisexpense([
-                'id' => $id,
                 'legislation_id' => $SetID,
                 'Date_expense' => $request->get('DateExpense'),
                 'Type_expense' =>  $request->get('TypeExpense'),

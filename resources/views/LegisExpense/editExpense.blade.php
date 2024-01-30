@@ -27,12 +27,14 @@
                 <!-- <button type="submit" class="btn btn-success btn-sm SizeText hover-up">
                   <i class="fas fa-save"></i> บันทึก
                 </button> -->
+                @if(auth()->user()->position != "STAFF")
                 <button type="button" class="btn btn-sm bg-success SizeText hover-up" data-toggle="modal" data-target="#modal-Popup" data-backdrop="static" data-keyboard="false" data-link="{{ route('MasterExpense.show',[0]) }}?type={{1}}" title="เพิ่มรายการค่าใช้จ่าย">
                   <i class="fas fa-plus"></i> เพิ่ม
                 </button>
                 <a class="btn btn-danger btn-sm SizeText hover-up" href="{{ route('MasterCompro.index') }}?type={{2}}">
                   <i class="far fa-window-close"></i> กลับ
                 </a>
+                @endif
               </div>
             </div>
           </div>
@@ -259,6 +261,7 @@
                                 <a target="_Blank" href="{{ route('MasterExpense.show',[$row->id]) }}?type={{4}}&Flagtype={{1}}&Groupcode={{$row->Code_expense}}" class="btn btn-warning btn-sm hover-up" title="ปริ้นใบเสร็จ">
                                   <i class="fas fa-print"></i>
                                 </a>
+                                @if(auth()->user()->position != "STAFF")
                                 <form method="post" class="delete_form" action="{{ route('MasterExpense.destroy',[$row->id]) }}" style="display:inline;">
                                 {{csrf_field()}}
                                   <input type="hidden" name="type" value="1" />
@@ -267,6 +270,7 @@
                                     <i class="far fa-trash-alt"></i>
                                   </button>
                                 </form>
+                                @endif
                               </td>
                             </tr>
                           @endforeach

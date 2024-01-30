@@ -503,8 +503,9 @@
                   <div class="col-sm-8">
                     <select name="LawyerName" class="form-control form-control-sm SizeText" required>
                       <option value="">--- เลือกผู้รับเงิน ---</option>
-                      <option value="ซารีพะ ยูโซะ" {{ ($data[0]->LawyerName_expense === 'ซารีพะ ยูโซะ') ? 'selected' : '' }}>1. ซารีพะ ยูโซะ</option>
-                      <option value="อารีฟ หัสบู" {{ ($data[0]->LawyerName_expense === 'อารีฟ หัสบู') ? 'selected' : '' }}>2. อารีฟ หัสบู</option>
+                      <option value="พัชรินทร์ ทวีสุข" {{ ($data[0]->LawyerName_expense === 'พัชรินทร์ ทวีสุข') ? 'selected' : '' }}>1. พัชรินทร์ ทวีสุข</option>
+                      <option value="จริยา บ้านนบ" {{ ($data[0]->LawyerName_expense === 'จริยา บ้านนบ') ? 'selected' : '' }}>2. จริยา บ้านนบ</option>
+                      <option value="พรวิมล ทองปิด" {{ ($data[0]->LawyerName_expense === 'พรวิมล ทองปิด') ? 'selected' : '' }}>2. พรวิมล ทองปิด</option>
                     </select>
                   </div>
                 </div>
@@ -593,8 +594,9 @@
                   <div class="col-sm-8">
                     <select name="LawyerName" class="form-control form-control-sm SizeText" required>
                       <option value="">--- เลือกผู้รับเงิน ---</option>
-                      <option value="ซารีพะ ยูโซะ" {{ ($data->LawyerName_expense === 'ซารีพะ ยูโซะ') ? 'selected' : '' }}>1. ซารีพะ ยูโซะ</option>
-                      <option value="อารีฟ หัสบู" {{ ($data->LawyerName_expense === 'อารีฟ หัสบู') ? 'selected' : '' }}>2. อารีฟ หัสบู</option>
+                      <option value="พัชรินทร์ ทวีสุข" {{ ($data->LawyerName_expense === 'พัชรินทร์ ทวีสุข') ? 'selected' : '' }}>1. พัชรินทร์ ทวีสุข</option>
+                      <option value="จริยา บ้านนบ" {{ ($data->LawyerName_expense === 'จริยา บ้านนบ') ? 'selected' : '' }}>2. จริยา บ้านนบ</option>
+                      <option value="พรวิมล ทองปิด" {{ ($data->LawyerName_expense === 'พรวิมล ทองปิด') ? 'selected' : '' }}>2. พรวิมล ทองปิด</option>
                     </select>
                   </div>
                 </div>

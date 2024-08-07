@@ -1018,7 +1018,7 @@
                           </td>
                           <td class="text-left">
                             <span class="dateHide">{{ date_format(date_create(@$row->Legisasset->NewpursueDate_asset), 'Ymd')}}</span>
-                            {{ (@$row->Legisasset->NewpursueDate_asset != NULL) ?FormatDatethai(@$row->Legisasset->NewpursueDate_asset): 'ยังไม่ระบุวันที่' }}
+                            {{ (@$row->Legisasset->sendsequester_asset != NULL) ?FormatDatethai(@$row->Legisasset->NewpursueDate_asset): 'ยังไม่ระบุวันที่' }}
                             </td>
                           {{-- <td class="text-left"> ค้าง </td> --}}
                           <td class="text-left">
@@ -1204,7 +1204,8 @@
                       <tr>
                         <th class="text-center">เลขที่สัญญา</th>
                         <th class="text-center">ชื่อ-สกุล</th>
-                        <th class="text-center">วันที่ตั้งยึดทรัพย์</th>
+                        <th class="text-center">วันที่ชำระล่าสุด</th>
+                        <th class="text-center">วันที่ตั้งยึดทรัพย์</th>                        
                         <th class="text-center">แจ้งเตือน</th>
                         <th class="text-center" style="width: 70px"></th>
                       </tr>
@@ -1255,6 +1256,9 @@
                             @endif
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
+                          <td class="text-center"> 
+                            <span class="dateHide">{{ date_format(date_create(@$row->legispayments->Date_Payment), 'Ymd')}} </span>   
+                            {{(@$row->legispayments->Date_Payment != NULL) ?FormatDatethai(@$row->legispayments->Date_Payment): 'ไม่มีการชำระ' }} </td>
                           <td class="text-center"> 
                           <span class="dateHide">{{ date_format(date_create(@$row->legiscourtCase->dateSequester_case), 'Ymd')}} </span>   
                           {{($row->legiscourtCase->dateSequester_case != NULL) ?FormatDatethai($row->legiscourtCase->dateSequester_case): 'ยังไม่ระบุวันที่' }} </td>

@@ -166,7 +166,7 @@
                   <div class="form-group row mb-0">
                     <label class="col-sm-4 col-form-label text-right text-red"> ยอดปิดบัญชี :</label>
                     <div class="col-sm-8">
-                      <input type="text" id="PriceAccount" name="PriceAccount" value="{{ ($datalegis->PriceStatus_legis != NULL) ?number_format($datalegis->PriceStatus_legis): '' }}" class="form-control form-control-sm SizeText" placeholder="0.00" readonly/>
+                      <input type="text" id="PriceAccount" name="PriceAccount" value="{{ (@$datalegis->PriceStatus_legis != NULL) ?number_format(@$datalegis->PriceStatus_legis): '' }}" class="form-control form-control-sm SizeText" placeholder="0.00" readonly/>
                     </div>
                   </div>
                 </div>

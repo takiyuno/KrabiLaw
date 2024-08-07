@@ -339,9 +339,17 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row mb-0">
-                        <label class="col-sm-4 col-form-label text-right SizeText">ปชช.ผู้ค่ำ :</label>
+                        <label class="col-sm-4 col-form-label text-right SizeText">ปชช.ผู้ค้ำ :</label>
                         <div class="col-sm-8">
                           <input type="text" class="form-control form-control-sm SizeText" value="{{ @$data->IdcardGT_legis }}" data-inputmask="&quot;mask&quot;:&quot;9-9999-99999-99-9&quot;" data-mask=""/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText">เบอร์โทร.ผู้ค้ำ :</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control form-control-sm SizeText" value="{{ @$data->TelGT_legis }}" data-inputmask="&quot;mask&quot;:&quot;9-9999-99999-99-9&quot;" data-mask=""/>
                         </div>
                       </div>
                     </div>

@@ -18,7 +18,7 @@ class legispayment extends Model
   }
   public function PaymentToCompro()
   {
-    return $this->belongsTo(Legiscompromise::class,'legisCompro_id','id');
+    return $this->belongsTo(Legiscompromise::class,'legisCompro_id','id')->latest();
   }
   public function PaymentToTrackings()
   {

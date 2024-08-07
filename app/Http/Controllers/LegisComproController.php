@@ -622,11 +622,13 @@ $numDue = 0;
       }
       elseif ($request->type == 11) { //Report Payments
         $ItemPay = legispayment::where('id', $id)->with('PaymentTolegislation')->first();
-        $SumItemPay = legispayment::where('legislation_id', $ItemPay->legislation_id)
+       // $SumItemPay = legispayment::where('legislation_id', $ItemPay->legislation_id)
+       $SumItemPay = legispayment::where('legisCompro_id', $ItemPay->legisCompro_id)
             ->where('Period_Payment','<=', (int)$ItemPay->Period_Payment)
+            ->where('Flag','<>','C')
             ->sum('Gold_Payment');
 
-        $ItemCompro = Legiscompromise::where('legislation_id',$ItemPay->legislation_id)->first();
+        $ItemCompro = Legiscompromise::where('legislation_id',$ItemPay->legislation_id)->where('Flag_Promise','Active')->first();
 
         $ref_price = '0';
         if ($ItemPay->PaymentTolegislation->TypeCon_legis == 'F01') {
@@ -702,7 +704,7 @@ $numDue = 0;
           return $query->where('Flag_Promise','=','InActive');
         }])->first();
 
-        $dataPay  = legisCompromise::where('legislation_id',$id)->whereIn('Flag_Promise',['Active'])->first();
+        $dataPay  = legisCompromise::where('legislation_id',$id)->whereIn('Flag_Promise',['Active','Complete'])->first();
 
         $intamtDue = compromises_paydue::where('legisCompro_id', @$dataPay->id)->get();
 
@@ -915,7 +917,7 @@ $numDue = 0;
                   }
                   $value->date1 = date('Y-m-d'); 
                 
-                  if($payCash<=0){ 
+                  if($payCash<=0 && ($value->damt-$payCash) != $value->damt ){ 
                     $value->update();
                     break;
                   }else{

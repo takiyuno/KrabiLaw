@@ -49,7 +49,7 @@
             </div>
             <div class="col-4">
               <div class="card-tools d-inline float-right">
-                <form name="form1" method="post" action="{{ route('MasterCompro.update',[$data->id]) }}" enctype="multipart/form-data">
+                {{-- <form name="form1" method="post" action="{{ route('MasterCompro.update',[$data->id]) }}" enctype="multipart/form-data">
                   @csrf
                   @method('put')
                   <input type="hidden" name="type" value="2">
@@ -59,7 +59,7 @@
                   <button type="submit" class="btn btn-info btn-sm SizeText hover-up" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                     <i class="fa-solid fa-download"></i> อัพเดต
                   </button>
-                </form>
+                </form> --}}
                   {{-- @if($data->Flag == 'Y' and @$DateNew > 3) --}}
                     <a href="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" data-name="{{ $data->Contract_legis }}" class="btn btn-danger btn-sm SizeText hover-up DeleteCompro" title="ลบรายการ"  {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                       <i class="far fa-trash-alt"></i> ล้าง
@@ -489,9 +489,9 @@
                   <input type="hidden" name="_method" value="PATCH"/>
                   <input type="hidden" name="GetNote" id="GetNote" value="{{@$data->legisCompromise->Note_Promise}}">
 
-                  <button type="submit" class="btn btn-info btn-sm SizeText hover-up" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
+                  {{-- <button type="submit" class="btn btn-info btn-sm SizeText hover-up" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>
                     <i class="fa-solid fa-download"></i> อัพเดต
-                  </button>
+                  </button> --}}
                   @if( @$data->legisCompromise->Flag_Promise != 'Complete')
 
                   <button type="button" class="btn btn-info btn-sm SizeText hover-up ClearPromise"  id='{{ $data->Contract_legis }}' data-name="{{ route('MasterCompro.edit',[$data->id]) }}?type={{4}}" {{ (@$data->legisCompromise->Flag_Promise == NULL) ? 'disabled' : '' }}>

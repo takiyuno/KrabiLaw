@@ -282,7 +282,7 @@
                     <div class="form-group row mb-0">
                       <label class="col-sm-4 col-form-label text-right SizeText">ระยะเวลา/ค่างวด:</label>                      
                       <div class="col-sm-4">
-                        <input type="number" name="FPeriod_1" id="FPeriod_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FPeriod_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="จำนวนงวด" />
+                        <input type="number" name="FPeriod_1" id="FPeriod_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FPeriod_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="จำนวนงวด" min="1" max="5"/>
                       </div>
                       <div class="col-sm-4">
                         <input type="text" name="FDue_1" id="FDue_1" value="{{ ($data->legisCompromise != NULL) ?$data->legisCompromise->FDue_1: '' }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" />

@@ -837,6 +837,7 @@ class LegislationController extends Controller
           'Pay_legis' => (@$data->STDPRC != NULL ?@$data->STDPRC : NULL),                       //ยอดเงินต้น
           'TopPrice_legis' => (@$data->TOTPRC != NULL ?@$data->TOTPRC : NULL),                  //ยอดทั้งสัญญา
           'DateVAT_legis' => (@$data->DTSTOPV != NULL ? $data->DTSTOPV : NULL),
+          'TelGT_legis' => (@$dataGT != NULL ? (iconv('Tis-620','utf-8',@$dataGT->TELP)) : NULL),
           'NameGT_legis' => (@$dataGT != NULL ? (iconv('Tis-620','utf-8',$dataGT->NAME)) : NULL),
           'IdcardGT_legis' => (@$dataGT != NULL ? (iconv('Tis-620','utf-8',$dataGT->IDNO)) : NULL),
           'AddressGT_legis' => @$SetGTAddress,
@@ -878,6 +879,7 @@ class LegislationController extends Controller
           'Idcard_legis' => (str_replace(" ","",$data->IDNO)),
           'Address_legis' => (iconv('TIS-620', 'utf-8', str_replace(" ","",$data->ADDRES))." ต.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->TUMB))." อ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->AUMPDES))." จ.".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->PROVDES))."  ".iconv('TIS-620', 'utf-8', str_replace(" ","",$data->ZIP))),
           'Phone_legis' => (iconv('Tis-620','utf-8',$data->TELP)),
+          'TelGT_legis' => (@$dataGT != NULL ? (iconv('Tis-620','utf-8',@$dataGT->TELP)) : NULL),
           'NameGT_legis' => (@$dataGT != NULL ? (iconv('Tis-620','utf-8',$dataGT->NAME)) : NULL),
           'IdcardGT_legis' => (@$dataGT != NULL ? (iconv('Tis-620','utf-8',$dataGT->IDNO)) : NULL),
           'AddressGT_legis' => @$SetGTAddress,
@@ -1014,9 +1016,9 @@ class LegislationController extends Controller
         $data = Legislation::find($id);
         $dataPublish = LegisPublishsell::where('legislation_id',$data->id)->where('Flag_publish','=','NOW')->get();
         $data = Legislation::where('id',$id)->with('legiscourt')->first();
-        $dataImages = LegisImage::where('legislation_id',$id)
-            ->whereIn('type_image',[1,11])
-            ->get();
+        // $dataImages = LegisImage::where('legislation_id',$id)
+        //     ->whereIn('type_image',[1,11])
+        //     ->get();
           
           if($data->legiscourt != null){
             $lat = $data->legiscourt->latitude_court;
@@ -1036,7 +1038,7 @@ class LegislationController extends Controller
         }
 
         $type = $request->type;
-        return view('legisCourt.editCourtcase',compact('data','dataPublish','dataImages','id','type','FlagTab','FlagPage','dateSearch','lat','long','Flag_Status','Flag'));
+        return view('legisCourt.editCourtcase',compact('data','dataPublish','id','type','FlagTab','FlagPage','dateSearch','lat','long','Flag_Status','Flag'));
       }
       elseif ($request->type == 6) {  //ชั้นสืบทรัพย์ //รูปโฉนด-แผนที่
         if ($request->has('flag')) {
@@ -1360,35 +1362,35 @@ class LegislationController extends Controller
           $user->update();
         }
 
-        $Legiscourt = Legiscourt::where('legislation_id',$id)->first();
-          $Legiscourt->latitude_court = $request->get('latitude');
-          $Legiscourt->longitude_court = $request->get('longitude');
-        $Legiscourt->update();
+        // $Legiscourt = Legiscourt::where('legislation_id',$id)->first();
+        //   $Legiscourt->latitude_court = $request->get('latitude');
+        //   $Legiscourt->longitude_court = $request->get('longitude');
+        // $Legiscourt->update();
 
-        if ($request->hasFile('file_image')) {
-          $image_array = $request->file('file_image');
-          $contractNo = str_replace("/","",$request->contract);
-          $array_len = count($image_array);
-          // dd($array_len);
-          for ($i=0; $i < $array_len; $i++) {
-            $image_size = $image_array[$i]->getClientSize();
-            $image_lastname = $image_array[$i]->getClientOriginalExtension();
-            $image_new_name = str_random(10).time(). '.' .$image_array[$i]->getClientOriginalExtension();
+        // if ($request->hasFile('file_image')) {
+        //   $image_array = $request->file('file_image');
+        //   $contractNo = str_replace("/","",$request->contract);
+        //   $array_len = count($image_array);
+        //   // dd($array_len);
+        //   for ($i=0; $i < $array_len; $i++) {
+        //     $image_size = $image_array[$i]->getClientSize();
+        //     $image_lastname = $image_array[$i]->getClientOriginalExtension();
+        //     $image_new_name = str_random(10).time(). '.' .$image_array[$i]->getClientOriginalExtension();
 
-            $destination_path = public_path().'/legislation/'.$contractNo;
-            $image_array[$i]->move($destination_path,$image_new_name);
+        //     $destination_path = public_path().'/legislation/'.$contractNo;
+        //     $image_array[$i]->move($destination_path,$image_new_name);
 
-            $Uploaddb = new LegisImage([
-              'legislation_id' => $id,
-              'name_image' => $image_new_name,
-              'size_image' => $image_size,
-              'type_image' => '1', //ข้อมูลโฉนดที่ 1
-              'useradd_image' => $request->get('useradd'),
-            ]);
-            // dd($Uploaddb);
-            $Uploaddb ->save();
-          }
-        }
+        //     $Uploaddb = new LegisImage([
+        //       'legislation_id' => $id,
+        //       'name_image' => $image_new_name,
+        //       'size_image' => $image_size,
+        //       'type_image' => '1', //ข้อมูลโฉนดที่ 1
+        //       'useradd_image' => $request->get('useradd'),
+        //     ]);
+        //     // dd($Uploaddb);
+        //     $Uploaddb ->save();
+        //   }
+        // }
 
         $data = DB::table('legisassets')
                   ->where('legislation_id', $id)->latest('id')->first();
@@ -1410,6 +1412,7 @@ class LegislationController extends Controller
               'User_asset' =>  auth()->user()->name,
               'DateTakephoto_asset' =>  $request->get('Date_Takephoto'),
               'DateGetphoto_asset' =>  $request->get('Date_Getphoto'),
+              'link_document' =>  $request->get('link_document'),
             ]);
             $LegisAsset->save();
         }

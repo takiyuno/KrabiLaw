@@ -19,7 +19,7 @@ class Legislation extends Model
                         'DateCon_legis','Name_legis','Idcard_legis','Address_legis','Phone_legis',
                         'BrandCar_legis','register_legis','YearCar_legis','Mile_legis',
                         'Category_legis','DateDue_legis','TopPrice_legis','Pay_legis','DateSue_legis','DateVAT_legis',
-                        'NameGT_legis','IdcardGT_legis','AddressGT_legis','Realty_legis',
+                        'TelGT_legis','NameGT_legis','IdcardGT_legis','AddressGT_legis','Realty_legis',
                         'Period_legis','Countperiod_legis','Interest_legis','Beforeperiod_legis','Beforemoey_legis','Remainperiod_legis','Staleperiod_legis','Realperiod_legis','Sumperiod_legis',
                         'Note','Flag','dateStopRev','dateCutOff',
                         'Status_legis','UserStatus_legis','DateStatus_legis','PriceStatus_legis','txtStatus_legis','Discount_legis','Paidamount_legis','CostPrice_legis','DateUpState_legis',

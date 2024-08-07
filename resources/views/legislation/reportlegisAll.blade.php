@@ -497,7 +497,7 @@ $default_style = array(
                 $countAsset = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,c.id,c.sequester_asset,c.sendsequester_asset from legislations a
                                 left join legiscourts b on b.legislation_id = a.id
                                 left join legisassets c on c.id= (select max(id) from legisassets where legislation_id = a.id)
-                                where a.Flag = 'Y' and a.Status_legis is null and c.sequester_asset is not null and a.Flag_Class='สถานะสืบทรัพย์บังคับคดี'");
+                                where a.Flag = 'Y' and a.Status_legis is null  and a.Flag_Class='สถานะสืบทรัพย์บังคับคดี'");
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'รายงานสืบทรัพย์');  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -533,7 +533,7 @@ $default_style = array(
                 );         
             /** คัดโฉนด/ถ่ายภาพ**/
           $countPrepare = DB::select(" select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,c.id,
-            d.sequester_asset,c.orderDatepreparedoc,c.datepreparedoc_case
+            d.sequester_asset,c.orderDatepreparedoc,c.datepreparedoc_case,b.adjudicate_price
            from legislations a
            left join legiscourts b on b.legislation_id = a.id
            left join legiscourtcases c on c.legislation_id = a.id
@@ -548,6 +548,7 @@ $default_style = array(
             $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'กำหนดวันคัดโฉนด');  
             $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'วันที่คัดโฉนด');  
             $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'สถานะ');
+            $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ศาลสั่งจ่าย');
             $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':H'.($row+2))->applyFromArray($default_style);
             $sB = 'B'.($row+2);
             $row = $row+2;
@@ -579,6 +580,7 @@ $default_style = array(
                 $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$datepreparedoc));  
                 $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),ParsetoDate(@$value->datepreparedoc_case));  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),$DateShow ); 
+                $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->adjudicate_price ); 
                 $row++;
             } 
             $objPHPExcel->getActiveSheet()->getStyle( $sB.':H'.($row))->applyFromArray(
@@ -807,7 +809,7 @@ $numDue = 0;
                 $numYear = $interval->format('%y');
                 
              // $numDue = @$dataNormal[$j]->legispayments->monthdiff;
-             $numDue = @$value->legisCompromise->HLDNO;
+             $numDue = @$dataNormal[$j]->legisCompromise->HLDNO;
               if ($dataNormal[$j]->legispayments != NULL) {   
                   
                   if($numDue>3) {
@@ -834,9 +836,8 @@ $numDue = 0;
             
           }
 
-$objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปกติ');  
-
-            $objPHPExcel->getActiveSheet()->setCellValue('B4','เลขที่สัญญา');  
+            $objPHPExcel->getActiveSheet()->setCellValue('A4','เลขที่สัญญา');  
+            $objPHPExcel->getActiveSheet()->setCellValue('B4','ประเภทลูกหนี้');  
             $objPHPExcel->getActiveSheet()->setCellValue('C4','ชื่อ-สกุล');  
             $objPHPExcel->getActiveSheet()->setCellValue('D4','สถานะประนอม');  
             $objPHPExcel->getActiveSheet()->setCellValue('E4','ประเภทการประนอม'); 
@@ -880,7 +881,8 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     $non = $Datediff->format("%a days");
                    
                 }
-                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),@$value->Contract_legis);  
+                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'ลูกหนี้ปกติ');  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise); 
@@ -896,32 +898,32 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                 $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
                 $row++;
             } 
-            $objPHPExcel->getActiveSheet()->getStyle( 'B4:L'.($row))->applyFromArray(
-                array(
+            // $objPHPExcel->getActiveSheet()->getStyle( 'B4:L'.($row))->applyFromArray(
+            //     array(
                     
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                            )
-                        )
-                    )
-                );   
-            $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 1 งวด');  
+            //         'borders' => array(
+            //             'allborders' => array(
+            //                 'style' => PHPExcel_Style_Border::BORDER_THIN
+            //                 )
+            //             )
+            //         )
+            //     );   
+            // $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 1 งวด');  
 
-            $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
-            $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
-            $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
-            $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
-            $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
-            $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
-            $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
-            $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
-            $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
-            $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
-            $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ'); 
-            $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
-            $sB = 'B'.($row+2);
-            $row = $row+2;
+            // $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
+            // $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
+            // $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
+            // $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
+            // $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ'); 
+            // $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
+            // $sB = 'B'.($row+2);
+            // $row = $row+1;
             foreach ($data1_1 as  $value) {
                 $non = "0 days";
             
@@ -935,7 +937,8 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     
                     }
                 
-                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),@$value->Contract_legis);
+                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'ลูกหนี้ค้าง 1 งวด');  
                 $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                 $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                 $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
@@ -945,7 +948,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
                     }
                 $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT );  
+                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legisCompromise->EXP_AMT );  
                 $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                 $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
 
@@ -955,32 +958,32 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                 $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
                 $row++;
             } 
-            $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
-                array(
+            // $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
+            //     array(
                     
-                    'borders' => array(
-                        'allborders' => array(
-                            'style' => PHPExcel_Style_Border::BORDER_THIN
-                            )
-                        )
-                    )
-                );   
-                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 2 งวด');  
+            //         'borders' => array(
+            //             'allborders' => array(
+            //                 'style' => PHPExcel_Style_Border::BORDER_THIN
+            //                 )
+            //             )
+            //         )
+            //     );   
+            //     $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 2 งวด');  
 
-                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
-                $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
-                $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
-                $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
-                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
-                $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
-                $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ'); 
-                $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
-                $sB = 'B'.($row+2);
-                $row = $row+2;
+            //     $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
+            //     $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
+            //     $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
+            //     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
+            //     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ'); 
+            //     $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
+            //     $sB = 'B'.($row+2);
+                // $row = $row+1;
                 foreach ($data1_2 as  $value) {
                     $non = "0 days";
                     if ($value->legispayments != NULL){
@@ -992,7 +995,9 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                         $non = $Datediff->format("%a days");
                     
                     }
-                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),@$value->Contract_legis);  
+
+                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'ลูกหนี้ค้าง 2 งวด');  
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
@@ -1002,7 +1007,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
                     // }
                     $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
-                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT );  
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legisCompromise->EXP_AMT );  
                     $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
 
@@ -1012,32 +1017,32 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
                     $row++;
                 } 
-                $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
-                    array(
+                // $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
+                //     array(
                         
-                        'borders' => array(
-                            'allborders' => array(
-                                'style' => PHPExcel_Style_Border::BORDER_THIN
-                                )
-                            )
-                        )
-                    );   
-                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวด');  
+                //         'borders' => array(
+                //             'allborders' => array(
+                //                 'style' => PHPExcel_Style_Border::BORDER_THIN
+                //                 )
+                //             )
+                //         )
+                //     );   
+                // $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวด');  
 
-                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
-                $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
-                $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
-                $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
-                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
-                $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
-                $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ'); 
-                $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
-                $sB = 'B'.($row+2);
-                $row = $row+2;
+                // $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
+                // $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
+                // $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
+                // $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ'); 
+                // $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
+                // $sB = 'B'.($row+2);
+                // $row = $row+1;
                 foreach ($data1_3 as  $value) {
                     $non = "0 days";
                     if ($value->legispayments != NULL){
@@ -1049,7 +1054,8 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                         $non = $Datediff->format("%a days");
                     
                     }
-                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),@$value->Contract_legis);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'ลูกหนี้ค้าง 3 งวด');  
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
@@ -1059,7 +1065,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
                     // }
                     $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
-                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT );  
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legisCompromise->EXP_AMT );  
                     $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
 
@@ -1069,32 +1075,32 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
                     $row++;
                 } 
-                $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
-                    array(
+                // $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
+                //     array(
                         
-                        'borders' => array(
-                            'allborders' => array(
-                                'style' => PHPExcel_Style_Border::BORDER_THIN
-                                )
-                            )
-                        )
-                    );   
-                $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวดขึ้นไป');  
+                //         'borders' => array(
+                //             'allborders' => array(
+                //                 'style' => PHPExcel_Style_Border::BORDER_THIN
+                //                 )
+                //             )
+                //         )
+                //     );   
+                // $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ค้าง 3 งวดขึ้นไป');  
 
-                $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
-                $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
-                $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
-                $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
-                $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
-                $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
-                $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
-                $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
-                $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ');  
-                $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
-                $sB = 'B'.($row+2);
-                $row = $row+2;
+                // $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+2),'LPAYD'); 
+                // $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+2),'ยอดค้าง'); 
+                // $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+2),'ยอดดิว'); 
+                // $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+2),'ยอดที่ชำระ');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('J'.($row+2),'NON');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('K'.($row+2),'ยอดจ่ายมาแล้ว');  
+                // $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+2),'ยอดคงเหลือ');  
+                // $objPHPExcel->getActiveSheet()->getStyle('B'.($row+2).':L'.($row+2))->applyFromArray($default_style);
+                // $sB = 'B'.($row+2);
+                // $row = $row+1;
                 foreach ($data1_4 as  $value) {
                     $non = "0 days";
                     if ($value->legispayments != NULL){
@@ -1106,7 +1112,8 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                         $non = $Datediff->format("%a days");
                     
                     }
-                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),@$value->Contract_legis);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'ลูกหนี้ค้าง 3 งวดขึ้นไป');  
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  
@@ -1116,7 +1123,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     // $kangSum = (@$value->legisCompromise->Due_1*@$value->legispayments->monthdiff );
                     // }
                     $objPHPExcel->getActiveSheet()->setCellValue('F'.($row+1),ParsetoDate(@$value->legispayments->Date_Payment));  
-                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legispayments->EXP_AMT);  
+                    $objPHPExcel->getActiveSheet()->setCellValue('G'.($row+1),@$value->legisCompromise->EXP_AMT);  
                     $objPHPExcel->getActiveSheet()->setCellValue('H'.($row+1),@$value->legisCompromise->Due_1);  
                     $objPHPExcel->getActiveSheet()->setCellValue('I'.($row+1),@$value->legispayments->Gold_Payment);  
                     
@@ -1127,7 +1134,7 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                     $objPHPExcel->getActiveSheet()->setCellValue('L'.($row+1),( floatval((@$value->legisCompromise->Total_Promise)-$sumpay))); 
                     $row++;
                 } 
-                $objPHPExcel->getActiveSheet()->getStyle( $sB.':L'.($row))->applyFromArray(
+                $objPHPExcel->getActiveSheet()->getStyle('B4:L'.($row))->applyFromArray(
                     array(
                         
                         'borders' => array(
@@ -1137,9 +1144,10 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                             )
                         )
                     );   
-                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ลูกหนี้ประนอมไม่มีการชำระ');  
+                      
 
-                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
+                    $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+2),'เลขที่สัญญา'); 
+                    $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'สถานะลูกหนี้'); 
                     $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+2),'ชื่อ-สกุล');  
                     $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+2),'สถานะประนอม');  
                     $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+2),'ประเภทการประนอม'); 
@@ -1171,7 +1179,8 @@ $objPHPExcel->getActiveSheet()->setCellValue('A3','ลูกหนี้ปก�
                         
                     
                         
-                        $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),@$value->Contract_legis);  
+                        $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),@$value->Contract_legis);  
+                        $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+1),'ลูกหนี้ประนอมไม่มีการชำระ');  
                         $objPHPExcel->getActiveSheet()->setCellValue('C'.($row+1),@$value->Name_legis);  
                         $objPHPExcel->getActiveSheet()->setCellValue('D'.($row+1),$Flag[@$value->Flag]);  
                         $objPHPExcel->getActiveSheet()->setCellValue('E'.($row+1),@$value->legisCompromise->Type_Promise);  

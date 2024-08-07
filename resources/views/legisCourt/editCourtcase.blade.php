@@ -668,13 +668,13 @@
                               }   
                             @endphp
                             <div class="form-group row mb-0">
-                              <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ครั้งแรก :</label>
+                              <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ :</label>
                               <div class="col-sm-7">
                                 <input type="date" id="sequesterasset" name="sequesterasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->sequester_asset }}" {{ $chkReadOnly}}/>
                               </div>
                             </div>
                             <div class="form-group row mb-0">
-                              <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ใหม่ :</label>
+                              <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ถัดไป:</label>
                               <div class="col-sm-7">
                                 <input type="date" id="NewpursueDateasset" name="NewpursueDateasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->NewpursueDate_asset }}" readonly/>
                               </div>
@@ -747,8 +747,8 @@
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">คัดโฉนด/ถ่ายภาพ/หนังสือประเมิณราคา <span class="textHeader">(30 วัน)</span></h6>
                         <div id="icetab-container">
                           <div class="icetab current-tab">ข้อมูลคัดโฉนด</div>
-                          <div class="icetab">รูปโฉนด</div>  
-                          <div class="icetab">แผนที่โฉนด</div>  
+                          {{-- <div class="icetab">รูปโฉนด</div>  
+                          <div class="icetab">แผนที่โฉนด</div>   --}}
                         </div>
                         <div id="icetab-content">
                           <div class="tabcontent tab-active">
@@ -768,31 +768,23 @@
                                   </div>
                                 </div>
                                 <div class="form-group row mb-0">
-                                  <label class="col-sm-4 col-form-label text-right SizeText">วันที่ส่งถ่ายภาพ :</label>
+                                  <label class="col-sm-4 col-form-label text-right SizeText">วันที่ถ่ายภาพ :</label>
                                   <div class="col-sm-7">
                                     <input type="date" name="Date_Takephoto" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateTakephoto_asset }}"/>
                                   </div>
                                 </div>
                                 <div class="form-group row mb-0">
+                                  <label class="col-sm-4 col-form-label text-right SizeText">Link ข้อมูลการฟ้อง :</label>
+                                  <div class="col-sm-7">
+                                    <input type="date" name="file_image" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateTakephoto_asset }}"/>
+                                  </div>
+                                </div>
+                                {{-- <div class="form-group row mb-0">
                                   <label class="col-sm-4 col-form-label text-right SizeText">วันที่ได้รับภาพ :</label>
                                   <div class="col-sm-7">
                                     <input type="date" name="Date_Getphoto" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateGetphoto_asset }}"/>
                                   </div>
-                                </div>
-                                <hr>
-                                <div class="form-group row mb-0">
-                                  <label class="col-sm-4 col-form-label text-right SizeText">วันที่ทำหนังสือประเมิณ :</label>
-                                  <div class="col-sm-7">
-                                    <input type="date" name="Date_predict" class="form-control form-control-sm SizeText" value="{{ @$data->legiscourtCase->datePredict_case }}"/>
-                                  </div>
-                                </div>
-                                <div class="form-group row mb-0">
-                                  <label class="col-sm-4 col-form-label text-right SizeText">ราคาประเมิณ :</label>
-                                  <div class="col-sm-7">
-                                    <input type="number" name="Price_predict" class="form-control form-control-sm SizeText" value="{{ @$data->legiscourtCase->pricePredict_case }}"/>
-                                  </div>
-                                </div>
-                                <br><br>
+                                </div> --}}
                               </div>
                               <div class="col-md-5" >
                                   <div class="card card-info" style="margin-right: 15px;">
@@ -813,7 +805,7 @@
                               </div>
                             </div>
                           </div> 
-                          <div class="tabcontent">     
+                          {{-- <div class="tabcontent">     
                             <br>         
                             <div class="row">
                               <div class="col-md-6">
@@ -862,8 +854,8 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="tabcontent">     
+                          </div> --}}
+                          {{-- <div class="tabcontent">     
                             <br>         
                             <div class="row">
                               <div class="col-md-6">
@@ -901,7 +893,7 @@
 
                               
                             </div>
-                          </div>
+                          </div> --}}
                         </div> 
                       </div>
                       <div id="list-page4-list" class="container tab-pane {{ ($FlagTab === 4) ? 'active' : '' }}">
@@ -921,6 +913,19 @@
                                 </div>
                               </div>
                             </div>
+                            {{-- <hr>
+                            <div class="form-group row mb-0">
+                              <label class="col-sm-4 col-form-label text-right SizeText">วันที่ทำหนังสือประเมิณ :</label>
+                              <div class="col-sm-7">
+                                <input type="date" name="Date_predict" class="form-control form-control-sm SizeText" value="{{ @$data->legiscourtCase->datePredict_case }}"/>
+                              </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                              <label class="col-sm-4 col-form-label text-right SizeText">ราคาประเมิณ :</label>
+                              <div class="col-sm-7">
+                                <input type="number" name="Price_predict" class="form-control form-control-sm SizeText" value="{{ @$data->legiscourtCase->pricePredict_case }}"/>
+                              </div>
+                            </div> --}}
                             <div class="col-md-5">
                                 <div class="card card-info">
                                   <div class="card-header">
@@ -964,6 +969,7 @@
                                 <div class="col-sm-7">
                                   <select id="ResultSequester" name="ResultSequester" class="form-control form-control-sm SizeText">
                                     <option value="" selected>--- เลือกผล ---</option>
+                                    <option value="ชลอการขาย" {{ (@$data->legiscourtCase->resultsequester_case === 'ชลอการขาย') ? 'selected' : '' }}>ชลอการขาย</option>
                                     <option value="ขายได้" {{ (@$data->legiscourtCase->resultsequester_case === 'ขายได้') ? 'selected' : '' }}>ขายได้</option>
                                     <option value="ขายไม่ได้" {{ (@$data->legiscourtCase->resultsequester_case === 'ขายไม่ได้') ? 'selected' : '' }}>ขายไม่ได้</option>
                                   </select>

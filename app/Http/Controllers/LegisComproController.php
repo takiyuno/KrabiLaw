@@ -628,7 +628,7 @@ $numDue = 0;
             ->where('Flag','<>','C')
             ->sum('Gold_Payment');
 
-        $ItemCompro = Legiscompromise::where('legislation_id',$ItemPay->legislation_id)->where('Flag_Promise','Active')->first();
+      $ItemCompro = Legiscompromise::where('legislation_id',$ItemPay->legislation_id)->whereIN('Flag_Promise',['Active','Complete'])->orderBy('id','DESC')->first();
 
         $ref_price = '0';
         if ($ItemPay->PaymentTolegislation->TypeCon_legis == 'F01') {

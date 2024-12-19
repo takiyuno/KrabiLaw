@@ -625,6 +625,38 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">เงินต้นคงเหลือ :</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="arBalance" value="{{ @$data->arBalance }}" class="form-control form-control-sm SizeText" {{@$data->arBalance>0?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">Vatคงเหลือ :</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="arTaxBalane" value="{{ @$data->arTaxBalane }}" class="form-control form-control-sm SizeText" {{@$data->arTaxBalane>0?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">ดอกเบี้ยคงเหลือ:</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="arInterest" value="{{ @$data->arInterest }}" class="form-control form-control-sm SizeText" {{@$data->arInterest>0?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group row mb-0">
+                        <label class="col-sm-4 col-form-label text-right SizeText text-red">ค่าอื่นๆ:</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="arOth" value="{{ @$data->arOth }}" class="form-control form-control-sm SizeText" {{@$data->arOth>0?'readonly':''}}/>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600 SubHeading SizeText">เอกสาร <span class="textHeader">(Documents)</span></h6>
                   <div class="row">

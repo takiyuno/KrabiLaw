@@ -14,7 +14,7 @@
       <div class="card-body text-sm">   
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="row textSize">
-          <div class="col-6">
+          {{-- <div class="col-6">
             <div class="form-group row mb-0">
               <label class="col-sm-3 col-form-label text-right textSize">ฐานลูกหนี้ : </label>
               <div class="col-sm-9">
@@ -25,12 +25,11 @@
                   <option value="6">3. ลูกหนี้ขายฝาก (PSFHP)</option>
                   <option value="" class="text-red">--------- ฐานลูกหนี้เก่า -------</option>
                   <option value="2">1. ลูกหนี้เช่าซื้อเก่า (ASFHP)</option>
-                  <!-- <option value="4">2. ลูกหนี้ขายฝากเก่า (LSFHP)</option>
-                  <option value="5">3. ลูกหนี้หลุดขายฝากเก่า (LSFHP)</option> -->
+               
                 </select>
               </div>
             </div>
-          </div> 
+          </div>  --}}
           <div class="col-6">
             <div class="card-tools d-inline float-right">
               <div class="input-group form-inline">

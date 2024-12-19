@@ -1068,10 +1068,13 @@
                                             <td>วันที่</td>
                                             <td>ผล</td>
                                           </tr> -->
-                                          @foreach($dataPublish as $key => $row)
+                                          @php
+                                              $key = 1;
+                                          @endphp
+                                          @foreach($dataPublish->sortBy('id') as  $row)
                                             @if($row->Dateset_publish != NULL)
                                             <tr>
-                                              <td width="20px">{{$key+1}}</td>
+                                              <td width="20px">{{$key}}</td>
                                               <td width="150px">{{formatDateThaiLong($row->Dateset_publish)}}</td>
                                               <td>
                                               @if($data->legiscourtCase->datesoldout_case != NULL)
@@ -1094,6 +1097,9 @@
                                               </td>
                                             </tr>
                                             @endif
+                                            @php
+                                                $key++;
+                                            @endphp
                                           @endforeach
                                         </table>
                                     <!-- </div> -->

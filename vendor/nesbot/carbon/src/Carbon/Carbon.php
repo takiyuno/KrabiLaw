@@ -914,7 +914,7 @@ class Carbon extends DateTime implements JsonSerializable
             return $instance;
         }
 
-        throw new InvalidArgumentException(implode(PHP_EOL, $lastErrors['errors']));
+        //throw new InvalidArgumentException(implode(PHP_EOL, $lastErrors['errors']));
     }
 
     /**

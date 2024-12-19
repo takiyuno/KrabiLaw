@@ -109,7 +109,7 @@
           </th>
           <th width="205px" style="">
             @php
-              if($ItemCompro->Due_1 != 0){
+              if(@$ItemCompro->Due_1 != 0){
                 $SetPaydue = $ItemCompro->Due_1;
               }else{
                 $SetPaydue = $ItemCompro->DuePay_Promise;

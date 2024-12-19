@@ -16,7 +16,7 @@
         height: 200px;
     }
 </style>
-
+ 
 @if($type == 1)     {{-- ดึงรายชื่อ เข้าระบบ --}}
     <section class="content" style="font-family: 'Prompt', sans-serif;">
         @if ($data != NULL)
@@ -30,9 +30,9 @@
                                 </div>
                                 <h5 class="f-w-600">{{$data->CONTNO}}</h5>
                                 <p>       
-                                    {{(iconv('TIS-620', 'utf-8', str_replace(" ","",$data->SNAM)))}}
-                                    {{(iconv('TIS-620', 'utf-8', str_replace(" ","",$data->NAME1)))}}
-                                    {{(iconv('TIS-620', 'utf-8', str_replace(" ","",$data->NAME2)))}}
+                                    {{ $data->Prefix }}
+                                    {{ $data->Firstname_Cus }}
+                                    {{ $data->Surname_Cus }}
                                 </p> 
                                 <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                             </div>
@@ -70,7 +70,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดตั้งหนี้สูญ:</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" name="RateCutOff" value="{{($data->TOTPRC - $data->SMPAY)-@$dataArpay[0]->NPROF}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" name="RateCutOff" value="{{$data->TBOOKVALUE}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะทรัพย์ :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{@$SetRealty}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{@$data->Vehicle_Chassis!=NULL?'มีทรัพย์':'ไม่มีทรัพย์'}}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,7 +164,7 @@
                             
                             <input type="hidden" name="Flag_DB" value="{{$DB_type}}"/>
                             <input type="hidden" name="type" value="{{$DB_type}}"/>
-                            <input type="hidden" name="Contno" value="{{$Contract}}"/>
+                            <input type="hidden" name="Contno" value="{{$data->CONTNO}}"/>
                             <input type="hidden" name="_method" value="PATCH"/>
                         </div>
                     </div>

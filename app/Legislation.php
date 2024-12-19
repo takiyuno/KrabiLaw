@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Legislation extends Model
 {
   protected $table = 'legislations';
-  protected $fillable = ['TypeDB_Legis','Date_legis','Contract_legis','TypeCon_legis','LOCAT',
+  protected $fillable = ['TypeDB_Legis','Date_legis','Contract_legis','TypeCon_legis','TypeCon_Name','LOCAT',
                         'DateCon_legis','Name_legis','Idcard_legis','Address_legis','Phone_legis',
                         'BrandCar_legis','register_legis','YearCar_legis','Mile_legis',
                         'Category_legis','DateDue_legis','TopPrice_legis','Pay_legis','DateSue_legis','DateVAT_legis',
@@ -25,7 +25,8 @@ class Legislation extends Model
                         'Status_legis','UserStatus_legis','DateStatus_legis','PriceStatus_legis','txtStatus_legis','Discount_legis','Paidamount_legis','CostPrice_legis','DateUpState_legis',
                         'Flag_Class','Flag_status','Datesend_Flag','Noteby_legis','UserSend1_legis','UserSend2_legis','UseClear_Legiscom','DateClear_Legiscom','CountClear_Legiscom',
                         'Terminatebuyer_list','Terminatesupport_list','Acceptbuyerandsup_list','Twodue_list','AcceptTwodue_list',
-                        'Confirm_list','Accept_list','Notice_list','AcceptTwoNotice_list','RateCutOff'];
+                        'Confirm_list','Accept_list','Notice_list','AcceptTwoNotice_list','RateCutOff','arBalance' ,
+                          'arTaxBalane' ,'arInterest' ,'arOth'];
 
 
   public function legiscourt()
@@ -78,7 +79,8 @@ class Legislation extends Model
   public function LegisPublishLast()
   {
     return $this->hasOne(LegisPublishsell::class,'legislation_id','id')
-    ->where('Dateset_publish','>',date('Y-m-d'))->where('Flag_publish','=','NOW')->oldest();
+    ->where('Flag_publish','=','NOW')->latest();
+    // ->where('Dateset_publish','>',date('Y-m-d'))
   }
   
   public function legisTrackings()

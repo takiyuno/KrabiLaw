@@ -378,7 +378,7 @@
                           @if(auth::user()->position=="Admin")
                           <select class="form-control form-control-sm SizeText" readonly>
                             <option value="" selected>--- สถานะลูกหนี้ ---</option>
-                            <option value="1" {{ ($data->Flag_status == 1) ? 'selected' : '' }}>ไม่ประนอมหนี้</option>
+                            <option value="1" {{ ($data->Flag_status == 1) ? 'selected' : '' }}>เตรียม</option>
                             <option value="2" {{ ($data->Flag_status == 2) ? 'selected' : '' }}>ไม่ประนอมหนี้</option>
                             <option value="3" {{ ($data->Flag_status == 3) ? 'selected' : '' }}>ประนอมหนี้</option>
                           </select>

@@ -98,11 +98,11 @@
                      
                           <select id="TypePromise" name="TypePromise" class="form-control form-control-sm SizeText" required>
                             <option value="" selected>--- เลือกประนอม ---</option>
-                            <option value="ประนอมที่ศาล" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
-                            <option value="ประนอมหนี้ก่อนฟ้อง" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้ก่อนฟ้อง') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
-                            <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
+                            <option value="ชำระหนี้ตามคำพิภากษาตามยอม" {{ (@$data->legisCompromise->Type_Promise === 'ชำระหนี้ตามคำพิภากษาตามยอม') ? 'selected' : '' }}>01. ชำระหนี้ตามคำพิภากษาตามยอม</option>
+                            <option value="ประนอมหนี้บริษัท" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้บริษัท</option>
+                            {{-- <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
                             <option value="ประนอมขายฝาก" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมขายฝาก') ? 'selected' : '' }}>04. ประนอมขายฝาก</option>
-                            <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
+                            <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option> --}}
                           </select>
                         
                       </div>
@@ -330,7 +330,7 @@
               <div class="form-group row mb-0">
                 <label class="col-sm-4 col-form-label text-right">วันที่รับชำระ : </label>
                 <div class="col-sm-8">
-                  <input type="date"  id="DatePayment" name="DatePayment" class="form-control form-control-sm SizeText" value="{{date('Y-m-d') }}" />
+                  <input type="date"  id="DatePayment" name="DatePayment" class="form-control form-control-sm SizeText" value="{{date('Y-m-d') }}"  max="{{date('Y-m-d')}}"/>
                 </div>
               </div>
             </div>
@@ -366,6 +366,8 @@
                     @endif
                     <option value="ชำระเงินสด" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T03. ชำระเงินสด</option>
                     <option value="ชำระผ่านโอน" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T04. ชำระผ่านโอน</option>
+                    <option value="ปรับโครงสร้างหนี้" {{ ($SetFirstMoney <= 0) ? '' : 'disabled' }}>T05. ปรับโครงสร้างหนี้</option>
+                   
                     {{-- <option value="ชำระผ่านธนานัติ" {{ ($SetFirstMoney >= 0) ? '' : 'disabled' }}>T05. ชำระผ่านธนานัติ</option> --}}
                   </select>
                 </div>

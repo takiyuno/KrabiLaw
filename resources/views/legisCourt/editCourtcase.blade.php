@@ -2,7 +2,13 @@
 @section('title','กฏหมาย/ลูกหนี้ชั้นบังคับคดี')
 @section('content')
 
-  <style>
+<style>
+  .readonly-div {
+    background-color: #f9f9f9;
+    color: #666;
+    pointer-events: none; /* Prevent interaction like clicks */
+  }
+ 
     #todo-list{
       width:100%;
       /* margin:0 auto 50px auto; */
@@ -570,7 +576,7 @@
                           @if($data->Flag_Class == 'สถานะสืบทรัพย์บังคับคดี' or $data->Flag_Class == 'สถานะคัดโฉนด' or $data->Flag_Class == 'สถานะตั้งยึดทรัพย์' or $data->Flag_Class == 'ประกาศขายทอดตลาด' or $data->Flag_Class == 'จบงานชั้นบังคับคดี')
                             <i class="far fa-check-square text-success"></i>
                           @endif  
-                          คัดหนังสือรับรองคดี
+                          คัดหนังสือรับรองคดี 
                         </a>
                       </li>
                       <li class="nav-item">
@@ -610,8 +616,8 @@
                   <br/><br/><br/>
                   <div class="col-md-12">
                     <div class="tab-content">
-                      <div id="list-page1-list" class="container tab-pane {{ ($FlagTab === 1) ? 'active' : '' }}">
-                        <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">คัดหนังสือรับรองคดีถึงที่สุด <span class="textHeader">(15-30 วัน)</span></h6>
+                      <div id="list-page1-list" class="container  tab-pane {{ ($FlagTab === 1) ? 'active' : '' }}  {{ ($FlagTab === 1 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}  ">
+                        <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">คัดหนังสือรับรองคดีถึงที่สุด  <span class="textHeader">(15-30 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-7">
                               <div class="form-group row mb-0">
@@ -647,7 +653,7 @@
                             </div>
                           </div>
                       </div>
-                      <div id="list-page2-list" class="container tab-pane {{ ($FlagTab === 2) ? 'active' : '' }}">
+                      <div id="list-page2-list" class="container tab-pane {{ ($FlagTab === 2) ? 'active' : '' }} {{ ($FlagTab === 2 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                       <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">สืบทรัพย์(บังคับคดี) <span class="textHeader">(15-30 วัน)</span></h6>
                         <div class="row">
                           <div class="col-md-7">
@@ -743,7 +749,7 @@
                         </div>
                         @endif
                       </div>
-                      <div id="list-page3-list" class="container tab-pane {{ ($FlagTab === 3) ? 'active' : '' }}">
+                      <div id="list-page3-list" class="container tab-pane {{ ($FlagTab === 3) ? 'active' : '' }} {{ ($FlagTab === 3 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">คัดโฉนด/ถ่ายภาพ/หนังสือประเมิณราคา <span class="textHeader">(30 วัน)</span></h6>
                         <div id="icetab-container">
                           <div class="icetab current-tab">ข้อมูลคัดโฉนด</div>
@@ -776,7 +782,7 @@
                                 <div class="form-group row mb-0">
                                   <label class="col-sm-4 col-form-label text-right SizeText">Link ข้อมูลการฟ้อง :</label>
                                   <div class="col-sm-7">
-                                    <input type="date" name="file_image" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateTakephoto_asset }}"/>
+                                    <input type="text" name="file_image" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateTakephoto_asset }}"/>
                                   </div>
                                 </div>
                                 {{-- <div class="form-group row mb-0">
@@ -896,7 +902,7 @@
                           </div> --}}
                         </div> 
                       </div>
-                      <div id="list-page4-list" class="container tab-pane {{ ($FlagTab === 4) ? 'active' : '' }}">
+                      <div id="list-page4-list" class="container tab-pane {{ ($FlagTab === 4) ? 'active' : '' }} {{ ($FlagTab === 4 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ตั้งเรื่องยึดทรัพย์ <span class="textHeader">(15 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-7">

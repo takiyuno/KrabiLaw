@@ -62,7 +62,7 @@
                                             <div class="form-group row mb-0">
                                             <label class="col-sm-4 col-form-label text-right SizeText text-red">ยอดคงเหลือ :</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{number_format($data->TOTPRC - $data->SMPAY, 2)}}"/>
+                                                    <input type="text" class="form-control form-control-sm SizeText SizeText" value="{{number_format($data->TOTPRC - $data->SMPAY??0, 2)}}"/>
                                                 </div>
                                             </div>
                                         </div>

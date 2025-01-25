@@ -3,6 +3,11 @@
 @section('content')
 
   <style>
+    .readonly-div {
+    background-color: #f9f9f9;
+    color: #666;
+    pointer-events: none; /* Prevent interaction like clicks */
+  }
     #todo-list{
       width:100%;
       margin:0 auto 50px auto;
@@ -400,7 +405,7 @@
                   <br/><br/><br/>
                   <div class="col-md-12">
                     <div class="tab-content">
-                      <div id="list-page1-list" class="container tab-pane {{ ($FlagTab === 1) ? 'active' : '' }}">
+                      <div id="list-page1-list" class="container tab-pane {{ ($FlagTab === 1) ? 'active' : '' }} {{ ($FlagTab === 1 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนฟ้อง <span class="textHeader">(45-60 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-4">
@@ -482,7 +487,7 @@
                             </div>
                           </div>
                       </div>
-                      <div id="list-page2-list" class="container tab-pane {{ ($FlagTab === 2) ? 'active' : '' }}">
+                      <div id="list-page2-list" class="container tab-pane {{ ($FlagTab === 2) ? 'active' : '' }} {{ ($FlagTab === 2 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนสืบพยาน <span class="textHeader">(30 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-4">
@@ -554,7 +559,7 @@
                           </div>
                          
                       </div>
-                      <div id="list-page3-list" class="container tab-pane {{ ($FlagTab === 3) ? 'active' : '' }}">
+                      <div id="list-page3-list" class="container tab-pane {{ ($FlagTab === 3) ? 'active' : '' }} {{ ($FlagTab === 3 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนส่งคำบังคับ <span class="textHeader">(45 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-4">
@@ -601,7 +606,7 @@
                             </div>
                           </div>
                       </div>
-                      <div id="list-page4-list" class="container tab-pane {{ ($FlagTab === 4) ? 'active' : '' }}">
+                      <div id="list-page4-list" class="container tab-pane {{ ($FlagTab === 4) ? 'active' : '' }} {{ ($FlagTab === 4 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนตรวจผลหมาย <span class="textHeader">(45 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-4">
@@ -678,7 +683,7 @@
                             </div>
                           </div>
                       </div>
-                      <div id="list-page5-list" class="container tab-pane {{ ($FlagTab === 5) ? 'active' : '' }}">
+                      <div id="list-page5-list" class="container tab-pane {{ ($FlagTab === 5) ? 'active' : '' }} {{ ($FlagTab === 5 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนตั้งเจ้าพนักงาน <span class="textHeader">(45 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-4">
@@ -717,7 +722,7 @@
                             </div>
                           </div>
                       </div>
-                      <div id="list-page6-list" class="container tab-pane {{ ($FlagTab === 6) ? 'active' : '' }}">
+                      <div id="list-page6-list" class="container tab-pane {{ ($FlagTab === 6) ? 'active' : '' }} {{ ($FlagTab === 6 || Auth()->user()->position =='Admin' ) ? '' : 'readonly-div' }}">
                         <h6 class="m-b-20 p-b-5 b-b-default f-w-600 SubHeading SizeText">ขั้นตอนตรวจผลหมายตั้ง <span class="textHeader">(45 วัน)</span></h6>
                           <div class="row">
                             <div class="col-md-4">

@@ -641,11 +641,11 @@
                              
                                 <select class="form-control form-control-sm SizeText">
                                   <option value="" selected>--- เลือกประนอม ---</option>
-                                  <option value="ประนอมที่ศาล" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมที่ศาล') ? 'selected' : '' }}>01. ประนอมที่ศาล</option>
-                                  <option value="ประนอมหนี้ก่อนฟ้อง" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้ก่อนฟ้อง') ? 'selected' : '' }}>02. ประนอมหนี้ก่อนฟ้อง</option>
-                                  <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
+                                  <option value="ชำระหนี้ตามคำพิภากษาตามยอม" {{ (@$data->legisCompromise->Type_Promise === 'ชำระหนี้ตามคำพิภากษาตามยอม') ? 'selected' : '' }}>01. ชำระหนี้ตามคำพิภากษาตามยอม</option>
+                                  <option value="ประนอมหนี้บริษัท" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้บริษัท') ? 'selected' : '' }}>02. ประนอมหนี้บริษัท</option>
+                                  {{-- <option value="จำนำทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'จำนำทรัพย์') ? 'selected' : '' }}>03. จำนำทรัพย์</option>
                                   <option value="ประนอมขายฝาก" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมขายฝาก') ? 'selected' : '' }}>04. ประนอมขายฝาก</option>
-                                  <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option>
+                                  <option value="ประนอมหนี้หลังยึดทรัพย์" {{ (@$data->legisCompromise->Type_Promise === 'ประนอมหนี้หลังยึดทรัพย์') ? 'selected' : '' }}>05. ประนอมหนี้หลังยึดทรัพย์</option> --}}
                                   
                                 </select>
                           

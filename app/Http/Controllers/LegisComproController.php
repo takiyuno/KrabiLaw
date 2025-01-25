@@ -860,34 +860,42 @@ $numDue = 0;
 
             $paydue = 0;
 
-            $updateDue = compromises_firstdue::where("legisCompro_id",$LegisCompro->id)->whereRaw('damt-payment >0 order by nopay asc')->get();
-
-            foreach ($updateDue as $key => $value) {
-              $payCash = (floatval($payCash)+floatval($value->payment))- $paydue;
-
-              if ($payCash >=$value->damt) {
-                $value->payment = $value->damt;
-                $paydue = $value->damt;
-              }else{
-                if($payCash>=0 && $payCash>=$value->damt){
-                  $value->payment = $value->damt;
-                  $paydue = $paydue+$value->damt;
-                }else{
-                  $value->payment = $payCash;
-                  $payCash=0;
-                }    
-              }
-              $value->date1 = date('Y-m-d'); 
+            $updateDue = compromises_firstdue::where("legisCompro_id", $LegisCompro->id)
+                ->whereRaw('damt - payment > 0')
+                ->orderBy('nopay', 'asc')
+                ->get();
             
-              if($payCash<=0){ 
-                $value->update();
-                break;
-              }else{
-                $value->update();
-              }
-              
-            
-            }
+                foreach ($updateDue as $value) {
+                    // คำนวณยอดเงินคงเหลือ
+                    $payCash = (floatval($payCash) + floatval($value->payment)) - $paydue;
+                
+                    if ($payCash >= $value->damt) {
+                        // กรณีมียอดเงินพอชำระเต็มจำนวน
+                        $value->payment = $value->damt;
+                        $paydue = $value->damt;
+                        $value->date1 = date('Y-m-d');
+                    } elseif ($payCash > 0) {
+                        // กรณีชำระได้บางส่วน
+                        $value->payment = $payCash;
+                        $paydue += $payCash;
+                        $payCash = 0;
+                        $value->date1 = date('Y-m-d');
+                    } else {
+                        // กรณีไม่มีเงินเพียงพอ
+                        $value->payment = 0;
+                    }
+                
+                    // อัปเดตวันที่เป็นปัจจุบัน
+                   
+                
+                    // บันทึกข้อมูลการอัปเดต
+                    $value->update();
+                
+                    // หยุดลูปเมื่อยอดเงินหมด
+                    if ($payCash <= 0) {
+                        break;
+                    }
+                }
 
           }else {
             $FlagTab = 2;
@@ -898,34 +906,70 @@ $numDue = 0;
 
                 $paydue = 0;
 
-                $updateDue = compromises_paydue::where("legisCompro_id",$LegisCompro->id)->whereRaw('damt-payment >0 order by nopay asc')->get();
+                $updateDue = compromises_paydue::where("legisCompro_id", $LegisCompro->id)
+                        ->whereRaw('damt - payment > 0')
+                        ->orderBy('nopay', 'asc')
+                        ->get();
 
-                foreach ($updateDue as $key => $value) {
-                  $payCash = (floatval($payCash)+floatval($value->payment))- $paydue;
+                // foreach ($updateDue as $key => $value) {
+                //   $payCash = (floatval($payCash)+floatval($value->payment))- $paydue;
 
-                  if ($payCash >=$value->damt) {
-                    $value->payment = $value->damt;
-                    $paydue = $value->damt;
-                  }else{
-                    if($payCash>=0 && $payCash>=$value->damt){
-                      $value->payment = $value->damt;
-                      $paydue = $paydue+$value->damt;
-                    }else{
-                      $value->payment = $payCash;
-                      $payCash=0;
-                    }    
-                  }
-                  $value->date1 = date('Y-m-d'); 
+                //   if ($payCash >=$value->damt) {
+                //     $value->payment = $value->damt;
+                //     $paydue = $value->damt;
+                //   }else{
+                //     if($payCash>=0 && $payCash>=$value->damt){
+                //       $value->payment = $value->damt;
+                //       $paydue = $paydue+$value->damt;
+                //     }else{
+                //       $value->payment = $payCash;
+                //       $payCash=0;
+                //     }    
+                //   }
+                //   $value->date1 = date('Y-m-d'); 
                 
-                  if($payCash<=0 && ($value->damt-$payCash) != $value->damt ){ 
-                    $value->update();
-                    break;
-                  }else{
-                    $value->update();
-                  }
+                //   if($payCash<=0 && ($value->damt-$payCash) != $value->damt ){ 
+                //     $value->update();
+                //     break;
+                //   }else{
+                //     $value->update();
+                //   }
                   
                 
-                }
+                // }
+                foreach ($updateDue as $value) {
+                  // คำนวณยอดที่เหลือหลังการชำระเงิน
+                  $payCash = (floatval($payCash) + floatval($value->payment)) - $paydue;
+              
+                  if ($payCash >= $value->damt) {
+                      // กรณีที่สามารถชำระเต็มจำนวน
+                      $value->payment = $value->damt;
+                      $paydue = $value->damt;
+                      $value->date1 = date('Y-m-d');
+                  } else {
+                      if ($payCash > 0) {
+                          // กรณีที่ชำระได้บางส่วน
+                          $value->payment = $payCash;
+                          $paydue += $payCash;
+                          $payCash = 0; // ยอดคงเหลือหมด
+                          $value->date1 = date('Y-m-d');
+                      } else {
+                          // กรณีที่ยอดเงินไม่พอจ่าย
+                          $value->payment = 0;
+                      }
+                  }
+              
+                  // ตั้งค่าวันที่ชำระ
+                 
+              
+                  // อัปเดตข้อมูลในฐานข้อมูล
+                  $value->update();
+              
+                  // หยุดการวนลูปเมื่อยอดเงินหมด
+                  if ($payCash <= 0 && ($value->damt - $payCash) != $value->damt) {
+                      break;
+                  }
+              }
           }
 
           // เช็คส่วนลด
@@ -937,7 +981,11 @@ $numDue = 0;
           //   $LegisCompro->Sum_Promise = floatval($LegisCompro->Sum_Promise) +floatval(str_replace (",","",$request->Cash));
           // }
           // else {
-            $Setpaid = (floatval(str_replace (",","",$LegisCompro->Sum_FirstPromise)) + floatval(str_replace (",","",$LegisCompro->Sum_DuePayPromise)) + floatval(str_replace (",","",$request->Discount))+floatval(str_replace (",","",$request->Cash)));
+            $Setpaid = (floatval(str_replace (",","",$LegisCompro->Sum_FirstPromise)) 
+                      + floatval(str_replace (",","",$LegisCompro->Sum_DuePayPromise)) 
+                      + floatval(str_replace (",","",$request->Discount))
+                      +floatval(str_replace (",","",$request->Cash)));
+          
             $LegisCompro->Sum_Promise = (floatval($LegisCompro->Total_Promise) - $Setpaid);
            // }
             // เช็คปิดบัญชี

@@ -41,7 +41,7 @@ class LegislationController extends Controller
       $FlagTab = NULL;
       $dateSearch = NULL;
       $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
-      $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+      $Flag_Status  = array('1' =>'เตรียม' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
       if ($request->get('dateSearch')) {
         $dateSearch = $request->dateSearch;
 
@@ -494,7 +494,7 @@ class LegislationController extends Controller
                           union 
                           select contno,TOTPRC,SMPAY,TBOOKVALUE,TTAX,TINT,FOLLOWAMT ,AROTH ,LAWDT  from ChookiatPlus.dbo.TMP_WAITHOLDPSL
                           ) d on a.contno = d.CONTNO
-                          where a.contno = '101-65230002'
+                          where a.contno = '". $Contract."'
                           ");
                           $data = $data[0];
         //dd( $data );
@@ -643,7 +643,7 @@ class LegislationController extends Controller
     public function Savestore(Request $request)
     {
       if ($request->Contno != '') {
-        $SetStrConn = $request->Contno??'101-65230002';
+        $SetStrConn = $request->Contno;
       }
 
       // if ($request->type == 1) {       //ลูกหนี้เช่าซื้อ
@@ -791,7 +791,7 @@ class LegislationController extends Controller
                           $data = $data[0];
         
       $dataGT    = DB::select("select top(1)* from ChookiatPlus.dbo.View_ContractGuarantorInMonth where Contract_Con = '".$SetStrConn."'");
-      
+      $dataGT = @$dataGT[0];
 
       //ประเภทลูกหนี้ 
       if($data->Vehicle_Chassis!=NULL){
@@ -828,7 +828,7 @@ class LegislationController extends Controller
           'YearCar_legis' =>   @$data->Vehicle_Year,
           'Category_legis' =>   @$data->Vehicle_Chassis ,
           'DateDue_legis' => @$data->FDATE,
-          'Pay_legis' => (@$data->STDPRC != NULL ?@$data->STDPRC : NULL),                       //ยอดเงินต้น
+          'Pay_legis' => (@$data->ton != NULL ?@$data->ton : NULL),                       //ยอดเงินต้น
           'TopPrice_legis' => @$data->TOTPRC  ,                  //ยอดทั้งสัญญา
           'DateVAT_legis' => @$data->DTSTOPV ,
           'TelGT_legis' =>  @$dataGT->Phone_Guard ,
@@ -966,7 +966,7 @@ class LegislationController extends Controller
       $Fdate = NULL;
       $Tdate = NULL;
       $Flag = $arrayName = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
-      $Flag_Status = $arrayName = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+      $Flag_Status = $arrayName = array('1' =>'เตรียม' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
       if ($request->get('FlagTab')) {
         $FlagTab = $request->get('FlagTab');
         $FlagPage = $request->get('FlagPage');
@@ -1337,6 +1337,11 @@ class LegislationController extends Controller
           $Legiscourtcase->pricePredict_case = $request->get('Price_predict'); //ราคาประเมิณ
          
           $Legiscourtcase->datepreparedoc_case = $request->get('datepreparedoc');
+        if( $request->FlagClass='สถานะตั้งยึดทรัพย์'){
+          $Legiscourtcase->dateNextpreparedoc_case =date('Y-m-d');
+        }
+          
+
           $Legiscourtcase->orderDateCer = $orderDateCer;
           // $Legiscourtcase->datesetsequester_case = $request->get('DateSequester');
           $Legiscourtcase->datePublicsell_case = $request->get('datePublicsell');
@@ -2213,7 +2218,7 @@ class LegislationController extends Controller
                 ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY);               
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
-                $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+                $Flag_Status  = array('1' =>'เตรียม' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
                 $sheet->row($row, array('ลำดับ','วันที่เข้าระบบ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม' ,'เลขที่สัญญา',
                     'HQ',	'บริษัท',	'ประเภทสัญญา',	'สาขา','ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'กำหนดวันฟ้อง','วันที่ฟ้อง', 
@@ -2461,7 +2466,7 @@ class LegislationController extends Controller
                 });
                 $row = 3;
                 $Flag  = array('W' =>'ลูกหนี้ก่อนฟ้อง' ,'Y'=>'ลูกหนี้ส่งฟ้อง','C'=>'ลูกหนี้หลุดขายฝาก' );
-                $Flag_Status  = array('1' =>'ไม่ประนอมหนี้' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
+                $Flag_Status  = array('1' =>'เตรียม' ,'2'=>'ไม่ประนอมหนี้','3'=>'ประนอมหนี้' );
                 $sheet->row($row, array('ลำดับ','วันที่จัดไฟแนนซ์','ประเภทลูกหนี้','สถานะประนอม','ประเภทการประนอม', 'เลขที่สัญญา', 'ชื่อ-สกุล', 'เบอร์ติดต่อ',
                     'สถานะลูกหนี้','ผู้ส่งฟ้อง', 'ศาล', 'เลขคดีดำ', 'เลขคดีแดง', 'วันที่ฟ้อง', 'ยอดคงเหลือ', 'ยอดตั้งฟ้อง', 'ยอดค่าฟ้อง','ยอดศาลสั่ง',
                     'วันสืบพยาน', 'วันส่งคำบังคับ', 'วันตรวจผลหมาย', 'วันตั้งเจ้าพนักงาน', 'วันตรวจผลหมายตั้ง',

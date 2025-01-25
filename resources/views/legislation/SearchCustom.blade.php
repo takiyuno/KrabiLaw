@@ -34,9 +34,9 @@
             <div class="card-tools d-inline float-right">
               <div class="input-group form-inline">
                 <label class="textSize" >เลขที่สัญญา : &nbsp;&nbsp;</label>
-                <input type="text" name="Contno" id="Contno" maxlength="12" class="form-control form-control-sm textSize Boxcolor"  data-mask="" required/>
-                <input type="text" name="Contno2" id="Contno2" maxlength="12" class="form-control form-control-sm textSize Boxcolor" data-mask="" required/>
-                <input type="text" name="Contno3" id="Contno3" maxlength="12" class="form-control form-control-sm textSize Boxcolor"  required/>
+                <input type="text" name="Contno" id="Contno" maxlength="20" class="form-control form-control-sm textSize Boxcolor"  data-mask="" required/>
+                {{-- <input type="text" name="Contno2" id="Contno2" maxlength="12" class="form-control form-control-sm textSize Boxcolor" data-mask="" required/>
+                <input type="text" name="Contno3" id="Contno3" maxlength="12" class="form-control form-control-sm textSize Boxcolor"  required/> --}}
                 <span class="input-group-append">
                   <button type="button" class="btn btn-info btn-sm button">
                     <i class="fas fa-search"></i>
@@ -85,6 +85,7 @@
 <script type="text/javascript">
   $(".button").click(function(ev){
       var DB_type = $('#DB_type').val();
+      var Contno = $('#Contno').val(); 
       console.log(DB_type);
       if(DB_type == 1 ){
         var Contno = $('#Contno').val();  //format (101-99999)

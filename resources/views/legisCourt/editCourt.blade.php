@@ -549,7 +549,8 @@
                                     <span class="todo-wrap SizeText">
                                       <input type="checkbox" id="19" name="Consent" value="ลูกหนี้ยินยอม" {{ ($data->legiscourt->Consent_court == 'ลูกหนี้ยินยอม') ? 'checked' : '' }}/>
                                       <label for="19" class="todo">
-                                        <i class="fa fa-check"></i> Consent (ยินยอม)
+                                        <i class="fa fa-check"></i> Consent (ยินยอม) <br/>
+                                                <font style="color: #cd4400"> ให้เลือกเฉพาะลูกหนี้ที่ไปที่ศาล</font>
                                       </label>
                                     </span>
                                   </div>

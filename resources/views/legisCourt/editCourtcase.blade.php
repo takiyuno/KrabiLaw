@@ -630,7 +630,7 @@
                                 </div>
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่คัดหนังสือรับรองคดี :</label>
                                 <div class="col-sm-7">
-                                  <input type="date" name="dateCertificate" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->dateCertificate_case}}"/>
+                                  <input type="date" name="dateCertificate" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->dateCertificate_case}}" max="{{date('Y-m-d')}}"/>
                                 </div>
                               </div>
                             </div>
@@ -770,13 +770,13 @@
                                 <div class="form-group row mb-0">
                                   <label class="col-sm-4 col-form-label text-right SizeText">วันที่คัดโฉนด :</label>
                                   <div class="col-sm-7">
-                                    <input type="date" name="datepreparedoc" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->datepreparedoc_case}}"/>
+                                    <input type="date" name="datepreparedoc" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->datepreparedoc_case}}" max="{{date('Y-m-d')}}"/>
                                   </div>
                                 </div>
                                 <div class="form-group row mb-0">
                                   <label class="col-sm-4 col-form-label text-right SizeText">วันที่ถ่ายภาพ :</label>
                                   <div class="col-sm-7">
-                                    <input type="date" name="Date_Takephoto" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateTakephoto_asset }}"/>
+                                    <input type="date" name="Date_Takephoto" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->DateTakephoto_asset }}" max="{{date('Y-m-d')}}"/>
                                   </div>
                                 </div>
                                 <div class="form-group row mb-0">
@@ -915,7 +915,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่ตั้งเรื่องยึดทรัพย์ :</label>
                                 <div class="col-sm-7">
-                                  <input type="date" name="dateSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->dateSequester_case}}"/>
+                                  <input type="date" name="dateSequester" class="form-control form-control-sm SizeText" value="{{@$data->legiscourtCase->dateSequester_case}}" max="{{date('Y-m-d')}}"/>
                                 </div>
                               </div>
                             </div>

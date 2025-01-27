@@ -1291,17 +1291,20 @@ class LegislationController extends Controller
           $Legiscourt->dayresults_court = $request->get('dayresultscourt');
           $Legiscourt->SueNote_court = $request->get('suenotecourt');
           $Legiscourt->Consent_court = $request->get('Consent');
-        $Legiscourt->update();
+        
 
+     
         if ($request->FlagClass != NULL) {
           if ($request->Consent != NULL and $request->FlagClass == 'สถานะส่งสืบพยาน') {
             $SetFlagClass = 'สถานะส่งตั้งเจ้าพนักงาน';
+            $Legiscourt->ordersend_court =  $request->get('examidaycourt');
+            $Legiscourt->checksend_court =  $request->get('examidaycourt');
           }else {
             $SetFlagClass = $request->FlagClass;
           }
-          $Legislation = Legislation::find($id);
-            $Legislation->Flag_Class = $SetFlagClass;
-          $Legislation->update();
+          
+            $legis->Flag_Class = $SetFlagClass;
+          $legis->update();
 
           if ($request->checkresultscourt != NULL) {
             if ($request->sendcheckresultscourt >= $request->checkresultscourt) {
@@ -1309,8 +1312,8 @@ class LegislationController extends Controller
             }else {
               $SetDateCourtCase = $request->checkresultscourt;
             }
-            if ($SetFlagClass == 'สถานะคัดหนังสือรับรองคดี' and $Legislation->legiscourtCase == NULL) {
-              $orderDateCer  = date('Y-m-d', strtotime(' +310 days', strtotime($Legislation->Date_legis)));
+            if ($SetFlagClass == 'สถานะคัดหนังสือรับรองคดี' and $legis->legiscourtCase == NULL) {
+              $orderDateCer  = date('Y-m-d', strtotime(' +310 days', strtotime($legis->Date_legis)));
               $Legiscourtcase = new Legiscourtcase([
                 'legislation_id' => $id,
                 'orderDateCer' => $orderDateCer,
@@ -1318,14 +1321,14 @@ class LegislationController extends Controller
               ]);
                 $Legiscourtcase->save();
             }
-            elseif ($SetFlagClass == 'สถานะคัดหนังสือรับรองคดี' and $Legislation->legiscourtCase != NULL) {
+            elseif ($SetFlagClass == 'สถานะคัดหนังสือรับรองคดี' and $legis->legiscourtCase != NULL) {
               $Legiscourtcase = Legiscourtcase::where('legislation_id',$id)->first();
              //   $Legiscourtcase->datepreparedoc_case = date('Y-m-d', strtotime($SetDateCourtCase. '+45 days'));
               $Legiscourtcase->update();
             }
           }
         }
-
+        $Legiscourt->update();
         return redirect()->back()->with('success','บันทึกเรียบร้อย');
       }
       elseif ($request->type == 5) { //ชั้นบังคับคดี

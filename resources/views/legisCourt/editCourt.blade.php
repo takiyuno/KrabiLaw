@@ -450,7 +450,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่ฟ้อง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="fillingdatecourt" name="fillingdatecourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->fillingdate_court) }}"/>
+                                  <input type="date" id="fillingdatecourt" name="fillingdatecourt" class="form-control form-control-sm SizeText" value="{{ (@$data->legiscourt->fillingdate_court) }}" max="{{date('Y-m-d')}}"/>
                                 </div>
                                 <label class="col-sm-4 col-form-label text-right SizeText">เลขคดีดำ :</label>
                                 <div class="col-sm-8">
@@ -515,7 +515,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบพยาน :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="examidaycourt" name="examidaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->examiday_court) }}" oninput="CourtDate();" />
+                                  <input type="date" id="examidaycourt" name="examidaycourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->examiday_court) }}" oninput="CourtDate();" max="{{date('Y-m-d')}}"/>
                                 </div>
                                 
                                   <label class="col-sm-4 col-form-label text-right SizeText">ยอดประนอม :</label>
@@ -576,7 +576,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันส่งจริง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="ordersendcourt" name="ordersendcourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->ordersend_court) }}" oninput="CourtDate();" />
+                                  <input type="date" id="ordersendcourt" name="ordersendcourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->ordersend_court) }}" oninput="CourtDate();" max="{{date('Y-m-d')}}"/>
                                 </div>
                               </div>
                              
@@ -634,7 +634,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันตรวจจริง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="checksendcourt" name="checksendcourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->checksend_court) }}" onchange="CourtDate2();" />
+                                  <input type="date" id="checksendcourt" name="checksendcourt" class="form-control form-control-sm SizeText" value="{{ ($data->legiscourt->checksend_court) }}" onchange="CourtDate2();" max="{{date('Y-m-d')}}"/>
                                 </div>
 
                                 @if($data->legiscourt->social_flag == 'infomation' or $data->legiscourt->social_flag == NULL)
@@ -698,7 +698,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่ส่งจริง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="sendofficecourt" name="sendofficecourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->sendoffice_court }}" oninput="SendofficeDate();"/>
+                                  <input type="date" id="sendofficecourt" name="sendofficecourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->sendoffice_court }}" oninput="SendofficeDate();"max="{{date('Y-m-d')}}"/>
                                 </div>
                               </div>
                             </div>
@@ -744,7 +744,7 @@
                               <div class="form-group row mb-0">
                                 <label class="col-sm-4 col-form-label text-right SizeText">วันที่ตรวจจริง :</label>
                                 <div class="col-sm-8">
-                                  <input type="date" id="sendcheckresultscourt" name="sendcheckresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->sendcheckresults_court }}"/>
+                                  <input type="date" id="sendcheckresultscourt" name="sendcheckresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->sendcheckresults_court }}" max="{{date('Y-m-d')}}"/>
                                 </div>
                               </div>
 
@@ -756,11 +756,11 @@
                                 <div class="form-group row mb-3">
                                   <label class="col-sm-4 col-form-label text-right SizeText">วันทีโทร :</label>
                                   <div class="col-sm-8">
-                                    <input type="date" id="telresultscourt" name="telresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->telresults_court }}" />
+                                    <input type="date" id="telresultscourt" name="telresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->telresults_court }}" max="{{date('Y-m-d')}}" />
                                   </div>
                                   <label class="col-sm-4 col-form-label text-right SizeText">วันทีไปรับ :</label>
                                   <div class="col-sm-8">
-                                    <input type="date" id="dayresultscourt" name="dayresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->dayresults_court }}"/>
+                                    <input type="date" id="dayresultscourt" name="dayresultscourt" class="form-control form-control-sm SizeText" value="{{ $data->legiscourt->dayresults_court }}" max="{{date('Y-m-d')}}"/>
                                   </div>
                                 </div>
                               </div>

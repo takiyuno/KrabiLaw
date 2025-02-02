@@ -676,7 +676,7 @@
                             <div class="form-group row mb-0">
                               <label class="col-sm-4 col-form-label text-right SizeText">วันที่สืบทรัพย์ :</label>
                               <div class="col-sm-7">
-                                <input type="date" id="sequesterasset" name="sequesterasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->sequester_asset }}" {{ $chkReadOnly}}/>
+                                <input type="date" id="sequesterasset" name="sequesterasset" class="form-control form-control-sm SizeText" value="{{ @$data->Legisasset->sequester_asset }}" readonly/>
                               </div>
                             </div>
                             <div class="form-group row mb-0">
@@ -691,7 +691,7 @@
                                 <select id="sendsequesterasset" name="sendsequesterasset" class="form-control form-control-sm SizeText">
                                   <option value="" selected>--- เลือกผล ---</option>
                                   <option value="สืบทรัพย์เจอ" {{ (@$data->Legisasset->sendsequester_asset === 'สืบทรัพย์เจอ') ? 'selected' : '' }}>สืบทรัพย์เจอ</option>
-                                  <option value="สืบทรัพย์ไม่เจอ" {{ (@$data->Legisasset->sendsequester_asset === 'สืบทรัพย์ไม่เจอ') ? 'selected' : '' }}>สืบทรัพย์ไม่เจอ</option>
+                                  <option value="สืบทรัพย์ไม่เจอ"  >สืบทรัพย์ไม่เจอ</option>
                                   {{-- <option value="หมดอายุความคดี" {{ (@$data->Legisasset->sendsequester_asset === 'หมดอายุความคดี') ? 'selected' : '' }}>หมดอายุความคดี</option>
                                   <option value="จบงานสืบทรัพย์" {{ (@$data->Legisasset->sendsequester_asset === 'จบงานสืบทรัพย์') ? 'selected' : '' }}>จบงานสืบทรัพย์</option> --}}
                                 </select>

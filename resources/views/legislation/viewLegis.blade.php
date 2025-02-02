@@ -153,7 +153,7 @@
                             {{-- <i class="fas fa-user-check"></i>--}} {{$row->Flag_Class !=NULL ? $row->Flag_Class :'เตรียมเอกสาร'}} 
                           </span>
                         @elseif($row->Flag== 'C')
-                          @if($row->legisCompromise != NULL)
+                          @if($row->legisCompromise != NULL && $row->Flag_status=='3')
                             <span class="btn-warning btn-sm hover-up textSize" title="ประนอม">
                               <i class="fas fa-hand-holding-usd prem"></i>ประนอมหลุดขายฝาก
                             </span>

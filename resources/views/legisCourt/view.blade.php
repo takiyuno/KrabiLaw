@@ -964,8 +964,8 @@
                           $SetDate = NULL;
                           
                             $SetDate = @$row->Legisasset->NewpursueDate_asset;
-                        
-
+                           // $LegisassetAll =  count(@$row->LegisassetAll )>1?@$row->LegisassetAll()->orderBy('created_at', 'desc')->skip(1)->first():@$row->Legisasset;
+                            $LegisassetAll = @$row->Legisasset;
                           if($SetDate >= date('Y-m-d')) {
                             $DateDue = date_create($SetDate);
                             $NowDate = date_create(date('Y-m-d'));
@@ -1000,11 +1000,11 @@
                           </td>
                           <td class="text-left"> {{$row->Name_legis}} </td>
                           <td class="text-center"> 
-                          <span class="dateHide">{{ date_format(date_create(@ $row->Legisasset->sequester_asset), 'Ymd')}} </span>    
-                          {{ ( @$row->Legisasset->sequester_asset != NULL) ?FormatDatethai(@$row->Legisasset->sequester_asset): 'ยังไม่ระบุวันที่' }} </td>
+                          <span class="dateHide">{{ date_format(date_create(@ $LegisassetAll->sequester_asset), 'Ymd')}} </span>    
+                          {{ ( @$LegisassetAll->sequester_asset != NULL) ?FormatDatethai(@$LegisassetAll->sequester_asset): 'ยังไม่ระบุวันที่' }} </td>
                           <td class="text-center">
 
-                            {{@$row->Legisasset->sendsequester_asset}}
+                            {{@$LegisassetAll->sendsequester_asset}}
                             {{-- @php
                               if($row->Legisasset->propertied_asset=='Y'){
                                 $assetText = 'ลูกหนี้มีทรัพย์';
@@ -1017,8 +1017,8 @@
                             {{$assetText}} --}}
                           </td>
                           <td class="text-left">
-                            <span class="dateHide">{{ date_format(date_create(@$row->Legisasset->NewpursueDate_asset), 'Ymd')}}</span>
-                            {{ (@$row->Legisasset->sendsequester_asset != NULL) ?FormatDatethai(@$row->Legisasset->NewpursueDate_asset): 'ยังไม่ระบุวันที่' }}
+                            <span class="dateHide">{{ date_format(date_create(@$LegisassetAll->NewpursueDate_asset), 'Ymd')}}</span>
+                            {{ (@$LegisassetAll->sendsequester_asset != NULL) ?FormatDatethai(@$LegisassetAll->NewpursueDate_asset): 'ยังไม่ระบุวันที่' }}
                             </td>
                           {{-- <td class="text-left"> ค้าง </td> --}}
                           <td class="text-left">

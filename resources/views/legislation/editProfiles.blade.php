@@ -376,7 +376,7 @@
                         <label class="col-sm-4 col-form-label text-right SizeText text-red">สถานะประนอม :</label>
                         <div class="col-sm-8">
                           @if(auth::user()->position=="Admin")
-                          <select class="form-control form-control-sm SizeText" readonly>
+                          <select name='Flag_status' class="form-control form-control-sm SizeText" readonly>
                             <option value="" selected>--- สถานะลูกหนี้ ---</option>
                             <option value="1" {{ ($data->Flag_status == 1) ? 'selected' : '' }}>เตรียม</option>
                             <option value="2" {{ ($data->Flag_status == 2) ? 'selected' : '' }}>ไม่ประนอมหนี้</option>

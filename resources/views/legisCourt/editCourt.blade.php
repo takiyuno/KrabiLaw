@@ -6,7 +6,7 @@
     .readonly-div {
     background-color: #f9f9f9;
     color: #666;
-    pointer-events: none; /* Prevent interaction like clicks */
+    pointer-events: none;  Prevent interaction like clicks */
   }
     #todo-list{
       width:100%;

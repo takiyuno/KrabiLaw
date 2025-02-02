@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 use PDF;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Storage;
 use File;
 use Carbon\Carbon;
@@ -1221,21 +1223,21 @@ class LegislationController extends Controller
           $user->arInterest = @$request->arInterest;
           $user->arOth = @$request->arOth     ;
 
-          if ($request->get('TypeCus_Flag') == 'C') {
+          // if ($request->get('TypeCus_Flag') == 'C') {
             $user->Flag = $request->get('TypeCus_Flag');
-            $user->Flag_status = 3;
-          }elseif($request->get('TypeCus_Flag') == 'W' &&  $user->legisCompromise !=NULL ){
-            $user->Flag = $request->get('TypeCus_Flag');
-            $user->Flag_status = 3;
-          }else {
-            if ($user->Flag_Class != NULL) {
-              $user->Flag = $request->get('TypeCus_Flag');
-              $user->Flag_status = 2;
-            }else {
-              $user->Flag = $request->get('TypeCus_Flag');
-              $user->Flag_status = 2;
-            }
-          }
+            $user->Flag_status = $request->get('Flag_status');
+          // }elseif($request->get('TypeCus_Flag') == 'W' &&  $user->legisCompromise !=NULL ){
+            // $user->Flag = $request->get('TypeCus_Flag');
+            // $user->Flag_status = 3;
+          // }else {
+          //   if ($user->Flag_Class != NULL) {
+          //     $user->Flag = $request->get('TypeCus_Flag');
+          //     $user->Flag_status = 2;
+          //   }else {
+          //     $user->Flag = $request->get('TypeCus_Flag');
+          //     $user->Flag_status = 2;
+          //   }
+          // }
         $user->update();
 
         return redirect()->back()->with('success','บันทึกข้อมูลเรียบร้อย');
@@ -1247,7 +1249,13 @@ class LegislationController extends Controller
         $orderexamiday  = date('Y-m-d', strtotime(' +75 days', strtotime($legis->Date_legis)));
         $orderdaycourt  = date('Y-m-d', strtotime(' +120 days', strtotime($legis->Date_legis)));
         $checkdaycourt  = date('Y-m-d', strtotime(' +165 days', strtotime($legis->Date_legis)));
+        if ($request->Consent != NULL and $request->FlagClass == 'สถานะส่งสืบพยาน') {
+        $setofficecourt  = date('Y-m-d', strtotime(' +45 days', strtotime($request->get('examidaycourt'))));
+       }else{
         $setofficecourt  = date('Y-m-d', strtotime(' +220 days', strtotime($legis->Date_legis)));
+
+       }
+
         $checkresultscourt  = date('Y-m-d', strtotime(' +265 days', strtotime($legis->Date_legis)));
 
 
@@ -1340,7 +1348,7 @@ class LegislationController extends Controller
           $Legiscourtcase->pricePredict_case = $request->get('Price_predict'); //ราคาประเมิณ
          
           $Legiscourtcase->datepreparedoc_case = $request->get('datepreparedoc');
-        if( $request->FlagClass='สถานะตั้งยึดทรัพย์'){
+        if( $request->FlagClass=='สถานะตั้งยึดทรัพย์'){
           $Legiscourtcase->dateNextpreparedoc_case =date('Y-m-d');
         }
           
@@ -1405,8 +1413,27 @@ class LegislationController extends Controller
         $data = DB::table('legisassets')
                   ->where('legislation_id', $id)->latest('id')->first();
        // dd(($data == Null || (@$data->sendsequester_asset=='สืบทรัพย์ไม่เจอ' && @$data->sendsequester_asset != NULL)),@$data->sendsequester_asset);
-        if ($data == Null || (@$data->sendsequester_asset=='สืบทรัพย์ไม่เจอ'&& @$data->sendsequester_asset != NULL)) {
-          $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime($request->get('sequesterasset')))); 	
+        if ($data == NULL || (@$request->sendsequesterasset=='สืบทรัพย์ไม่เจอ'&& @$data->sendsequester_asset != NULL)) {
+
+        if($data == NULL){
+          $dateCertificate =   $request->get('dateCertificate');
+                $timestamp = strtotime($dateCertificate); // Example date
+                $month = date("n", $timestamp); // Full month name (e.g., "January")
+                $year = date("Y", $timestamp); // Full month name (e.g., "January")
+              
+                if( $month>8){
+                  $sequester_asset =  ($year+1).'-06-01';
+                }else{
+                  $sequester_asset =  ($year).'-12-01';
+                }
+                
+              $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime( $sequester_asset))); 	
+        }else{
+          $sequester_asset = $data->NewpursueDate_asset;
+          $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime( $sequester_asset))); 	
+        }
+      
+         
 
           //dd($NewDate_asset);
             $LegisAsset = new legisasset([
@@ -1414,8 +1441,8 @@ class LegislationController extends Controller
               'Date_asset' => $request->get('Dateasset'),
               'Status_asset' => $request->get('statusasset'),
               'propertied_asset' => $request->get('radio_propertied'),
-              'sequester_asset' =>  $request->get('sequesterasset'),
-              'sendsequester_asset' => '',
+              'sequester_asset' =>  $sequester_asset,
+              'sendsequester_asset' => @$request->sendsequesterasset,
               'Dateresult_asset' => Null,
               'NewpursueDate_asset' =>  $NewDate_asset,
               'Notepursue_asset' =>  $request->get('Notepursueasset'),
@@ -1428,16 +1455,19 @@ class LegislationController extends Controller
         }
         else 
         {
-          if ($request->get('sendsequesterasset') == "สืบทรัพย์เจอ" or $request->get('sendsequesterasset') == "หมดอายุความคดี" or $request->get('sendsequesterasset') == "จบงานสืบทรัพย์") {
+          if ($request->get('sendsequesterasset') == "สืบทรัพย์เจอ" 
+          or $request->get('sendsequesterasset') == "หมดอายุความคดี" or $request->get('sendsequesterasset') == "จบงานสืบทรัพย์") {
             $Dateresult = date('Y-m-d');
-          }else {
-            $Dateresult = Null;
-            if ($request->get('radio_propertied') == "Y") {
-              $Dateresult = date('Y-m-d');
-            }else {
-              $Dateresult = Null;
-            }
-          }
+            $sendsequesterasset = $request->get('sendsequesterasset');
+          // }else {
+          //   $sendsequesterasset = @$data->sendsequester_asset;
+          //   $Dateresult = Null;
+          //   if ($request->get('radio_propertied') == "Y") {
+          //     $Dateresult = date('Y-m-d');
+          //   }else {
+          //     $Dateresult = Null;
+          //   }
+          // }
 
           $LegisAsset = legisasset::where('legislation_id',$id)->latest('id')->first();
             $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime($request->get('sequesterasset')))); 	
@@ -1445,7 +1475,7 @@ class LegislationController extends Controller
             $LegisAsset->Status_asset = $request->get('statusasset');
             $LegisAsset->propertied_asset = $request->get('radio_propertied');
             $LegisAsset->sequester_asset = $request->get('sequesterasset');
-            $LegisAsset->sendsequester_asset = $request->get('sendsequesterasset');
+            $LegisAsset->sendsequester_asset = $sendsequesterasset ;
             $LegisAsset->Dateresult_asset = $Dateresult;
             $LegisAsset->NewpursueDate_asset =  $NewDate_asset;
             $LegisAsset->Notepursue_asset =  $request->get('Notepursueasset');
@@ -1466,7 +1496,7 @@ class LegislationController extends Controller
           }
           
         }
-
+      }
         return redirect()->back()->with('success','บันทึกเรียบร้อย');
       }
       elseif ($request->type == 8) { //สืบทรัพย์
@@ -2592,6 +2622,56 @@ class LegislationController extends Controller
                 }
             });
           })->export('xlsx');
+      }
+      elseif($request->type == 9){
+              // SQL Query
+              $results = DB::select("
+              SELECT 
+                FORMAT(cast(b.fillingdate_court as date), 'yyyy-MM') AS period,
+                'Filling Date' AS category,
+                COUNT(a.id) AS caseinmonth,
+                SUM(CAST(b.capital_court AS DECIMAL(18, 2))) AS sumpriceinmonth, -- Convert to DECIMAL
+                SUM(CASE 
+                    WHEN DATEDIFF(day, ISNULL(b.orderdatecourt, b.fillingdate_court), b.fillingdate_court) > 0 
+                    THEN 1 
+                    ELSE 0 
+                END) AS delaycase,
+                SUM(CASE 
+                    WHEN DATEDIFF(day, ISNULL(b.orderdatecourt, b.fillingdate_court), b.fillingdate_court) > 0 
+                    THEN CAST(b.capital_court AS DECIMAL(18, 2)) -- Convert to DECIMAL
+                    ELSE 0 
+                END) AS sumdelaycase
+            FROM [dbo].[legislations] a
+            LEFT JOIN [dbo].[legiscourts] b ON a.id = b.legislation_id
+            WHERE b.fillingdate_court IS NOT NULL
+            GROUP BY FORMAT(cast(b.fillingdate_court as date), 'yyyy-MM')
+          ");
+     
+          // Create a new Spreadsheet
+          $spreadsheet = new Spreadsheet();
+          $sheet = $spreadsheet->getActiveSheet();
+
+          // Add headers
+          $headers = ['Period', 'Category', 'Cases in Month', 'Sum Price in Month', 'Delay Cases', 'Sum Delay Case'];
+          $sheet->fromArray($headers, null, 'A1');
+
+          // Populate data
+          $rowNumber = 2; // Start from the second row
+          foreach ($results as $row) {
+              $sheet->fromArray((array) $row, null, 'A' . $rowNumber);
+              $rowNumber++;
+          }
+
+          // Set headers for download
+          $filename = 'Export_' . date('Y-m-d_H-i-s') . '.xlsx';
+          $writer = new Xlsx($spreadsheet);
+
+          header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+          header('Content-Disposition: attachment; filename="' . $filename . '"');
+          header('Cache-Control: max-age=0');
+
+          $writer->save('php://output');
+          exit;
       }
       if($request->FlagTab == 6){
         $datefrom = $request->Fdate ;//"2022-01-01";

@@ -540,7 +540,7 @@ $default_style = array(
            left join legiscourts b on b.legislation_id = a.id
            left join legiscourtcases c on c.legislation_id = a.id
            left join legisassets d on d.id = (select id from legisassets where sendsequester_asset = 'สืบทรัพย์เจอ' and legislation_id = a.id)
-           where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะคัดโฉนด'  and  FORMAT(cast(c.datenextsequester_case  as date),'yyyy-MM') = '". $y_m."' ");     
+           where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะคัดโฉนด'  and  FORMAT(cast(c.sequester_asset  as date),'yyyy-MM') = '". $y_m."' ");     
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'คัดโฉนด/ถ่ายภาพ');  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  

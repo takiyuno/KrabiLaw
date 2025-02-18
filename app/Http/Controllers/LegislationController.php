@@ -1222,6 +1222,7 @@ class LegislationController extends Controller
           $user->arTaxBalane = @$request->arTaxBalane;
           $user->arInterest = @$request->arInterest;
           $user->arOth = @$request->arOth     ;
+          $user->SaleLandPrice = @$request->SaleLandPrice ;
 
           // if ($request->get('TypeCus_Flag') == 'C') {
             $user->Flag = $request->get('TypeCus_Flag');
@@ -1421,15 +1422,20 @@ class LegislationController extends Controller
                 $month = date("n", $timestamp); // Full month name (e.g., "January")
                 $year = date("Y", $timestamp); // Full month name (e.g., "January")
               
-                if( $month>8){
-                  $sequester_asset =  ($year+1).'-06-01';
+                if( $month>=12 && $month<6 ){
+                  if($month==12){
+                     $sequester_asset =  ($year+1).'-06-01';
+                  }else{
+                    $sequester_asset =  ($year).'-06-01';
+                  }                
+
                 }else{
                   $sequester_asset =  ($year).'-12-01';
                 }
                 
               $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime( $sequester_asset))); 	
         }else{
-          $sequester_asset = $data->NewpursueDate_asset;
+          $sequester_asset = $request->sequesterasset??$data->NewpursueDate_asset;
           $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime( $sequester_asset))); 	
         }
       
@@ -1459,15 +1465,15 @@ class LegislationController extends Controller
           or $request->get('sendsequesterasset') == "หมดอายุความคดี" or $request->get('sendsequesterasset') == "จบงานสืบทรัพย์") {
             $Dateresult = date('Y-m-d');
             $sendsequesterasset = $request->get('sendsequesterasset');
-          // }else {
-          //   $sendsequesterasset = @$data->sendsequester_asset;
-          //   $Dateresult = Null;
-          //   if ($request->get('radio_propertied') == "Y") {
-          //     $Dateresult = date('Y-m-d');
-          //   }else {
-          //     $Dateresult = Null;
-          //   }
-          // }
+          }else {
+            $sendsequesterasset = @$data->sendsequester_asset;
+            $Dateresult = Null;
+            if ($request->get('radio_propertied') == "Y") {
+              $Dateresult = date('Y-m-d');
+            }else {
+              $Dateresult = Null;
+            }
+          }
 
           $LegisAsset = legisasset::where('legislation_id',$id)->latest('id')->first();
             $NewDate_asset =  date('Y-m-d',strtotime("+6 month", strtotime($request->get('sequesterasset')))); 	
@@ -1495,7 +1501,7 @@ class LegislationController extends Controller
             $Legiscourtcase->update();
           }
           
-        }
+        
       }
         return redirect()->back()->with('success','บันทึกเรียบร้อย');
       }

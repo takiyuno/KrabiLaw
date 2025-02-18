@@ -101,7 +101,7 @@ $default_style = array(
           /**ลูกหนี้ ชั้นฟ้อง**/
           $countlegis = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,b.orderdatecourt,b.fillingdate_court from legislations a
                         left join legiscourts b on b.legislation_id = a.id
-                        where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะส่งฟ้อง' and  FORMAT(cast(b.fillingdate_court as date),'yyyy-MM')   = '". $y_m."'");
+                        where a.Flag = 'Y' and a.Status_legis is null and  FORMAT(cast(b.fillingdate_court as date),'yyyy-MM')   = '". $y_m."'");
             $objPHPExcel->getActiveSheet()->setCellValue('A3',$Column[2]);  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B4','เลขที่สัญญา');  
@@ -152,7 +152,7 @@ $default_style = array(
           /**ลูกหนี้ ชั้นสืบพยาน**/
           $countExamine = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,b.orderexamiday,b.examiday_court from legislations a
                         left join legiscourts b on b.legislation_id = a.id
-                        where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะส่งสืบพยาน' and  FORMAT(cast(b.examiday_court as date),'yyyy-MM') = '". $y_m."'  ");
+                        where a.Flag = 'Y' and a.Status_legis is null and  FORMAT(cast(b.examiday_court as date),'yyyy-MM') = '". $y_m."'  ");
           
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),$Column[3]);  
             
@@ -213,7 +213,7 @@ $default_style = array(
           /**ลูกหนี้ ชั้นส่งคำบังคับ**/
           $countOrder = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,b.orderday_court,b.ordersend_court from legislations a
                         left join legiscourts b on b.legislation_id = a.id
-                        where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะส่งคำบังคับ' and  FORMAT(cast(b.ordersend_court as date),'yyyy-MM') = '". $y_m."' ");
+                        where a.Flag = 'Y' and a.Status_legis is null  and  FORMAT(cast(b.ordersend_court as date),'yyyy-MM') = '". $y_m."' ");
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),$Column[4]);  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -270,7 +270,7 @@ $default_style = array(
           /**ลูกหนี้ ชั้นตรวจผลหมาย**/
           $countCheckSend = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,b.checkday_court,b.checksend_court from legislations a
                         left join legiscourts b on b.legislation_id = a.id
-                        where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะส่งตรวจผลหมาย' and  FORMAT(cast(b.checksend_court  as date),'yyyy-MM') = '". $y_m."' ");
+                        where a.Flag = 'Y' and a.Status_legis is null  and  FORMAT(cast(b.checksend_court  as date),'yyyy-MM') = '". $y_m."' ");
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),$Column[5]);  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -325,7 +325,7 @@ $default_style = array(
           /**ลูกหนี้ ชั้นตั้งเจ้าพนักงาน**/
           $countSetOffice =  DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,b.setoffice_court,b.sendoffice_court 
                         from legislations a left join legiscourts b on b.legislation_id = a.id
-                        where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะส่งตั้งเจ้าพนักงาน' and  FORMAT(cast(b.sendoffice_court  as date),'yyyy-MM') = '". $y_m."' ");
+                        where a.Flag = 'Y' and a.Status_legis is null   and  FORMAT(cast(b.sendoffice_court  as date),'yyyy-MM') = '". $y_m."' ");
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),$Column[6]);  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -380,7 +380,7 @@ $default_style = array(
           /**ลูกหนี้ ชั้นตรวจผลหมายตั้ง**/
           $countCheckOffice =  DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,b.checkresults_court,b.sendcheckresults_court 
                         from legislations a left join legiscourts b on b.legislation_id = a.id
-                        where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะส่งตรวจผลหมายตั้ง' and  FORMAT(cast(b.sendcheckresults_court  as date),'yyyy-MM') = '". $y_m."' ");
+                        where a.Flag = 'Y' and a.Status_legis is null  and  FORMAT(cast(b.sendcheckresults_court  as date),'yyyy-MM') = '". $y_m."' ");
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),$Column[7]);  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -437,7 +437,7 @@ $default_style = array(
           $countCertificate = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,c.orderDateCer,c.dateCertificate_case from legislations a
                             left join legiscourts b on b.legislation_id = a.id
                             left join legiscourtcases c on c.legislation_id = a.id
-                            where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะคัดหนังสือรับรองคดี' and  FORMAT(cast(c.dateCertificate_case  as date),'yyyy-MM') = '". $y_m."'  ");
+                            where a.Flag = 'Y' and a.Status_legis is null  and  FORMAT(cast(c.dateCertificate_case  as date),'yyyy-MM') = '". $y_m."'  ");
 
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),$Column[8]);  
 
@@ -499,7 +499,7 @@ $default_style = array(
                 $countAsset = DB::select("select a.Date_legis,a.Contract_legis,a.Name_legis,b.bnumber_court,b.rnumber_court,c.id,c.sequester_asset,c.sendsequester_asset from legislations a
                                 left join legiscourts b on b.legislation_id = a.id
                                 left join legisassets c on c.id= (select max(id) from legisassets where legislation_id = a.id)
-                                where a.Flag = 'Y' and a.Status_legis is null  and a.Flag_Class='สถานะสืบทรัพย์บังคับคดี'  and  FORMAT(cast(c.sequester_asset  as date),'yyyy-MM') = '". $y_m."' ");
+                                where a.Flag = 'Y' and a.Status_legis is null    and  FORMAT(cast(c.sequester_asset  as date),'yyyy-MM') = '". $y_m."' ");
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'รายงานสืบทรัพย์');  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -540,7 +540,7 @@ $default_style = array(
            left join legiscourts b on b.legislation_id = a.id
            left join legiscourtcases c on c.legislation_id = a.id
            left join legisassets d on d.id = (select id from legisassets where sendsequester_asset = 'สืบทรัพย์เจอ' and legislation_id = a.id)
-           where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะคัดโฉนด'  and  FORMAT(cast(c.sequester_asset  as date),'yyyy-MM') = '". $y_m."' ");     
+           where a.Flag = 'Y' and a.Status_legis is null  and  FORMAT(cast(d.sequester_asset  as date),'yyyy-MM') = '". $y_m."' ");     
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'คัดโฉนด/ถ่ายภาพ');  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -603,7 +603,7 @@ $default_style = array(
            left join legiscourts b on b.legislation_id = a.id
            left join legiscourtcases c on c.legislation_id = a.id
            left join legisassets d on d.id = (select id from legisassets where sendsequester_asset = 'สืบทรัพย์เจอ' and legislation_id = a.id) 
-           where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'สถานะตั้งยึดทรัพย์' and  FORMAT(cast(c.dateSequester_case  as date),'yyyy-MM') = '". $y_m."'");     
+           where a.Flag = 'Y' and a.Status_legis is null  and  FORMAT(cast(c.dateSequester_case  as date),'yyyy-MM') = '". $y_m."'");     
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ตั้งเรื่องยึดทรัพย์');  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  
@@ -665,7 +665,7 @@ $default_style = array(
            left join legiscourtcases c on c.legislation_id = a.id
            left join legis_publishsells d on d.id = (select Top(1) id from legis_publishsells where Flag_publish = 'NOW' and legislation_id = a.id  and  FORMAT(cast(Dateset_publish  as date),'yyyy-MM') = '". $y_m."'  order by id desc)
            left join legisassets e on e.id = (select id from legisassets where sendsequester_asset = 'สืบทรัพย์เจอ' and legislation_id = a.id)
-           where a.Flag = 'Y' and a.Status_legis is null and a.Flag_Class = 'ประกาศขายทอดตลาด' and  FORMAT(cast(d.Dateset_publish  as date),'yyyy-MM') = '". $y_m."' ");     
+           where a.Flag = 'Y' and a.Status_legis is null and  FORMAT(cast(d.Dateset_publish  as date),'yyyy-MM') = '". $y_m."' ");     
             $objPHPExcel->getActiveSheet()->setCellValue('A'.($row+1),'ประกาศขายทอดตลาด');  
 
             $objPHPExcel->getActiveSheet()->setCellValue('B'.($row+2),'เลขที่สัญญา');  

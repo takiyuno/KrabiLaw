@@ -26,7 +26,7 @@ class Legislation extends Model
                         'Flag_Class','Flag_status','Datesend_Flag','Noteby_legis','UserSend1_legis','UserSend2_legis','UseClear_Legiscom','DateClear_Legiscom','CountClear_Legiscom',
                         'Terminatebuyer_list','Terminatesupport_list','Acceptbuyerandsup_list','Twodue_list','AcceptTwodue_list',
                         'Confirm_list','Accept_list','Notice_list','AcceptTwoNotice_list','RateCutOff','arBalance' ,
-                          'arTaxBalane' ,'arInterest' ,'arOth'];
+                          'arTaxBalane' ,'arInterest' ,'arOth','SaleLandPrice'];
 
 
   public function legiscourt()

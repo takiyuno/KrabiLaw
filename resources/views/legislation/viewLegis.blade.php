@@ -90,8 +90,8 @@
                     <tr>
                       <td class="text-center"> {{$row->Contract_legis}}</td>
                       <td class="text-left"> {{$row->Name_legis}}</td>
-                      <td class="text-left"> {{$Flag[$row->Flag]}} </td>
-                      <td class="text-left"> {{$Flag_Status[$row->Flag_status] }}</td>
+                      <td class="text-left"> {{@$Flag[@$row->Flag]}} </td>
+                      <td class="text-left"> {{@$Flag_Status[@$row->Flag_status] }}</td>
                        @php
                             $StrCon = explode("/",$row->Contract_legis);
                             @$SetStr1 = $StrCon[0];

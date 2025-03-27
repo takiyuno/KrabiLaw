@@ -2322,11 +2322,12 @@ class LegislationController extends Controller
                     $SetTextAsset = "ไม่มีข้อมูล";
                   }
                   //สถานะประนอมหนี้
-                  if (@$value->legisCompromise != NULL) {
-                    $SetTextCompro = "ประนอมหนี้";
-                  }else {
-                    $SetTextCompro = "ไม่ประนอมหนี้";
-                  }
+                  // if (@$value->legisCompromise != NULL) {
+                  //   $SetTextCompro = "ประนอมหนี้";
+                  // }else {
+                  //   $SetTextCompro = "ไม่ประนอมหนี้";
+                  // }
+                  $SetTextCompro = $Flag_Status[@$value->Flag_status] ;
                 
                   //ยอดตั้งฟ้อง
                   // if(@$value->legiscourt->capital_court != NULL and @$value->legiscourt->indictment_court != NULL and @$value->legiscourt->pricelawyer_court != NULL){

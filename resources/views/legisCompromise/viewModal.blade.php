@@ -12,7 +12,7 @@
           </button>
         </h5>
       </div>
-      {{-- @if ($data->TypeCon_legis == 'P01')
+      @if ($data->TypeCon_legis == 'P01')
         <form name="form" action="{{ route('MasterCompro.store') }}" method="post" enctype="multipart/form-data" id="quickForm">
           @csrf
           <div class="card-body SizeText">
@@ -24,7 +24,7 @@
                     <label class="col-sm-4 col-form-label text-right SizeText">ประเภทประนอม :</label>
                     <div class="col-sm-8">
                       @php
-                        $Settype = 'ประนอมขายฝาก';
+                        $Settype = 'ประนอมหนี้บริษัท';
                       @endphp
                       <input type="text" name="TypePromise" value="{{$Settype}}" class="form-control form-control-sm SizeText" />
                     </div>                    
@@ -43,15 +43,47 @@
                   <div class="form-group row mb-0">
                     <label class="col-sm-4 col-form-label text-right SizeText">เงินต้น :</label>
                     <div class="col-sm-8">
-                      <input type="text" name="SHowTotal" id="TotalPrice" value="{{ (@$data->legisCompromise->Total_Promise != NULL) ?number_format($data->legisCompromise->Total_Promise,0): 0 }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
+                      <input type="text" name="TotalPrice" id="TotalPrice" value="{{ (@$data->legisCompromise->CompoundTotal_1 != NULL) ?number_format(@$data->legisCompromise->CompoundTotal_1-@$data->legisCompromise->Sum_DuePayPromise,0): 0 }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group row mb-0">
+                    <label class="col-sm-4 col-form-label text-right SizeText">ดอกเบี้ย % :</label>
+                    <div class="col-sm-8">
+                      <div class="input-group">
+                        <input type="text" name="IntFatrate" id="IntFatrate" value="{{ (@$data->legisCompromise->IntFatrate != NULL) ?number_format($data->legisCompromise->IntFatrate,2): 0 }}" class="form-control form-control-sm SizeText" placeholder="0.00"/>
+                        
+                    </div>
+                    </div>
+                  </div>
+                </div>  
+                <div class="col-md-6">
+                  <div class="form-group row mb-0">
+                    <label class="col-sm-4 col-form-label text-right SizeText">จำนวนงวด :</label>
+                    <div class="col-sm-8">
+                      <div class="input-group">
+                        <input type="number" name="Period_1" id="Period_1" value="{{ @$data->legisCompromise->ShowPeriod_Promise   }}" class="form-control form-control-sm SizeText" placeholder=""/>
+                        <button class="btn btn-primary calcurate" type="button"> <i class="fa-solid fa-calculator"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>                
+                <div class="col-md-6">
+                  <div class="form-group row mb-0">
                     <label class="col-sm-4 col-form-label text-right SizeText">ค่างวด :</label>
                     <div class="col-sm-8">
-                      <input type="text" name="Installment" id="Installment" value="{{ (@$data->legisCompromise->DuePay_Promise != NULL) ?number_format($data->legisCompromise->DuePay_Promise,0): 0 }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
+                      <input type="text" name="Due_1" id="Due_1" value="{{ (@$data->legisCompromise->DuePay_Promise != NULL) ?number_format($data->legisCompromise->DuePay_Promise,0): 0 }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row mb-0">
+                    <label class="col-sm-4 col-form-label text-right SizeText">ยอดรวมดอกเบี้ย :</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="CompoundTotal_1" id="CompoundTotal_1" value="{{ (@$data->legisCompromise->CompoundTotal_1 != NULL) ?number_format($data->legisCompromise->CompoundTotal_1,0): 0 }}" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
+                      <input type="text" name="SHowTotal" id="SHowTotal" value="" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
+                      <input type="text" name="netprofit" id="netprofit" value="" class="form-control form-control-sm Boxcolor SizeText" placeholder="0.00" required/>
                     </div>
                   </div>
                 </div>
@@ -76,15 +108,16 @@
             </div>
             <div class="text-right">
               <button type="submit" class="btn btn-sm btn-warning SizeText hover-up">
-                <i class="fas fa-save"></i> บันทึก
+                <i class="fas fa-save"></i>  {{@$data->legisCompromise->Flag_Promise=='Active'?'ต่อสัญญา':'บันทึก'}} 
               </button>
             </div>
           </div>
 
           <input type="hidden" name="type" value="1">
+          <input type="hidden" name="typeExten" value=" {{@$data->legisCompromise->Flag_Promise=='Active'?'2':'1'}}">
           <input type="hidden" name="id" value="{{$data->id}}">
         </form>
-      @else --}}
+      @else 
         <form name="form" action="{{ route('MasterCompro.store') }}" method="post" enctype="multipart/form-data" id="quickForm">
           @csrf
           <div class="card-body SizeText">
@@ -304,7 +337,7 @@
           <input type="hidden" name="type" value="1">
           <input type="hidden" name="id" value="{{$data->id}}">
         </form>
-      {{-- @endif --}}
+      @endif 
     </div>
   </section>
 @elseif($type == 5) {{-- Modal Payments --}}
@@ -919,4 +952,23 @@
       $('#FDue_1').val(due);
 
       });
+
+  $(".calcurate").on('click',function(){
+   var TotalPrice =  $('#TotalPrice').val().replace(/,/g, '');
+   var IntFatrate =  $('#IntFatrate').val().replace(/,/g, '');
+   var Period_1 =   $('#Period_1').val().replace(/,/g, '');
+
+   var PeriodRate =(Math.ceil( TotalPrice*(IntFatrate*Period_1))/Period_1)/100;
+   var  Period = Math.ceil(PeriodRate/10)*10;
+   var profiAll = Period*Period_1;
+   var totprc = parseFloat(TotalPrice)+ parseFloat(profiAll);
+   $('#Due_1').val(Period);
+   $('#CompoundTotal_1').val(totprc);
+   $('#SHowTotal').val(totprc);
+   $('#netprofit').val(profiAll);
+   
+  
+
+
+  })
 </script>

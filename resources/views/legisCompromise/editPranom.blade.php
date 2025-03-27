@@ -923,22 +923,26 @@
                           <th class="text-center" style="width: 20px">งวด</th>
                           <th class="text-center" style="width: 50px">วันดิว</th>
                           <th class="text-center" style="width: 50px">ค่างวด</th>
+                          <th class="text-center" style="width: 50px">เงินต้น</th>
                           <th class="text-center" style="width: 50px">วันที่รับชำระ</th>
                           <th class="text-center" style="width: 50px">ยอดชำระ</th>
+                          <th class="text-center" style="width: 50px">ชำระเงินต้น</th>
                           <th class="text-center" style="width: 50px">เบี้ยปรับ</th>
                         </tr>
                       </thead>
                       <tbody>
                         @if(@$dataPay->legisToDue!=NULL)
                         @foreach(@$dataPay->legisToDue as $key => $row)
-                          <tr>
-                            <td class="text-center"> {{@$row->nopay}} </td>
-                            <td class="text-center"> {{ @$row->ddate!=NULL? date('d-m-Y', strtotime($row->ddate)):'' }} </td>
-                            <td class="text-center"> {{ @$row->damt!=NULL? number_format($row->damt,2):0 }} </td>
-                            <td class="text-center"> {{ @$row->date1!=NULL? date('d-m-Y', strtotime($row->date1)):'' }} </td>
-                            <td class="text-center"  > {{ @$row->payment!=NULL? number_format($row->payment,2):0 }} </td>
-                            <td class="text-center"  > {{ @$row->intamt!=NULL? number_format($row->intamt,2):0 }} </td>
-                          </tr>
+                        <tr>
+                          <td class="text-center"> {{@$row->nopay}} </td>
+                          <td class="text-center"> {{ @$row->ddate!=NULL? date('d-m-Y', strtotime($row->ddate)):'' }} </td>
+                          <td class="text-center"> {{ @$row->damt!=NULL? number_format($row->damt,2):0 }} </td>
+                          <td class="text-center"> {{ @$row->capital!=NULL? number_format($row->capital,2):0 }} </td>
+                          <td class="text-center"> {{ @$row->date1!=NULL? date('d-m-Y', strtotime($row->date1)):'' }} </td>
+                          <td class="text-center"  > {{ @$row->payment!=NULL? number_format($row->payment,2):0 }} </td>
+                          <td class="text-center"  > {{ @$row->payamt_n!=NULL? number_format($row->payamt_n,2):0 }} </td>
+                          <td class="text-center"  > {{ @$row->intamt!=NULL? number_format($row->intamt,2):0 }} </td>
+                        </tr>
                         @endforeach
                         @else
                         <tr>

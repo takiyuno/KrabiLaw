@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Legiscompromise extends Model
 {
   protected $table = 'legiscompromises';
-  protected $fillable = ['legislation_id','Date_Promise','fdate','Flag_PromiseDT','Flag_Promise','Type_Promise','TotalSum_Promise','Sum_Promise','TotalPaid_Promise',
+  protected $fillable = ['legislation_id','Date_Promise','fdate','Flag_PromiseDT','Flag_Promise','Type_Promise','TotalSum_Promise','IntFatrate','Sum_Promise','TotalPaid_Promise',
                           'Compen_Promise','P_Compen_Promise','TotalCapital_Promise','Payall_Promise','P_Payall_Promise',
                           'DuePay_Promise','P_DuePay_Promise','TotalCost_Promise','FeePrire_Promise','P_FeePrire_Promise','Total_Promise',
                           'ShowDue_Promise','ShowPeriod_Promise',

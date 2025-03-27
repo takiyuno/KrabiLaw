@@ -424,94 +424,192 @@ $numDue = 0;
         $dataCompro = Legiscompromise::where('legislation_id',$request->id)
                                         ->where('Flag_Promise','=','Active')->first();
         if ($dataCompro == NULL) {
-            $user = Legislation::find($request->id);
-            $user->Flag_status = 3;
-            $user->update();
-          $LegisCompro = new Legiscompromise([
-            'legislation_id' => $request->id,
-            'Flag_Promise' => 'Active',
-            'Date_Promise' => $request->Dateinsert, 
-            'fdate'=>  $request->fdate,                       //วันที่ประนอมหนี้
-            'Type_Promise' => $request->TypePromise,
-            'Sum_Promise' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
-            'TotalSum_Promise' => ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0),
-            'TotalPaid_Promise' => ($request->TotalPaid != NULL ? str_replace (",","",$request->TotalPaid) : 0),
-            'Compen_Promise' => ($request->Compensation != NULL ? str_replace (",","",$request->Compensation) : 0) ,
-            'P_Compen_Promise' => ($request->PercentCompensation != NULL ? str_replace (",","",$request->PercentCompensation) : 0),
-            'TotalCapital_Promise' =>  ($request->TotalCapital != NULL ? str_replace (",","",$request->TotalCapital) : 0),
-            'FeePrire_Promise' => ($request->FeePrire != NULL ? str_replace (",","",$request->FeePrire) : 0),
-            'P_FeePrire_Promise' => ($request->PercentFeePrire != NULL ? str_replace (",","",$request->PercentFeePrire) : 0),
-            'TotalCost_Promise' => ($request->TotalCost != NULL ? str_replace (",","",$request->TotalCost) : 0),
-            'Payall_Promise' => ($request->firstMoney != NULL ? str_replace (",","",$request->firstMoney) : 0),
-            'P_Payall_Promise' =>($request->PercentfirstMoney != NULL ? str_replace (",","",$request->PercentfirstMoney) : 0),
-            'Total_Promise' => ($request->SHowTotal != NULL ? str_replace (array(","),"",$request->SHowTotal) : 0),
-            'DuePay_Promise' => ($request->Installment != NULL ? str_replace (",","",$request->Installment) : 0),
-            'P_DuePay_Promise' => ($request->PercentInstallment != NULL ? str_replace (",","",$request->PercentInstallment) : 0),
-            'ShowDue_Promise' => ($request->ShowDue != NULL ? str_replace (",","",$request->ShowDue) : 0),
-            'ShowPeriod_Promise' => ($request->ShowPeriod != NULL ? str_replace (",","",$request->ShowPeriod) : 0),
-            'CompoundTotal_1' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
-            'FirstManey_1' => ($request->First_1 != NULL ? str_replace (",","",$request->First_1) : 0),
-            'fdate_first' =>$request->fdate_first,
-            'FDue_1' => ($request->FDue_1 != NULL ? str_replace (",","",$request->FDue_1) : 0),
-            'FPeriod_1' => ($request->FPeriod_1 != NULL ? str_replace (",","",$request->FPeriod_1) : 0),
-            'Due_1' => ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0),
-            'Period_1' => ($request->Period_1 != NULL ? str_replace (",","",$request->Period_1) : 0),
-            'Profit_1' => ($request->Profit_1 != NULL ? str_replace (",","",$request->Profit_1) : 0),
-            'LPAYD' => date('Y-m-d'),
-            'PercentProfit_1' => ($request->PercentProfit_1 != NULL ? str_replace (",","",$request->PercentProfit_1) : 0),
-            'User_Promise' =>  auth()->user()->name,
-          ]);
-          $LegisCompro->save();
+          DB::beginTransaction();
+            try {
+              $user = Legislation::find($request->id);
+              $user->Flag_status = 3;
+              $user->update();
+              $LegisCompro = new Legiscompromise([
+              'legislation_id' => $request->id,
+              'Flag_Promise' => 'Active',
+              'Date_Promise' => $request->Dateinsert, 
+              'fdate'=>  $request->fdate,                       //วันที่ประนอมหนี้
+              'Type_Promise' => $request->TypePromise,
+              'IntFatrate'=>($request->IntFatrate != NULL ? str_replace (",","",$request->IntFatrate) : 0),
+              'Sum_Promise' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
+              'TotalSum_Promise' => ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0),
+              'TotalPaid_Promise' => ($request->TotalPaid != NULL ? str_replace (",","",$request->TotalPaid) : 0),
+              'Compen_Promise' => ($request->Compensation != NULL ? str_replace (",","",$request->Compensation) : 0) ,
+              'P_Compen_Promise' => ($request->PercentCompensation != NULL ? str_replace (",","",$request->PercentCompensation) : 0),
+              'TotalCapital_Promise' =>  ($request->TotalCapital != NULL ? str_replace (",","",$request->TotalCapital) : 0),
+              'FeePrire_Promise' => ($request->FeePrire != NULL ? str_replace (",","",$request->FeePrire) : 0),
+              'P_FeePrire_Promise' => ($request->PercentFeePrire != NULL ? str_replace (",","",$request->PercentFeePrire) : 0),
+              'TotalCost_Promise' => ($request->TotalCost != NULL ? str_replace (",","",$request->TotalCost) : 0),
+              'Payall_Promise' => ($request->firstMoney != NULL ? str_replace (",","",$request->firstMoney) : 0),
+              'P_Payall_Promise' =>($request->PercentfirstMoney != NULL ? str_replace (",","",$request->PercentfirstMoney) : 0),
+              'Total_Promise' => ($request->SHowTotal != NULL ? str_replace (array(","),"",$request->SHowTotal) : 0),
+              'DuePay_Promise' => ($request->Installment != NULL ? str_replace (",","",$request->Installment) : 0),
+              'P_DuePay_Promise' => ($request->PercentInstallment != NULL ? str_replace (",","",$request->PercentInstallment) : 0),
+              'ShowDue_Promise' => ($request->ShowDue != NULL ? str_replace (",","",$request->ShowDue) : 0),
+              'ShowPeriod_Promise' => ($request->ShowPeriod != NULL ? str_replace (",","",$request->ShowPeriod) : 0),
+              'CompoundTotal_1' => ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0),
+              'FirstManey_1' => ($request->First_1 != NULL ? str_replace (",","",$request->First_1) : 0),
+              'fdate_first' =>$request->fdate_first,
+              'FDue_1' => ($request->FDue_1 != NULL ? str_replace (",","",$request->FDue_1) : 0),
+              'FPeriod_1' => ($request->FPeriod_1 != NULL ? str_replace (",","",$request->FPeriod_1) : 0),
+              'Due_1' => ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0),
+              'Period_1' => ($request->Period_1 != NULL ? str_replace (",","",$request->Period_1) : 0),
+              'Profit_1' => ($request->Profit_1 != NULL ? str_replace (",","",$request->Profit_1) : 0),
+              'LPAYD' => date('Y-m-d'),
+              'PercentProfit_1' => ($request->PercentProfit_1 != NULL ? str_replace (",","",$request->PercentProfit_1) : 0),
+              'User_Promise' =>  auth()->user()->name,
+            ]);
+            $LegisCompro->save();
+  
+              $loanCode = ['08', '09', '10', '18', '16','P01'];
+              if (in_array($user->TypeCon_legis, $loanCode)) {  
+                    $lastTotal =  intval($LegisCompro->Due_1)+intval($LegisCompro->TotalSum_Promise);
 
-         if($LegisCompro->FirstManey_1 == 0){
-         
-            $Paydue = DB::select(
-                "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
-                [
-                    '1',  $LegisCompro->legislation_id, $LegisCompro->Period_1, $LegisCompro->Due_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate,
-                    '0', $LegisCompro->TotalCapital_Promise
-                ]
-            );
+                    $irrYear = number_format((( intval($LegisCompro->Due_1)/ intval($LegisCompro->TotalSum_Promise)) * 100) / 12, 6);
+
+                      $Paydue = DB::select(
+                        "SELECT * FROM dbo.uft_addduelan(?,?,?,?,?,?,?,?,?,?,?,?)",
+                        [
+                            '',$user->Contract_legis, $LegisCompro->Period_1, $LegisCompro->Due_1, $lastTotal ,'1', $LegisCompro->Date_Promise, $LegisCompro->fdate,
+                            $LegisCompro->Sum_Promise,$LegisCompro->TotalSum_Promise,0, $irrYear
+                        ]
+                    );
+                   
+                    foreach ($Paydue as $key => $value) {
+                      $item = new compromises_paydue;
+                        $item->legislation_id = $request->id;
+                        $item->legisCompro_id = $LegisCompro->id;
+                        $item->contno =  $user->Contract_legis;
+                      // $item->locat = $value->locat;
+                        $item->nopay = $value->nopay;
+                        $item->ddate = $value->ddate;
+                        $item->damt = $value->damt;
+                        $item->interest = $value->interest;
+                        $item->capital = $value->capital;
+                        $item->capitalbl = $value->capitalbl;
+                        $item->daycalint = $value->daycalint;
+                        $item->save();
+                    }
+                }else {
+                  if($LegisCompro->FirstManey_1 == 0){
+                
+                    $Paydue = DB::select(
+                      "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
+                      [
+                          '1',  $LegisCompro->legislation_id, $LegisCompro->Period_1, $LegisCompro->Due_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate,
+                          '0', $LegisCompro->TotalCapital_Promise
+                      ]
+                  );
 
 
-            foreach ($Paydue as $key => $value) {
-              $item = new compromises_paydue;
-                $item->legislation_id = $request->id;
-                $item->legisCompro_id = $LegisCompro->id;
-              // $item->contno = $value->contno;
-              // $item->locat = $value->locat;
-                $item->nopay = $value->nopay;
-                $item->ddate = $value->ddate;
-                $item->damt = $value->damt;
-                $item->capitalbl = $value->capitalbl;
-                $item->daycalint = $value->daycalint;
-                $item->save();
+                    foreach ($Paydue as $key => $value) {
+                      $item = new compromises_paydue;
+                        $item->legislation_id = $request->id;
+                        $item->legisCompro_id = $LegisCompro->id;
+                        $item->contno =  $user->Contract_legis;
+                      // $item->locat = $value->locat;
+                        $item->nopay = $value->nopay;
+                        $item->ddate = $value->ddate;
+                        $item->damt = $value->damt;
+                        $item->capitalbl = $value->capitalbl;
+                        $item->daycalint = $value->daycalint;
+                        $item->save();
+                    }
+                  }else{
+                      $Paydue = DB::select(
+                        "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
+                        [
+                            '1',  $LegisCompro->legislation_id, $LegisCompro->FPeriod_1, $LegisCompro->FDue_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate_first,
+                            '0', $LegisCompro->FirstManey_1
+                        ]
+                    );
+
+
+                    foreach ($Paydue as $key => $value) {
+                      $item = new compromises_firstdue;
+                        $item->legislation_id = $request->id;
+                        $item->legisCompro_id = $LegisCompro->id;
+                        $item->contno =  $user->Contract_legis;
+                      // $item->locat = $value->locat;
+                        $item->nopay = $value->nopay;
+                        $item->ddate = $value->ddate;
+                        $item->damt = $value->damt;
+                        $item->capitalbl = $value->capitalbl;
+                        $item->daycalint = $value->daycalint;
+                        $item->save();
+                    }
+                  }
+                  
+                }
+                
+                DB::commit();
+                return redirect()->back()->with('success','บันทึกสำเร็จ');
+              } catch (\Exception $e) {
+                DB::rollback();
+
+                $message = 'success';
+                return response()->json(['message' => $e->getMessage()], 500);
             }
-          }else{
-              $Paydue = DB::select(
-                "SELECT * FROM dbo.uft_addduepay(?,?,?,?,?,?,?,?,?)",
-                [
-                    '1',  $LegisCompro->legislation_id, $LegisCompro->FPeriod_1, $LegisCompro->FDue_1, '1', $LegisCompro->Date_Promise, $LegisCompro->fdate_first,
-                    '0', $LegisCompro->FirstManey_1
-                ]
-            );
+            }else if ($dataCompro != NULL && @$request->typeExten=='2') {
+             $Due_1= ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0);
+             $CompoundTotal_1= ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0);
+             $TotalPrice = ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0);
+             $netprofit = ($request->netprofit != NULL ? str_replace (",","",$request->netprofit) : 0);
+              DB::beginTransaction();
+              try {
+                $user = Legislation::find($request->id);
+                $lastTotal =  intval($Due_1)+intval($dataCompro->TotalSum_Promise);
+                $irrYear = number_format((( intval($Due_1)/ intval($CompoundTotal_1)) * 100) / 12, 6);
+                    $Paydue = DB::select(
+                      "SELECT * FROM dbo.uft_adddueExtend(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                      [
+                          '',$user->Contract_legis,$dataCompro->Period_1, $request->Period_1, $Due_1, $lastTotal ,'1', $request->fdate, $request->fdate,
+                          $CompoundTotal_1,$dataCompro->TotalSum_Promise ,0, $irrYear
+                      ]
+                  );
+                  
+                  foreach ($Paydue as $key => $value) {
+                    $item = new compromises_paydue;
+                      $item->legislation_id = $user->id;
+                      $item->legisCompro_id = $dataCompro->id;
+                      $item->contno =  $user->Contract_legis;
+                    // $item->locat = $value->locat;
+                      $item->nopay = $value->nopay;
+                      $item->ddate = $value->ddate;
+                      $item->damt = $value->damt;
+                      $item->interest = $value->interest;
+                      $item->capital = $value->capital;
+                      $item->capitalbl = $value->capitalbl;
+                      $item->daycalint = $value->daycalint;
+                      $item->save();
+                  }
 
+                  $updateDue = compromises_paydue::where('legisCompro_id', $dataCompro->id)->where('NOPAY', intval($dataCompro->Period_1))->first();
+                    $updateDue->capital = $updateDue->N_PAYMENT ?? 0;
+                    $updateDue->update();
+                  $extendue = $dataCompro->Period_1 + $request->Period_1;
+                  $dataCompro->Sum_Promise = ($request->CompoundTotal_1 != NULL ? str_replace (",","",$request->CompoundTotal_1) : 0);
+                  $dataCompro->TotalSum_Promise = ($request->TotalPrice != NULL ? str_replace (",","",$request->TotalPrice) : 0);
+                  $dataCompro->Due_1 = ($request->Due_1 != NULL ? str_replace (",","",$request->Due_1) : 0);
+                  $dataCompro->Period_1 =  $extendue;
+                  $dataCompro->Total_Promise = ($request->SHowTotal != NULL ? str_replace (array(","),"",$request->SHowTotal) : 0);
+                  $dataCompro->update();
 
-            foreach ($Paydue as $key => $value) {
-              $item = new compromises_firstdue;
-                $item->legislation_id = $request->id;
-                $item->legisCompro_id = $LegisCompro->id;
-              // $item->contno = $value->contno;
-              // $item->locat = $value->locat;
-                $item->nopay = $value->nopay;
-                $item->ddate = $value->ddate;
-                $item->damt = $value->damt;
-                $item->capitalbl = $value->capitalbl;
-                $item->daycalint = $value->daycalint;
-                $item->save();
+                DB::commit();
+                return redirect()->back()->with('success','บันทึกสำเร็จ');
+              } catch (\Exception $e) {
+                DB::rollback();
+
+                $message = 'success';
+                return response()->json(['message' => $e->getMessage()], 500);
+              }
+
             }
-          }
-        }
         // else {
         //   $user = Legislation::find($request->id);
         //   $user->Flag_status = 3;
@@ -546,7 +644,7 @@ $numDue = 0;
         //     $LegisCompro->User_Promise = $request->Userinsert;
         //   $LegisCompro->update();
         // }
-        return redirect()->back()->with('success','บันทึกสำเร็จ');
+        
       }
     }
 
@@ -784,6 +882,8 @@ $numDue = 0;
           $JobCode = "ABL"."-".$Years."".$month."0001";
           $NumPeriod = 1;
         }
+        DB::beginTransaction();
+        try {
         $LegisPay = new legispayment([
           'legislation_id' => $id,
           'legisCompro_id' => $request->idCompro,
@@ -907,7 +1007,7 @@ $numDue = 0;
                 $paydue = 0;
 
                 $updateDue = compromises_paydue::where("legisCompro_id", $LegisCompro->id)
-                        ->whereRaw('damt - payment > 0')
+                        ->whereRaw('damt+capital - payment > 0')
                         ->orderBy('nopay', 'asc')
                         ->get();
 
@@ -941,15 +1041,19 @@ $numDue = 0;
                   // คำนวณยอดที่เหลือหลังการชำระเงิน
                   $payCash = (floatval($payCash) + floatval($value->payment)) - $paydue;
               
-                  if ($payCash >= $value->damt) {
+                  if ($payCash >= floatval($value->damt)+floatval($value->capital)) {
                       // กรณีที่สามารถชำระเต็มจำนวน
-                      $value->payment = $value->damt;
-                      $paydue = $value->damt;
+                      $value->payment = floatval($value->damt)+floatval($value->capital);
+                      $value->payamt_n =  $value->capital;
+                      $paydue =floatval($value->damt)+floatval($value->capital);
                       $value->date1 = date('Y-m-d');
                   } else {
                       if ($payCash > 0) {
                           // กรณีที่ชำระได้บางส่วน
                           $value->payment = $payCash;
+                          if($value->capital>0 && $payCash-floatval($value->damt)>0){
+                            $value->payamt_n =$payCash-$value->damt ;
+                          }
                           $paydue += $payCash;
                           $payCash = 0; // ยอดคงเหลือหมด
                           $value->date1 = date('Y-m-d');
@@ -1010,9 +1114,17 @@ $numDue = 0;
             $LegisTrack->Status_Track = 'N';
           $LegisTrack->update();
         }
-
-        // return redirect()->back()->with('success','รับชำระเรียบร้อย');
+          
+          DB::commit();
+              // return redirect()->back()->with('success','รับชำระเรียบร้อย');
         return redirect()->Route('MasterCompro.edit',[$id,'type' => 1,'FlagTab' => $FlagTab  ])->with('success','รับชำระเรียบร้อย');
+        } catch (\Exception $e) {
+          DB::rollback();
+
+          $message = 'success';
+          return response()->json(['message' => $e->getMessage()], 500);
+      }
+   
       }
       elseif ($request->type == 2) {  //update LegisCompro
         $datapay = legispayment::where('legislation_id',$id)->get();
@@ -1111,9 +1223,13 @@ $numDue = 0;
       }
       if($request->process =='caloverdue') {
         try {
-          $statement = DB::statement("EXEC sp_Caloverdue ?", [date('Y-m-d')]);
+         // $statement = DB::statement("EXEC sp_Caloverdue ?", [date('Y-m-d')]);
+
+          $sql = "EXEC dbo.sp_Caloverdue  '" . date('Y-m-d') . "'";
+          $statement = DB::unprepared($sql);
+                                
           return  response()->json(["message" => 'success' ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
           return response()->json(['message' => $e->getMessage(), 'code' => $e->getCode()], 500);
         }
